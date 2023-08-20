@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Essential Intl File Merger"
+run/main_scene="res://program/main.tscn"
+config/features=PackedStringArray("4.1", "GL Compatibility")
+boot_splash/show_image=false
+config/icon="res://assets/icon.svg"
+config/windows_native_icon="res://icon.ico"
+
+[autoload]
+
+Data="*res://program/data.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=300
+window/size/initial_position_type=0
+window/size/initial_position=Vector2i(80, 16)
+window/size/resizable=false
+window/subwindows/embed_subwindows=false
+
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

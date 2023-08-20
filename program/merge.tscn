@@ -1,0 +1,346 @@
+[gd_scene load_steps=16 format=3 uid="uid://cgo1b4a5h55cj"]
+
+[ext_resource type="Script" path="res://program/merge.gd" id="1_wgut7"]
+[ext_resource type="Texture2D" uid="uid://co0veyf1oj2yt" path="res://assets/plus.png" id="2_vnt46"]
+[ext_resource type="Texture2D" uid="uid://cxdkxuhct7dnf" path="res://assets/icon_31.svg" id="3_3vlso"]
+[ext_resource type="FontFile" uid="uid://5nbdu04dcxnc" path="res://assets/fira_mono.otf" id="4_2ibaf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwmy0"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bh2ny"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyy40"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptofw"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwkif"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lceco"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdyyg"]
+bg_color = Color(0.278431, 0.278431, 0.278431, 1)
+border_width_left = 1
+border_width_bottom = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax0vs"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2bxsf"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l6ny"]
+bg_color = Color(0.175781, 0.175781, 0.175781, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sy2pa"]
+
+[node name="Merge" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+script = ExtResource("1_wgut7")
+plus = ExtResource("2_vnt46")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AboutButton" type="TextureButton" parent="VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+tooltip_text = "For updates check https://github.com/KoB-Kirito/Intl-File-Merger
+(click to open in browser)"
+texture_normal = ExtResource("3_3vlso")
+
+[node name="SectionButton" type="OptionButton" parent="VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+allow_reselect = true
+
+[node name="SaveButton" type="Button" parent="VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Save"
+
+[node name="SaveFileDialog" type="FileDialog" parent="VBoxContainer/ButtonsContainer/SaveButton"]
+unique_name_in_owner = true
+title = "Save merged intl file"
+initial_position = 2
+size = Vector2i(800, 600)
+popup_window = true
+access = 2
+filters = PackedStringArray("*.txt")
+
+[node name="Button" type="Button" parent="VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+tooltip_text = "Saves only lines that have no translation (wip)
+Can be used as source file to merge into intl file."
+disabled = true
+text = "Export New Lines"
+
+[node name="LineNumberCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Line Numbers"
+
+[node name="MapCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Map"
+
+[node name="ControlCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Control characters"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TabContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SourceButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 61)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_fwmy0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bh2ny")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_hyy40")
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/SourceButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
+text = "Source"
+horizontal_alignment = 1
+
+[node name="SplitButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 61)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ptofw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nwkif")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_lceco")
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/SplitButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
+text = "Split"
+horizontal_alignment = 1
+
+[node name="TargetButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 61)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rdyyg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ax0vs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2bxsf")
+disabled = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/TargetButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
+text = "Target"
+horizontal_alignment = 1
+
+[node name="TextEditSource" type="TextEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("4_2ibaf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sy2pa")
+placeholder_text = "wip"
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("4_2ibaf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sy2pa")
+placeholder_text = "Please wait, merging can take several minutes..."
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+
+[node name="StatusBarContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Loading data .."
+
+[node name="TranslationsParsedLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.372549, 0.568627, 1, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Lines that were found in the source file"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "Parsed Translations: 0"
+horizontal_alignment = 1
+
+[node name="SectionsAddedLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.560784, 1, 0.529412, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "New sections that were present in the target file but were missing in the source file"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "New Sections: 0"
+horizontal_alignment = 1
+
+[node name="LinesAddedLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.560784, 1, 0.529412, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "New lines that were present in the target file but were missing in the source file"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "New Lines: 0"
+horizontal_alignment = 1
+
+[node name="SectionsRemovedLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 0.52549, 0.458824, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Sections that were still present in the source file but no longer exist in the target file"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "Removed Sections: 0"
+horizontal_alignment = 1
+
+[node name="LinesRemovedLabel" type="Label" parent="VBoxContainer/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 0.52549, 0.458824, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Lines that were still present in the source file but no longer exist in the target file"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "Removed Lines: 0"
+horizontal_alignment = 1
+
+[node name="StartTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="StillWorkingTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[connection signal="pressed" from="VBoxContainer/ButtonsContainer/AboutButton" to="." method="_on_about_button_pressed"]
+[connection signal="item_selected" from="VBoxContainer/ButtonsContainer/SectionButton" to="." method="_on_section_button_item_selected"]
+[connection signal="pressed" from="VBoxContainer/ButtonsContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="file_selected" from="VBoxContainer/ButtonsContainer/SaveButton/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/LineNumberCheckBox" to="." method="_on_line_number_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/MapCheckBox" to="." method="_on_map_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/ControlCheckBox" to="." method="_on_control_check_box_toggled"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/SourceButton" to="." method="_on_source_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/SplitButton" to="." method="_on_split_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/TargetButton" to="." method="_on_target_button_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextEditSource" to="." method="_on_text_edit_text_changed"]
+[connection signal="text_set" from="VBoxContainer/HBoxContainer/TextEditSource" to="." method="_on_text_edit_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="text_set" from="VBoxContainer/HBoxContainer/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="StillWorkingTimer" to="." method="_on_still_working_timer_timeout"]

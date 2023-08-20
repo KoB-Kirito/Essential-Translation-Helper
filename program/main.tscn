@@ -1,0 +1,122 @@
+[gd_scene load_steps=2 format=3 uid="uid://h4v5kl8bi2gh"]
+
+[ext_resource type="Script" path="res://program/main.gd" id="1_23u7w"]
+
+[node name="Main" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+script = ExtResource("1_23u7w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="OldFile" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/OldFile"]
+layout_mode = 2
+text = "Source - Old intl.txt (your current translation) or exported new lines"
+
+[node name="Empty" type="Control" parent="VBoxContainer/OldFile"]
+layout_mode = 2
+
+[node name="OldPathTextEdit" type="TextEdit" parent="VBoxContainer/OldFile"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(740, 34)
+layout_mode = 2
+scroll_fit_content_height = true
+
+[node name="OldOpenButton" type="Button" parent="VBoxContainer/OldFile"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open"
+
+[node name="OldFileDialog" type="FileDialog" parent="VBoxContainer/OldFile/OldOpenButton"]
+unique_name_in_owner = true
+title = "Open a File"
+initial_position = 2
+size = Vector2i(800, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.txt")
+
+[node name="OldInfoLabel" type="Label" parent="VBoxContainer/OldFile"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="NewFile" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/NewFile"]
+layout_mode = 2
+text = "Target - New intl.txt (untranslated) or your already merged file if you want to import new lines"
+
+[node name="Empty" type="Control" parent="VBoxContainer/NewFile"]
+layout_mode = 2
+
+[node name="NewPathTextEdit" type="TextEdit" parent="VBoxContainer/NewFile"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(740, 34)
+layout_mode = 2
+scroll_fit_content_height = true
+
+[node name="NewOpenButton" type="Button" parent="VBoxContainer/NewFile"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open"
+
+[node name="NewFileDialog" type="FileDialog" parent="VBoxContainer/NewFile/NewOpenButton"]
+unique_name_in_owner = true
+title = "Open a File"
+initial_position = 2
+size = Vector2i(800, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.txt")
+
+[node name="NewInfoLabel" type="Label" parent="VBoxContainer/NewFile"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="MarkNewCheckBox" type="CheckBox" parent="VBoxContainer"]
+layout_mode = 2
+tooltip_text = "If enabled, new lines will replace the second line with NewLine"
+button_pressed = true
+text = "Replace the second line of new untranslated lines with NewLine"
+
+[node name="MergeButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+disabled = true
+text = "Merge"
+
+[connection signal="text_changed" from="VBoxContainer/OldFile/OldPathTextEdit" to="." method="_on_old_path_text_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/OldFile/OldOpenButton" to="." method="_on_old_open_button_pressed"]
+[connection signal="file_selected" from="VBoxContainer/OldFile/OldOpenButton/OldFileDialog" to="." method="_on_old_file_dialog_file_selected"]
+[connection signal="text_changed" from="VBoxContainer/NewFile/NewPathTextEdit" to="." method="_on_new_path_text_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/NewFile/NewOpenButton" to="." method="_on_new_open_button_pressed"]
+[connection signal="file_selected" from="VBoxContainer/NewFile/NewOpenButton/NewFileDialog" to="." method="_on_new_file_dialog_file_selected"]
+[connection signal="toggled" from="VBoxContainer/MarkNewCheckBox" to="." method="_on_mark_new_check_box_toggled"]
+[connection signal="pressed" from="VBoxContainer/MergeButton" to="." method="_on_merge_button_pressed"]
