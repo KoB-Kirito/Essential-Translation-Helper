@@ -2,6 +2,9 @@ extends MarginContainer
 
 
 @export var plus: Texture2D
+@export var plus_small: Texture2D
+@export var minus: Texture2D
+@export var minus_small: Texture2D
 
 
 func _ready() -> void:
@@ -24,10 +27,12 @@ func status_update(status: String):
 	%StillWorkingTimer.start()
 
 
-func merged(output: String, added_sections: Array[StringName], added_lines: Array[int], translated_lines: Array[int]):
+func merged(target_output: String, added_sections: Array[StringName], edited_sections: Array[StringName], added_lines: Array[int], translated_lines: Array[int],
+		source_output: String, source_removed_sections: Array[StringName], source_edited_sections: Array[StringName], source_removed_lines: Array[int]):
 	%StillWorkingTimer.stop()
 	
-	%TextEdit.text = output.left(output.length() - 1)
+	# target
+	%TextEdit.text = target_output.left(target_output.length() - 1)
 	
 	# add icon gutter
 	%TextEdit.add_gutter(0)
@@ -44,28 +49,60 @@ func merged(output: String, added_sections: Array[StringName], added_lines: Arra
 			%TextEdit.set_line_gutter_text(i, 0, ">")
 			%TextEdit.set_line_background_color(i, Color(0.37, 0.56, 1.0, 0.66))
 	
+	# source
+	%TextEditSource.text = source_output.left(source_output.length() - 1)
+	
+	# add icon gutter
+	%TextEditSource.add_gutter(0)
+	%TextEditSource.set_gutter_type(0, TextEdit.GUTTER_TYPE_STRING)
+	%LineNumberCheckBox.button_pressed = true
+	%TextEditSource.gutter_clicked.connect(gutter_clicked_source)
+	
+	for i in range(%TextEditSource.get_line_count()):
+		if i in source_removed_lines:
+			%TextEditSource.set_line_gutter_text(i, 0, "-")
+			%TextEditSource.set_line_background_color(i, Color(1.0, 0.52, 0.45, 0.66))
+	
 	# show buttons
 	%ButtonsContainer.visible = true
 	%TabContainer.visible = true
 	
 	# set window
 	var window = get_window()
-	window.size = Vector2i(800, 600)
+	window.size = Vector2i(900, 600)
+	window.min_size = Vector2i(800, 250)
 	window.unresizable = false
-	
+
 	%TextEdit.editable = true
 	%TextEdit.context_menu_enabled = true
 	%TextEdit.shortcut_keys_enabled = true
 	%TextEdit.selecting_enabled = true
 	%TextEdit.minimap_draw = true
+	
+	%TextEditSource.editable = true
+	%TextEditSource.context_menu_enabled = true
+	%TextEditSource.shortcut_keys_enabled = true
+	%TextEditSource.selecting_enabled = true
+	%TextEditSource.minimap_draw = true
+	
 	%SaveButton.disabled = false
 	
 	# fill section selector
 	for section in Data.new_section_data:
 		if section in added_sections:
 			%SectionButton.add_icon_item(plus, section)
+		elif section in edited_sections:
+			%SectionButton.add_icon_item(plus_small, section)
 		else:
 			%SectionButton.add_item(section)
+	
+	for section in Data.old_section_data:
+		if section in source_removed_sections:
+			%SourceSectionButton.add_icon_item(minus, section)
+		elif section in source_edited_sections:
+			%SourceSectionButton.add_icon_item(minus_small, section)
+		else:
+			%SourceSectionButton.add_item(section)
 	
 	# fill labels
 	%StatusLabel.visible = false
@@ -77,8 +114,8 @@ func merged(output: String, added_sections: Array[StringName], added_lines: Arra
 	%TranslationsParsedLabel.text = "Parsed Translations: " + str(translated_lines.size())
 	%SectionsAddedLabel.text = "New Sections: " + str(added_sections.size())
 	%LinesAddedLabel.text = "New Lines: " + str(added_lines.size() - added_sections.size()) # ToDo: calculate unique lines > numbered lines
-	#%SectionsRemovedLabel.text = "Removed Sections: " + str(removed_sections.size()) # ToDo
-	#%LinesRemovedLabel.text = "Removed Lines: " + str(removed_lines.size()) # ToDo
+	%SectionsRemovedLabel.text = "Removed Sections: " + str(source_removed_sections.size())
+	%LinesRemovedLabel.text = "Removed Lines: " + str(source_removed_lines.size())
 
 
 func add_line_numbers():
@@ -144,9 +181,13 @@ func get_padding(count: int) -> String:
 	return ""
 
 
-func gutter_clicked(line: int, gutter: int):
+func gutter_clicked(line: int, _gutter: int) -> void:
 	# select line
 	%TextEdit.select(line, 0, line, %TextEdit.get_line(line).length())
+
+func gutter_clicked_source(line:int, _gutter: int) -> void:
+	# select line
+	%TextEditSource.select(line, 0, line, %TextEditSource.get_line(line).length())
 
 
 func _on_save_button_pressed() -> void:
@@ -155,7 +196,7 @@ func _on_save_button_pressed() -> void:
 
 
 func _on_save_file_dialog_file_selected(path: String) -> void:
-	Data.last_directory = path.get_base_dir()
+	Globals.last_directory = path.get_base_dir()
 	
 	# overwrite
 	if FileAccess.file_exists(path):
@@ -205,6 +246,10 @@ func _on_section_button_item_selected(index: int) -> void:
 	var section = %SectionButton.get_item_text(index)
 	%TextEdit.set_line_as_first_visible(Data.new_section_data[section][Data.LINE])
 
+func _on_source_section_button_item_selected(index: int) -> void:
+	var section = %SourceSectionButton.get_item_text(index)
+	%TextEditSource.set_line_as_first_visible(Data.old_section_data[section][Data.LINE])
+
 
 func _on_about_button_pressed() -> void:
 	# open link to github page
@@ -216,15 +261,18 @@ func _on_source_button_pressed() -> void:
 	%TargetButton.disabled = false
 	%SplitButton.disabled = false
 	%TextEditSource.visible = true
+	%SourceMenuContainer.visible = true
 	%TextEdit.visible = false
-
+	%TargetMenuContainer.visible = false
 
 func _on_target_button_pressed() -> void:
 	%TargetButton.disabled = true
 	%SourceButton.disabled = false
 	%SplitButton.disabled = false
 	%TextEdit.visible = true
+	%TargetMenuContainer.visible = true
 	%TextEditSource.visible = false
+	%SourceMenuContainer.visible = false
 
 
 func _on_split_button_pressed() -> void:
@@ -232,4 +280,6 @@ func _on_split_button_pressed() -> void:
 	%SourceButton.disabled = false
 	%TargetButton.disabled = false
 	%TextEdit.visible = true
+	%TargetMenuContainer.visible = true
 	%TextEditSource.visible = true
+	%SourceMenuContainer.visible = true

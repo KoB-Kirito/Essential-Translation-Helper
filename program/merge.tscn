@@ -1,9 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://cgo1b4a5h55cj"]
+[gd_scene load_steps=22 format=3 uid="uid://cgo1b4a5h55cj"]
 
 [ext_resource type="Script" path="res://program/merge.gd" id="1_wgut7"]
 [ext_resource type="Texture2D" uid="uid://co0veyf1oj2yt" path="res://assets/plus.png" id="2_vnt46"]
+[ext_resource type="Texture2D" uid="uid://dcv8ukasri142" path="res://assets/plus_small.png" id="3_2rkvm"]
 [ext_resource type="Texture2D" uid="uid://cxdkxuhct7dnf" path="res://assets/icon_31.svg" id="3_3vlso"]
+[ext_resource type="Texture2D" uid="uid://5811mc7frqg3" path="res://assets/minus.png" id="4_1jorx"]
 [ext_resource type="FontFile" uid="uid://5nbdu04dcxnc" path="res://assets/fira_mono.otf" id="4_2ibaf"]
+[ext_resource type="Texture2D" uid="uid://xggx3hxwubwk" path="res://assets/minus_small.png" id="5_dnmte"]
+[ext_resource type="Texture2D" uid="uid://h36aer5k32iq" path="res://assets/menu.svg" id="7_8lhmp"]
+[ext_resource type="Texture2D" uid="uid://j3driu05nw85" path="res://assets/up.svg" id="7_ti8yu"]
+[ext_resource type="Texture2D" uid="uid://bj2o716ndk6r" path="res://assets/down.svg" id="8_7t8x1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwmy0"]
 bg_color = Color(0.277344, 0.277344, 0.277344, 1)
@@ -20,6 +26,7 @@ corner_radius_top_left = 6
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyy40"]
 bg_color = Color(0.152344, 0.152344, 0.152344, 1)
 corner_radius_top_left = 6
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptofw"]
 bg_color = Color(0.277344, 0.277344, 0.277344, 1)
@@ -40,7 +47,6 @@ border_width_left = 1
 border_width_bottom = 1
 border_color = Color(0.152344, 0.152344, 0.152344, 1)
 corner_radius_bottom_left = 6
-anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax0vs"]
 bg_color = Color(0.152344, 0.152344, 0.152344, 1)
@@ -63,20 +69,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
 script = ExtResource("1_wgut7")
 plus = ExtResource("2_vnt46")
+plus_small = ExtResource("3_2rkvm")
+minus = ExtResource("4_1jorx")
+minus_small = ExtResource("5_dnmte")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="ButtonsContainer" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="AboutButton" type="TextureButton" parent="VBoxContainer/ButtonsContainer"]
 layout_mode = 2
@@ -84,19 +93,111 @@ tooltip_text = "For updates check https://github.com/KoB-Kirito/Intl-File-Merger
 (click to open in browser)"
 texture_normal = ExtResource("3_3vlso")
 
-[node name="SectionButton" type="OptionButton" parent="VBoxContainer/ButtonsContainer"]
+[node name="SourceMenuContainer" type="HBoxContainer" parent="VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SourceLastButton" type="Button" parent="VBoxContainer/ButtonsContainer/SourceMenuContainer"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+tooltip_text = "Jump to last removed line"
+disabled = true
+icon = ExtResource("7_ti8yu")
+icon_alignment = 1
+
+[node name="SourceNextButton" type="Button" parent="VBoxContainer/ButtonsContainer/SourceMenuContainer"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+tooltip_text = "Jump to next removed line"
+icon = ExtResource("8_7t8x1")
+icon_alignment = 1
+
+[node name="SourceSectionButton" type="OptionButton" parent="VBoxContainer/ButtonsContainer/SourceMenuContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+tooltip_text = "Jump to section"
 allow_reselect = true
 
-[node name="SaveButton" type="Button" parent="VBoxContainer/ButtonsContainer"]
+[node name="EmptyFill" type="Control" parent="VBoxContainer/ButtonsContainer/SourceMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SourceMenuButton" type="MenuButton" parent="VBoxContainer/ButtonsContainer/SourceMenuContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+icon = ExtResource("7_8lhmp")
+icon_alignment = 1
+item_count = 3
+popup/item_0/text = "Line Numbers"
+popup/item_0/checkable = 1
+popup/item_0/id = 0
+popup/item_1/text = "Map"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Draw Control Characters"
+popup/item_2/checkable = 1
+popup/item_2/id = 2
+
+[node name="TargetMenuContainer" type="HBoxContainer" parent="VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TargetLastButton" type="Button" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+tooltip_text = "Jump to last new line"
+disabled = true
+icon = ExtResource("7_ti8yu")
+icon_alignment = 1
+
+[node name="TargetNextButton" type="Button" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+tooltip_text = "Jump to next new line"
+icon = ExtResource("8_7t8x1")
+icon_alignment = 1
+
+[node name="SectionButton" type="OptionButton" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+tooltip_text = "Jump to section"
+allow_reselect = true
+
+[node name="ControlCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+visible = false
+layout_mode = 2
+text = "Control characters"
+
+[node name="MapCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+visible = false
+layout_mode = 2
+button_pressed = true
+text = "Map"
+
+[node name="LineNumberCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Line Numbers"
+
+[node name="Seperator" type="Control" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
 layout_mode = 2
 disabled = true
 text = "Save"
 
-[node name="SaveFileDialog" type="FileDialog" parent="VBoxContainer/ButtonsContainer/SaveButton"]
+[node name="SaveFileDialog" type="FileDialog" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer/SaveButton"]
 unique_name_in_owner = true
 title = "Save merged intl file"
 initial_position = 2
@@ -105,26 +206,38 @@ popup_window = true
 access = 2
 filters = PackedStringArray("*.txt")
 
-[node name="Button" type="Button" parent="VBoxContainer/ButtonsContainer"]
+[node name="ExportMenuButton" type="MenuButton" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+custom_minimum_size = Vector2(76, 0)
 layout_mode = 2
-tooltip_text = "Saves only lines that have no translation (wip)
-Can be used as source file to merge into intl file."
-disabled = true
-text = "Export New Lines"
+text = "Export.."
+flat = false
+item_count = 2
+popup/item_0/text = "Untranslated lines only"
+popup/item_0/id = 0
+popup/item_1/text = "New lines only"
+popup/item_1/id = 1
 
-[node name="LineNumberCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
+[node name="EmptyFill" type="Control" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TargetMenuButton" type="MenuButton" parent="VBoxContainer/ButtonsContainer/TargetMenuContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
-text = "Line Numbers"
-
-[node name="MapCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Map"
-
-[node name="ControlCheckBox" type="CheckBox" parent="VBoxContainer/ButtonsContainer"]
-layout_mode = 2
-text = "Control characters"
+icon = ExtResource("7_8lhmp")
+icon_alignment = 1
+item_count = 3
+popup/item_0/text = "Line Numbers"
+popup/item_0/checkable = 1
+popup/item_0/id = 0
+popup/item_1/text = "Map"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Draw Control Characters"
+popup/item_2/checkable = 1
+popup/item_2/id = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -329,12 +442,13 @@ unique_name_in_owner = true
 autostart = true
 
 [connection signal="pressed" from="VBoxContainer/ButtonsContainer/AboutButton" to="." method="_on_about_button_pressed"]
-[connection signal="item_selected" from="VBoxContainer/ButtonsContainer/SectionButton" to="." method="_on_section_button_item_selected"]
-[connection signal="pressed" from="VBoxContainer/ButtonsContainer/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="file_selected" from="VBoxContainer/ButtonsContainer/SaveButton/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
-[connection signal="toggled" from="VBoxContainer/ButtonsContainer/LineNumberCheckBox" to="." method="_on_line_number_check_box_toggled"]
-[connection signal="toggled" from="VBoxContainer/ButtonsContainer/MapCheckBox" to="." method="_on_map_check_box_toggled"]
-[connection signal="toggled" from="VBoxContainer/ButtonsContainer/ControlCheckBox" to="." method="_on_control_check_box_toggled"]
+[connection signal="item_selected" from="VBoxContainer/ButtonsContainer/SourceMenuContainer/SourceSectionButton" to="." method="_on_source_section_button_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/SectionButton" to="." method="_on_section_button_item_selected"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/ControlCheckBox" to="." method="_on_control_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/MapCheckBox" to="." method="_on_map_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/LineNumberCheckBox" to="." method="_on_line_number_check_box_toggled"]
+[connection signal="pressed" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="file_selected" from="VBoxContainer/ButtonsContainer/TargetMenuContainer/SaveButton/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/SourceButton" to="." method="_on_source_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/SplitButton" to="." method="_on_split_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/TargetButton" to="." method="_on_target_button_pressed"]

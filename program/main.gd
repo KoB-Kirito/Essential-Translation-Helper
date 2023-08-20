@@ -13,20 +13,20 @@ func _on_new_open_button_pressed() -> void:
 
 
 func set_default_directory(file_dialog: FileDialog):
-	if Data.last_directory.is_empty():
+	if Globals.last_directory.is_empty():
 		file_dialog.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
 		
 	else:
-		file_dialog.current_dir = Data.last_directory
+		file_dialog.current_dir = Globals.last_directory
 
 
 func _on_old_file_dialog_file_selected(path: String) -> void:
-	Data.last_directory = path.get_base_dir()
+	Globals.last_directory = path.get_base_dir()
 	%OldPathTextEdit.text = path
 	handle_changed_path(%OldPathTextEdit, %OldInfoLabel)
 
 func _on_new_file_dialog_file_selected(path: String) -> void:
-	Data.last_directory = path.get_base_dir()
+	Globals.last_directory = path.get_base_dir()
 	%NewPathTextEdit.text = path
 	handle_changed_path(%NewPathTextEdit, %NewInfoLabel, true)
 
@@ -79,4 +79,4 @@ func _on_merge_button_pressed() -> void:
 
 
 func _on_mark_new_check_box_toggled(button_pressed: bool) -> void:
-	Data.mark_new_lines = button_pressed
+	Globals.mark_new_lines = button_pressed

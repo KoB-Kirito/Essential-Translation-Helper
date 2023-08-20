@@ -20,6 +20,7 @@ config/windows_native_icon="res://icon.ico"
 [autoload]
 
 Data="*res://program/data.gd"
+Globals="*res://program/globals.gd"
 
 [display]
 

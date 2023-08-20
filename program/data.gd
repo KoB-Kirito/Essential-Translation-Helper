@@ -2,7 +2,8 @@ extends Node
 
 
 signal status_update(status: StringName)
-signal merged(output: String, added_sections: Array[StringName], added_lines: Array[int], translated_lines: Array[int])
+signal merged(target_output: String, added_sections: Array[StringName], edited_sections: Array[StringName], added_lines: Array[int], translated_lines: Array[int],
+		source_output: String, source_removed_sections: Array[StringName], source_edited_sections: Array[StringName], source_removed_lines: Array[int])
 
 # section data
 ## int - index of lines in x_sections
@@ -11,8 +12,10 @@ const INDEX: StringName = "section_index"
 const NUMBERED: StringName = "section_numbered"
 ## int - line number of this section
 const LINE: StringName = "section_line"
-## Array[int] - lines which were not found in the new file
-const REMOVED_LINES: StringName = "section_removed_lines"
+## bool - section was found in target file
+const FOUND: StringName = "section_found"
+## Array[int] - lines which were found in the source file
+const FOUND_LINES: StringName = "section_removed_lines"
 
 var old_section_data: Dictionary
 var old_sections: Array[PackedStringArray]
@@ -22,19 +25,22 @@ var new_section_data: Dictionary
 var new_sections: Array[PackedStringArray]
 var new_line_count: int
 
-var last_directory: String
-var mark_new_lines: bool = true
+
+func clear():
+	old_sections.clear()
+	new_sections.clear()
 
 
 func parse_lines(lines: Array[String], new_intl: bool) -> String:
 	var current_section_name: String = "#"
-	var current_section: PackedStringArray
-	var current_data: Dictionary
+	var current_section: PackedStringArray = []
+	var current_data: Dictionary = {}
 	
 	var first_line: bool = false
 	var current_line: int = -1
 	
 	current_data[LINE] = 0
+	current_data[FOUND] = false
 	
 	for line in lines:
 		current_line += 1
@@ -92,10 +98,12 @@ func merge():
 
 
 func async_merge():
-	var text: String = ""
-	var added_lines: Array[int]
-	var added_sections: Array[StringName]
-	var translated_lines: Array[int]
+	# build target output
+	var target_output: String = ""
+	var added_lines: Array[int] = []
+	var added_sections: Array[StringName] = []
+	var edited_sections: Array[StringName] = []
+	var translated_lines: Array[int] = []
 	
 	var current_line: int = -1
 	
@@ -110,13 +118,13 @@ func async_merge():
 			for line in new_sections[new_section_data[section][INDEX]]:
 				# for each line in section
 				current_line += 1
-				text += line + "\n"
+				target_output += line + "\n"
 			
 			continue
 		
 		# append section name
 		current_line += 1
-		text += section + "\n"
+		target_output += section + "\n"
 		
 		# check if section is new
 		var added_section: bool = not section in old_section_data
@@ -126,9 +134,10 @@ func async_merge():
 			added_lines.append(current_line)
 		else:
 			old_lines = old_sections[old_section_data[section][INDEX]]
+			old_section_data[section][FOUND] = true
 		
 		## store found positions in old to be able to check which are left
-		var found_positions: Array[int]
+		var found_positions: Array[int] = []
 		
 		# setup type of section
 		var current_line_type: int = 0
@@ -146,7 +155,7 @@ func async_merge():
 			
 			match current_line_type:
 				0: # original line
-					text += line + "\n"
+					target_output += line + "\n"
 					
 					# set next line type
 					current_line_type = 1
@@ -154,24 +163,27 @@ func async_merge():
 				1: # translated line
 					if added_section:
 						# whole section is new, no need to search
-						if mark_new_lines:
-							text += "NewLine\n"
+						if Globals.mark_new_lines:
+							target_output += "NewLine\n"
 						else:
-							text += line + "\n"
+							target_output += line + "\n"
 						
 					else:
 						var pos = old_lines.find(line)
 						if pos < 0:
 							# line does not exist in source file
+							if not section in edited_sections:
+								edited_sections.append(section)
+							
 							if numbered:
 								added_lines.append(current_line - 2)
 							added_lines.append(current_line - 1)
 							added_lines.append(current_line)
 							
-							if mark_new_lines:
-								text += "NewLine\n"
+							if Globals.mark_new_lines:
+								target_output += "NewLine\n"
 							else:
-								text += line + "\n"
+								target_output += line + "\n"
 							
 						else:
 							# line found in source file
@@ -186,7 +198,7 @@ func async_merge():
 							found_positions.append(pos + 1)
 							
 							# use translated line
-							text += translated_line + "\n"
+							target_output += translated_line + "\n"
 					
 					# set next line type
 					if numbered:
@@ -195,23 +207,72 @@ func async_merge():
 						current_line_type = 0
 					
 				2: # numbering line
-					text += line + "\n"
+					target_output += line + "\n"
 					
 					# set next line type
 					current_line_type = 0
 		
 		if not added_section:
-			# store removed lines in old data
-			var removed_lines: Array[int] = []
-			for i in range(old_lines.size()):
-				if not i in found_positions:
-					removed_lines.append(i)
-			old_section_data[section][REMOVED_LINES] = removed_lines
+			# store to know removed lines in old data
+			old_section_data[section][FOUND_LINES] = found_positions
+	
+	
+	# build source
+	var source_output: String
+	var source_removed_sections: Array[StringName]
+	var source_edited_sections: Array[StringName]
+	var source_removed_lines: Array[int]
+	
+	current_line = -1
+	
+	for section in old_section_data:
+		# for each section
 		
+		# update status
+		call_deferred("emit_signal", "status_update", "Processing source " + section + " ..")
+		
+		# handle comment on top specially
+		if section == "#":
+			for line in old_sections[old_section_data[section][INDEX]]:
+				# for each line in section
+				current_line += 1
+				source_output += line + "\n"
+			
+			continue
+		
+		# append section name
+		current_line += 1
+		source_output += section + "\n"
+		
+		var removed_section: bool = old_section_data[section][FOUND]
+		if removed_section:
+			source_removed_sections.append(section)
+		
+		var current_section_line: int = -1
+		
+		for line in old_sections[old_section_data[section][INDEX]]:
+				# for each line in section
+				current_line += 1
+				current_section_line += 1
+				
+				source_output += line + "\n"
+				
+				if removed_section:
+					source_removed_lines.append(current_line)
+					
+				elif not current_section_line in old_section_data[section][FOUND_LINES]:
+					source_removed_lines.append(current_line)
+					if not section in source_removed_sections:
+						source_edited_sections.append(section)
+	
+	# free memory
+	clear()
 	
 	# update status
 	call_deferred("emit_signal", "status_update", "Building output ..")
 	await get_tree().create_timer(0.5).timeout
 	
 	#print("merged..")
-	call_deferred("emit_signal", "merged", text, added_sections, added_lines, translated_lines)
+	call_deferred("emit_signal", "merged",
+			target_output, added_sections, edited_sections, added_lines, translated_lines,
+			source_output, source_removed_sections, source_edited_sections, source_removed_lines)
