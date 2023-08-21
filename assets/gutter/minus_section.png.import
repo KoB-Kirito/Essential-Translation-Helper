@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c67mx5bsyjww"
-path="res://.godot/imported/plus_section.png-9ba3f60799199c04c58ab7c188b08f9f.ctex"
+uid="uid://c7twure74po0m"
+path="res://.godot/imported/minus_section.png-dab67c9878084b2e26953a6edcc7516e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/plus_section.png"
-dest_files=["res://.godot/imported/plus_section.png-9ba3f60799199c04c58ab7c188b08f9f.ctex"]
+source_file="res://assets/gutter/minus_section.png"
+dest_files=["res://.godot/imported/minus_section.png-dab67c9878084b2e26953a6edcc7516e.ctex"]
 
 [params]
 

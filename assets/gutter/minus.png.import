@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcv8ukasri142"
-path="res://.godot/imported/plus_small.png-686bb94c5a735c689f271678daa0bc02.ctex"
+uid="uid://d33m4000uobw2"
+path="res://.godot/imported/minus.png-dbec617efa2e0708c77595d3f44a72fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/plus_small.png"
-dest_files=["res://.godot/imported/plus_small.png-686bb94c5a735c689f271678daa0bc02.ctex"]
+source_file="res://assets/gutter/minus.png"
+dest_files=["res://.godot/imported/minus.png-dbec617efa2e0708c77595d3f44a72fe.ctex"]
 
 [params]
 

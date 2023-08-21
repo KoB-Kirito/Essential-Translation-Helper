@@ -1,16 +1,21 @@
-[gd_scene load_steps=24 format=3 uid="uid://cgo1b4a5h55cj"]
+[gd_scene load_steps=29 format=3 uid="uid://h81bd8xrr2u4"]
 
 [ext_resource type="Script" path="res://program/merge.gd" id="1_wgut7"]
-[ext_resource type="Texture2D" uid="uid://c67mx5bsyjww" path="res://assets/plus_section.png" id="2_g1moy"]
 [ext_resource type="Script" path="res://program/merge_ui.gd" id="2_pisvf"]
-[ext_resource type="Texture2D" uid="uid://dcv8ukasri142" path="res://assets/plus_small.png" id="3_2rkvm"]
-[ext_resource type="Texture2D" uid="uid://cxdkxuhct7dnf" path="res://assets/icon_31.svg" id="3_3vlso"]
+[ext_resource type="Texture2D" uid="uid://cjhv6jn1uh1g5" path="res://assets/gutter/arrow.png" id="3_w55ma"]
 [ext_resource type="FontFile" uid="uid://5nbdu04dcxnc" path="res://assets/fira_mono.otf" id="4_2ibaf"]
-[ext_resource type="Texture2D" uid="uid://cxy6kk18lboqv" path="res://assets/minus_section.png" id="6_y4sd0"]
-[ext_resource type="Texture2D" uid="uid://h36aer5k32iq" path="res://assets/menu.svg" id="7_8lhmp"]
-[ext_resource type="Texture2D" uid="uid://xggx3hxwubwk" path="res://assets/minus_small.png" id="7_mrtx7"]
-[ext_resource type="Texture2D" uid="uid://j3driu05nw85" path="res://assets/up.svg" id="7_ti8yu"]
-[ext_resource type="Texture2D" uid="uid://bj2o716ndk6r" path="res://assets/down.svg" id="8_7t8x1"]
+[ext_resource type="Texture2D" uid="uid://d33m4000uobw2" path="res://assets/gutter/minus.png" id="4_4scjo"]
+[ext_resource type="Texture2D" uid="uid://dsyyfcgjle7to" path="res://assets/gutter/plus.png" id="5_6df1e"]
+[ext_resource type="Texture2D" uid="uid://c7twure74po0m" path="res://assets/gutter/minus_section.png" id="5_nr5m2"]
+[ext_resource type="Texture2D" uid="uid://d4i2palh7gbvt" path="res://assets/gutter/plus_section.png" id="6_pipc0"]
+[ext_resource type="PackedScene" uid="uid://ckq3qntjrhh3d" path="res://program/info_menu.tscn" id="7_s8b7j"]
+[ext_resource type="Texture2D" uid="uid://j3driu05nw85" path="res://assets/ui/up.svg" id="8_jwhak"]
+[ext_resource type="Texture2D" uid="uid://bj2o716ndk6r" path="res://assets/ui/down.svg" id="9_bejhp"]
+[ext_resource type="Texture2D" uid="uid://cxy6kk18lboqv" path="res://assets/jump/minus_section.png" id="10_abgwu"]
+[ext_resource type="Texture2D" uid="uid://xggx3hxwubwk" path="res://assets/jump/minus.png" id="11_hl2m5"]
+[ext_resource type="Texture2D" uid="uid://h36aer5k32iq" path="res://assets/ui/menu.svg" id="12_whis5"]
+[ext_resource type="Texture2D" uid="uid://c67mx5bsyjww" path="res://assets/jump/plus_section.png" id="13_ncrcj"]
+[ext_resource type="Texture2D" uid="uid://dcv8ukasri142" path="res://assets/jump/plus.png" id="14_lhkgs"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_knhq5"]
 
@@ -82,21 +87,23 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 5
 script = ExtResource("2_pisvf")
-plus = ExtResource("3_2rkvm")
-plus_section = ExtResource("2_g1moy")
-minus = ExtResource("7_mrtx7")
-minus_section = ExtResource("6_y4sd0")
+gutter_arrow = ExtResource("3_w55ma")
+gutter_minus = ExtResource("4_4scjo")
+gutter_minus_section = ExtResource("5_nr5m2")
+gutter_plus = ExtResource("5_6df1e")
+gutter_plus_section = ExtResource("6_pipc0")
+jump_minus = ExtResource("11_hl2m5")
+jump_minus_section = ExtResource("10_abgwu")
+jump_plus = ExtResource("14_lhkgs")
+jump_plus_section = ExtResource("13_ncrcj")
 
 [node name="MenuBarContainer" type="HBoxContainer" parent="UI"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="AboutButton" type="TextureButton" parent="UI/MenuBarContainer"]
+[node name="InfoMenuButton" parent="UI/MenuBarContainer" instance=ExtResource("7_s8b7j")]
 layout_mode = 2
-tooltip_text = "For updates check https://github.com/KoB-Kirito/Intl-File-Merger
-(click to open in browser)"
-texture_normal = ExtResource("3_3vlso")
 
 [node name="SourceMenuContainer" type="HBoxContainer" parent="UI/MenuBarContainer"]
 unique_name_in_owner = true
@@ -105,21 +112,21 @@ size_flags_horizontal = 3
 
 [node name="SourceLastButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(31, 0)
+custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
-tooltip_text = "Jump to last removed line"
+tooltip_text = "Jump to last removed or changed line"
 focus_mode = 0
 disabled = true
-icon = ExtResource("7_ti8yu")
+icon = ExtResource("8_jwhak")
 icon_alignment = 1
 
 [node name="SourceNextButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(31, 0)
+custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
-tooltip_text = "Jump to next removed line"
+tooltip_text = "Jump to next removed or changed line"
 focus_mode = 0
-icon = ExtResource("8_7t8x1")
+icon = ExtResource("9_bejhp")
 icon_alignment = 1
 
 [node name="SourceSectionButton" type="OptionButton" parent="UI/MenuBarContainer/SourceMenuContainer"]
@@ -132,10 +139,10 @@ item_count = 3
 fit_to_longest_item = false
 allow_reselect = true
 popup/item_0/text = "= Whole Section Removed"
-popup/item_0/icon = ExtResource("6_y4sd0")
+popup/item_0/icon = ExtResource("10_abgwu")
 popup/item_0/id = 0
 popup/item_1/text = "= Contains Removed Lines"
-popup/item_1/icon = ExtResource("7_mrtx7")
+popup/item_1/icon = ExtResource("11_hl2m5")
 popup/item_1/id = 1
 popup/item_2/text = ""
 popup/item_2/id = 2
@@ -149,7 +156,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
-icon = ExtResource("7_8lhmp")
+icon = ExtResource("12_whis5")
 icon_alignment = 1
 item_count = 3
 popup/item_0/text = "Line Numbers"
@@ -171,21 +178,21 @@ size_flags_horizontal = 3
 
 [node name="TargetLastButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(31, 0)
+custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
 tooltip_text = "Jump to last new line"
 focus_mode = 0
 disabled = true
-icon = ExtResource("7_ti8yu")
+icon = ExtResource("8_jwhak")
 icon_alignment = 1
 
 [node name="TargetNextButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(31, 0)
+custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
 tooltip_text = "Jump to next new line"
 focus_mode = 0
-icon = ExtResource("8_7t8x1")
+icon = ExtResource("9_bejhp")
 icon_alignment = 1
 
 [node name="TargetSectionButton" type="OptionButton" parent="UI/MenuBarContainer/TargetMenuContainer"]
@@ -199,17 +206,21 @@ item_count = 3
 fit_to_longest_item = false
 allow_reselect = true
 popup/item_0/text = "= Whole Section New"
-popup/item_0/icon = ExtResource("2_g1moy")
+popup/item_0/icon = ExtResource("13_ncrcj")
 popup/item_0/id = 0
 popup/item_1/text = "= Contains New Lines"
-popup/item_1/icon = ExtResource("3_2rkvm")
+popup/item_1/icon = ExtResource("14_lhkgs")
 popup/item_1/id = 1
 popup/item_2/text = ""
 popup/item_2/id = 2
 popup/item_2/separator = true
 
-[node name="Seperator" type="Control" parent="UI/MenuBarContainer/TargetMenuContainer"]
+[node name="Seperator" type="ColorRect" parent="UI/MenuBarContainer/TargetMenuContainer"]
+modulate = Color(1, 1, 1, 0.501961)
+custom_minimum_size = Vector2(1, 27)
 layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.219608, 0.219608, 0.219608, 1)
 
 [node name="SaveButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
 unique_name_in_owner = true
@@ -233,11 +244,19 @@ layout_mode = 2
 tooltip_text = "(wip)"
 text = "Export.."
 flat = false
-item_count = 2
-popup/item_0/text = "Untranslated lines only"
+item_count = 4
+popup/item_0/text = "CSV"
 popup/item_0/id = 0
-popup/item_1/text = "New lines only"
+popup/item_0/disabled = true
+popup/item_1/text = ""
 popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Untranslated only"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+popup/item_3/text = "New lines only"
+popup/item_3/id = 3
+popup/item_3/disabled = true
 
 [node name="EmptyFill" type="Control" parent="UI/MenuBarContainer/TargetMenuContainer"]
 layout_mode = 2
@@ -247,7 +266,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
-icon = ExtResource("7_8lhmp")
+icon = ExtResource("12_whis5")
 icon_alignment = 1
 item_count = 3
 popup/item_0/text = "Line Numbers"
@@ -359,8 +378,10 @@ horizontal_alignment = 1
 
 [node name="SourceTextEdit" type="TextEdit" parent="UI/EditorContainer"]
 unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/background_color = Color(0.11, 0.12, 0.13, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("4_2ibaf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
@@ -370,8 +391,10 @@ caret_blink = true
 
 [node name="TargetTextEdit" type="TextEdit" parent="UI/EditorContainer"]
 unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/background_color = Color(0.109804, 0.121569, 0.129412, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("4_2ibaf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
@@ -382,6 +405,7 @@ editable = false
 context_menu_enabled = false
 shortcut_keys_enabled = false
 selecting_enabled = false
+drag_and_drop_selection_enabled = false
 caret_blink = true
 
 [node name="StatusBarContainer" type="HBoxContainer" parent="UI"]
@@ -462,9 +486,18 @@ one_shot = true
 
 [node name="StillWorkingTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-autostart = true
+wait_time = 0.333
 
-[connection signal="pressed" from="UI/MenuBarContainer/AboutButton" to="UI" method="_on_about_button_pressed"]
+[node name="DoubleClickTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.4
+one_shot = true
+
+[node name="ResetLabelsTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
+
 [connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceLastButton" to="UI" method="_on_source_last_button_pressed"]
 [connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceNextButton" to="UI" method="_on_source_next_button_pressed"]
 [connection signal="item_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSectionButton" to="UI" method="_on_source_section_button_item_selected"]
@@ -486,3 +519,4 @@ autostart = true
 [connection signal="text_set" from="UI/EditorContainer/TargetTextEdit" to="UI" method="_on_target_text_edit_text_changed"]
 [connection signal="timeout" from="DeferrTimer" to="." method="_on_deferr_timer_timeout"]
 [connection signal="timeout" from="StillWorkingTimer" to="." method="_on_still_working_timer_timeout"]
+[connection signal="timeout" from="ResetLabelsTimer" to="UI" method="_on_reset_labels_timer_timeout"]

@@ -1,6 +1,9 @@
 extends MarginContainer
 
 
+@onready var UI := %UI as UI # for auto-completion
+
+
 func _ready() -> void:
 	%DeferrTimer.start()
 
@@ -8,6 +11,7 @@ func _on_deferr_timer_timeout() -> void:
 	Data.status_update.connect(status_update)
 	Data.merged.connect(merged)
 	Data.merge()
+	%StillWorkingTimer.start()
 
 
 func status_update(status: String):
@@ -18,52 +22,65 @@ func status_update(status: String):
 
 func merged(target_output: String, added_sections: Array[StringName], target_edited_sections: Array[StringName], added_lines: Array[int], real_added_lines: int, translated_lines: Array[int],
 		source_output: String, removed_sections: Array[StringName], source_edited_sections: Array[StringName], removed_lines: Array[int], real_removed_lines: int):
+	%StillWorkingTimer.stop()
+	
+	## add spacing gutter
+	#%TargetTextEdit.add_gutter()
+	#%TargetTextEdit.set_gutter_width(0, 8)
+	#%SourceTextEdit.add_gutter()
+	#%SourceTextEdit.set_gutter_width(0, 8)
+	
 	# add icon gutter
-	%TargetTextEdit.add_gutter(0)
-	%TargetTextEdit.set_gutter_type(0, TextEdit.GUTTER_TYPE_STRING)
-	%SourceTextEdit.add_gutter(0)
-	%SourceTextEdit.set_gutter_type(0, TextEdit.GUTTER_TYPE_STRING)
+	%TargetTextEdit.add_gutter()
+	%TargetTextEdit.set_gutter_type(0, TextEdit.GUTTER_TYPE_ICON)
+	%SourceTextEdit.add_gutter()
+	%SourceTextEdit.set_gutter_type(0, TextEdit.GUTTER_TYPE_ICON)
 	
 	# add line gutter
-	%UI.toggle_display_line_numbers(%SourceTextEdit, true)
-	%UI.toggle_display_line_numbers(%TargetTextEdit, true)
+	%TargetTextEdit.add_gutter()
+	%TargetTextEdit.set_gutter_type(1, TextEdit.GUTTER_TYPE_STRING)
+	%SourceTextEdit.add_gutter()
+	%SourceTextEdit.set_gutter_type(1, TextEdit.GUTTER_TYPE_STRING)
 	
 	# set text
+	%TargetTextEdit.placeholder_text = ""
 	%TargetTextEdit.text = target_output.left(target_output.length() - 1)
+	%TargetTextEdit.clear_undo_history()
 	%SourceTextEdit.text = source_output.left(source_output.length() - 1)
+	%SourceTextEdit.clear_undo_history()
 	
 	# mark lines
 	for i in range(%TargetTextEdit.get_line_count()):
 		if i in added_lines:
-			%TargetTextEdit.set_line_gutter_text(i, 0, "+")
-			%TargetTextEdit.set_line_gutter_metadata(i, 0, true)
-			%TargetTextEdit.set_line_background_color(i, Color(0.56, 1.0, 0.52, 0.66))
+			%TargetTextEdit.set_line_gutter_icon(i, UI.ICON_GUTTER, UI.gutter_plus)
+			%TargetTextEdit.set_line_gutter_metadata(i, UI.ICON_GUTTER, true)
+			%TargetTextEdit.set_line_background_color(i, Color(0.56, 1.0, 0.52, 0.6))
 			
 		elif i in translated_lines:
-			%TargetTextEdit.set_line_gutter_text(i, 0, ">")
-			%TargetTextEdit.set_line_background_color(i, Color(0.37, 0.56, 1.0, 0.66))
+			%TargetTextEdit.set_line_gutter_icon(i, UI.ICON_GUTTER, UI.gutter_arrow)
+			%TargetTextEdit.set_line_background_color(i, Color(0.37, 0.56, 1.0, 0.6))
 	
 	for i in range(%SourceTextEdit.get_line_count()):
 		if i in removed_lines:
-			%SourceTextEdit.set_line_gutter_text(i, 0, "-")
-			%SourceTextEdit.set_line_gutter_metadata(i, 0, true)
-			%SourceTextEdit.set_line_background_color(i, Color(1.0, 0.52, 0.45, 0.66))
+			%SourceTextEdit.set_line_gutter_icon(i, UI.ICON_GUTTER, UI.gutter_minus)
+			%SourceTextEdit.set_line_gutter_metadata(i, UI.ICON_GUTTER, true)
+			%SourceTextEdit.set_line_background_color(i, Color(1.0, 0.52, 0.45, 0.6))
 	
 	# fill section selector
 	for section in Data.old_section_data:
 		if section in removed_sections:
-			%SourceSectionButton.add_icon_item(%UI.minus_section, section)
+			%SourceSectionButton.add_icon_item(UI.jump_minus_section, section)
 		elif section in source_edited_sections:
-			%SourceSectionButton.add_icon_item(%UI.minus, section)
+			%SourceSectionButton.add_icon_item(UI.jump_minus, section)
 		else:
 			%SourceSectionButton.add_item(section)
 	%SourceSectionButton.select(3)
 	
 	for section in Data.new_section_data:
 		if section in added_sections:
-			%TargetSectionButton.add_icon_item(%UI.plus_section, section)
+			%TargetSectionButton.add_icon_item(UI.jump_plus_section, section)
 		elif section in target_edited_sections:
-			%TargetSectionButton.add_icon_item(%UI.plus, section)
+			%TargetSectionButton.add_icon_item(UI.jump_plus, section)
 		else:
 			%TargetSectionButton.add_item(section)
 	%TargetSectionButton.select(3)
@@ -87,9 +104,13 @@ func merged(target_output: String, added_sections: Array[StringName], target_edi
 	%TargetTextEdit.selecting_enabled = true
 	%TargetTextEdit.minimap_draw = true
 	
-	# fill labels
-	%StillWorkingTimer.stop()
+	# setup jump
+	print(%SourceTextEdit.get_caret_count())
+	print(%TargetTextEdit.get_caret_count())
+	UI.update_last_next(%SourceTextEdit, 0)
+	UI.update_last_next(%TargetTextEdit, 0)
 	
+	# fill labels
 	%StatusLabel.visible = false
 	%TranslationsParsedLabel.visible = true
 	%SectionsAddedLabel.visible = true
@@ -105,7 +126,13 @@ func merged(target_output: String, added_sections: Array[StringName], target_edi
 
 
 func _on_still_working_timer_timeout() -> void:
-	%StatusLabel.text += "."
+	# check thread
+	if Data.thread.is_alive():
+		%StatusLabel.text += "."
+		
+	else:
+		%StillWorkingTimer.stop()
+		Data.thread.wait_to_finish()
 
 
 ### Save File ###
@@ -127,11 +154,4 @@ func _on_save_file_dialog_file_selected(path: String) -> void:
 	file.close()
 	
 	# set status label
-	%StatusLabel.text = "Saved " + path
-	%StatusLabel.modulate = Color.GREEN
-	%StatusLabel.visible = true
-	%TranslationsParsedLabel.visible = false
-	%SectionsAddedLabel.visible = false
-	%LinesAddedLabel.visible = false
-	%SectionsRemovedLabel.visible = false
-	%LinesRemovedLabel.visible = false
+	UI.show_status_message("Saved " + path, Color.GREEN)

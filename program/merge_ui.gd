@@ -1,11 +1,16 @@
 class_name UI
 extends VBoxContainer
 
+@export var gutter_arrow: Texture2D
+@export var gutter_minus: Texture2D
+@export var gutter_minus_section: Texture2D
+@export var gutter_plus: Texture2D
+@export var gutter_plus_section: Texture2D
 
-@export var plus: Texture2D
-@export var plus_section: Texture2D
-@export var minus: Texture2D
-@export var minus_section: Texture2D
+@export var jump_minus: Texture2D
+@export var jump_minus_section: Texture2D
+@export var jump_plus: Texture2D
+@export var jump_plus_section: Texture2D
 
 
 func _ready() -> void:
@@ -23,13 +28,7 @@ func _ready() -> void:
 
 ### Menu Bar ###
 
-func _on_about_button_pressed() -> void:
-	# open link to github page
-	OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger")
-	# ToDo: Menu: HowTo > Readme, Update > Release, Report Bug > Issues, Licence > Show Licence
-
-
-### Last / Back Buttons ###
+### Jump Back / Forward ###
 
 var target_current_line: int = 0
 var source_current_line: int = 0
@@ -47,7 +46,7 @@ func _on_target_text_edit_caret_changed() -> void:
 	if %TargetTextEdit.get_caret_line(0) == target_current_line:
 		return
 	target_current_line = %TargetTextEdit.get_caret_line(0)
-	target_update_last_next()
+	update_last_next(%TargetTextEdit, target_current_line)
 
 func _on_source_text_edit_caret_changed() -> void:
 	# sync horizontal scroll
@@ -57,87 +56,105 @@ func _on_source_text_edit_caret_changed() -> void:
 	if %SourceTextEdit.get_caret_line(0) == source_current_line:
 		return
 	source_current_line = %SourceTextEdit.get_caret_line(0)
-	source_update_last_next()
+	update_last_next(%SourceTextEdit, source_current_line)
 
 
-func target_update_last_next() -> void:
+func update_last_next(text_edit: TextEdit, current_line: int) -> void:
+	var skipped_lines: int = 0
 	# check if there are new lines before
-	target_last_new_line = -1
-	if target_current_line > 1:
-		for i in range(target_current_line - 1, -1, -1):
-			if %TargetTextEdit.get_line_gutter_metadata(i, 0):
-				target_last_new_line = i
+	if text_edit == %TargetTextEdit:
+		target_last_new_line = -1
+	else:
+		source_last_removed_line = -1
+	if current_line > 2:
+		if text_edit.get_line(current_line - 1).is_valid_int():
+			skipped_lines = 1
+		
+		for i in range(current_line - 1 - skipped_lines, -1, -1):
+			if text_edit.get_line_gutter_metadata(i, ICON_GUTTER):
+				if text_edit == %TargetTextEdit:
+					target_last_new_line = i - 1
+				else:
+					source_last_removed_line = i - 1
 				break
 	
 	# check if there are new lines after
-	target_next_new_line = -1
-	if target_current_line < %TargetTextEdit.get_line_count() - 1:
-		for i in range(target_current_line + 1, %TargetTextEdit.get_line_count()):
-			if %TargetTextEdit.get_line_gutter_metadata(i, 0):
-				target_next_new_line = i
+	if text_edit == %TargetTextEdit:
+		target_next_new_line = -1
+	else:
+		source_next_removed_line = -1
+		
+	if current_line < text_edit.get_line_count() - 4:
+		if text_edit.get_line(current_line - 1).is_valid_int():
+			skipped_lines = 2
+		else:
+			skipped_lines = 1
+		
+		for i in range(current_line + 1 + skipped_lines, text_edit.get_line_count()):
+			if text_edit.get_line_gutter_metadata(i, ICON_GUTTER):
+				var shifted_lines: int = 0
+				if text_edit.get_line(i).is_valid_int():
+					shifted_lines = 1
+				if text_edit == %TargetTextEdit:
+					target_next_new_line = i + shifted_lines
+				else:
+					source_next_removed_line = i + shifted_lines
 				break
 	
-	if target_last_new_line >= 0 and %TargetLastButton.disabled:
-		%TargetLastButton.disabled = false
-	elif target_last_new_line < 0 and not %TargetLastButton.disabled:
-		%TargetLastButton.disabled = true
-	
-	if target_next_new_line >= 0 and %TargetNextButton.disabled:
-		%TargetNextButton.disabled = false
-	elif target_next_new_line < 0 and not %TargetNextButton.disabled:
-		%TargetNextButton.disabled = true
-
-func source_update_last_next() -> void:
-	# check if there are new lines before
-	source_last_removed_line = -1
-	if source_current_line > 1:
-		for i in range(source_current_line - 1, -1, -1):
-			if %SourceTextEdit.get_line_gutter_metadata(i, 0):
-				source_last_removed_line = i
-				break
-	
-	# check if there are new lines after
-	source_next_removed_line = -1
-	if source_current_line < %SourceTextEdit.get_line_count() - 1:
-		for i in range(source_current_line + 1, %SourceTextEdit.get_line_count()):
-			if %SourceTextEdit.get_line_gutter_metadata(i, 0):
-				source_next_removed_line = i
-				break
-	
-	if source_last_removed_line >= 0 and %SourceLastButton.disabled:
-		%SourceLastButton.disabled = false
-	elif source_last_removed_line < 0 and not %SourceLastButton.disabled:
-		%SourceLastButton.disabled = true
-	
-	if source_next_removed_line >= 0 and %SourceNextButton.disabled:
-		%SourceNextButton.disabled = false
-	elif source_next_removed_line < 0 and not %SourceNextButton.disabled:
-		%SourceNextButton.disabled = true
+	# set buttons
+	if text_edit == %TargetTextEdit:
+		if target_last_new_line >= 0 and %TargetLastButton.disabled:
+			%TargetLastButton.disabled = false
+		elif target_last_new_line < 0 and not %TargetLastButton.disabled:
+			%TargetLastButton.disabled = true
+		
+		if target_next_new_line >= 0 and %TargetNextButton.disabled:
+			%TargetNextButton.disabled = false
+		elif target_next_new_line < 0 and not %TargetNextButton.disabled:
+			%TargetNextButton.disabled = true
+		
+	else:
+		if source_last_removed_line >= 0 and %SourceLastButton.disabled:
+			%SourceLastButton.disabled = false
+		elif source_last_removed_line < 0 and not %SourceLastButton.disabled:
+			%SourceLastButton.disabled = true
+		
+		if source_next_removed_line >= 0 and %SourceNextButton.disabled:
+			%SourceNextButton.disabled = false
+		elif source_next_removed_line < 0 and not %SourceNextButton.disabled:
+			%SourceNextButton.disabled = true
 
 
 func _on_target_last_button_pressed() -> void:
-	if target_last_new_line >= 0:
-		%TargetTextEdit.set_caret_column(0)
-		%TargetTextEdit.set_caret_line(target_last_new_line, false)
-		%TargetTextEdit.set_line_as_center_visible(target_last_new_line)
+	center_on_line(%TargetTextEdit, target_last_new_line)
 
 func _on_target_next_button_pressed() -> void:
-	if target_next_new_line >= 0:
-		%TargetTextEdit.set_caret_column(0)
-		%TargetTextEdit.set_caret_line(target_next_new_line, false)
-		%TargetTextEdit.set_line_as_center_visible(target_next_new_line)
+	center_on_line(%TargetTextEdit, target_next_new_line)
 
 func _on_source_last_button_pressed() -> void:
-	if source_last_removed_line >= 0:
-		%SourceTextEdit.set_caret_column(0)
-		%SourceTextEdit.set_caret_line(source_last_removed_line, false)
-		%SourceTextEdit.set_line_as_center_visible(source_last_removed_line)
+	center_on_line(%SourceTextEdit, source_last_removed_line)
 
 func _on_source_next_button_pressed() -> void:
-	if source_next_removed_line >= 0:
-		%SourceTextEdit.set_caret_column(0)
-		%SourceTextEdit.set_caret_line(source_next_removed_line, false)
-		%SourceTextEdit.set_line_as_center_visible(source_next_removed_line)
+	center_on_line(%SourceTextEdit, source_next_removed_line)
+
+
+func center_on_line(text_edit: TextEdit, line: int) -> void:
+	if line < 0 or line > text_edit.get_line_count() - 1:
+		push_error("Trying to center on line ", line)
+		return
+	
+	if text_edit.get_caret_count() == 0:
+		text_edit.add_caret(line, 0)
+	
+	else:
+		text_edit.set_caret_column(0)
+		text_edit.set_caret_line(line, false)
+	
+	text_edit.set_line_as_center_visible(line)
+	DisplayServer.clipboard_set(text_edit.get_line(line))
+	show_status_message("Line " + str(line) + " copied to clipboard", Color.GREEN, 2.0)
+	text_edit.select(line + 1, 0, line + 1, text_edit.get_line(line).length())
+	text_edit.grab_focus()
 
 
 ### Jump Section ###
@@ -250,31 +267,33 @@ func _on_split_button_pressed() -> void:
 var source_last_gutter_click: int = 0
 var target_last_gutter_click: int = 0
 
-func _on_target_text_edit_gutter_clicked(line: int, _gutter: int) -> void:
-	if target_last_gutter_click == line:
-		# double click
-		search_line(%SourceTextEdit, %TargetTextEdit.get_line(line), line)
-		return
+
+func _on_target_text_edit_gutter_clicked(line: int, gutter: int) -> void:
+	handle_gutter_click(%TargetTextEdit, %SourceTextEdit, line, target_last_gutter_click)
 	target_last_gutter_click = line
-	
-	# select line
-	%TargetTextEdit.select(line, 0, line, %TargetTextEdit.get_line(line).length())
 
-func _on_source_text_edit_gutter_clicked(line:int, _gutter: int) -> void:
-	if source_last_gutter_click == line:
-		# double click
-		search_line(%TargetTextEdit, %SourceTextEdit.get_line(line), line)
-		return
+func _on_source_text_edit_gutter_clicked(line:int, gutter: int) -> void:
+	handle_gutter_click(%SourceTextEdit, %TargetTextEdit, line, source_last_gutter_click)
 	source_last_gutter_click = line
+
+
+func handle_gutter_click(clicked_text_edit: TextEdit, other_text_edit: TextEdit, line: int, last_clicked_line: int) -> void:
+	if line == last_clicked_line and not %DoubleClickTimer.is_stopped():
+		# double click
+		search_line(other_text_edit, clicked_text_edit, clicked_text_edit.get_line(line), line)
+		return
+	%DoubleClickTimer.start()
 	
 	# select line
-	%SourceTextEdit.select(line, 0, line, %SourceTextEdit.get_line(line).length())
+	clicked_text_edit.select(line, 0, line, clicked_text_edit.get_line(line).length())
+	clicked_text_edit.set_caret_column(0, false)
+	clicked_text_edit.set_caret_line(line, false)
 
 
-func search_line(text_edit: TextEdit, line: String, current_line: int):
-	var result := text_edit.search(line, TextEdit.SEARCH_MATCH_CASE, 0, 0)
+func search_line(text_edit: TextEdit, from_text_edit: TextEdit, line: String, current_line: int):
+	var result := text_edit.search(line, TextEdit.SEARCH_MATCH_CASE + TextEdit.SEARCH_WHOLE_WORDS, 0, 0)
 	var found_line = result.y
-	if found_line < 0:
+	if found_line < 0 or line.is_valid_int():
 		# use line instead
 		if current_line > text_edit.get_line_count() - 1:
 			current_line = text_edit.get_line_count() - 1
@@ -284,9 +303,16 @@ func search_line(text_edit: TextEdit, line: String, current_line: int):
 		# line found
 		text_edit.set_line_as_center_visible(found_line)
 		text_edit.select(current_line, 0, current_line, text_edit.get_line(current_line).length())
+	
+	from_text_edit.set_line_as_center_visible(current_line)
 
 
 ### Line Numbers ###
+
+# gutter order: left > right
+#const SPACER_GUTTER: int = 0
+const ICON_GUTTER: int = 0
+const LINE_GUTTER: int = 1
 
 const CHAR_WIDTH: int = 9
 const LINE_NUMBER_MARGIN: int = 9
@@ -297,15 +323,12 @@ var target_current_line_count: int = 0
 
 func toggle_display_line_numbers(text_edit: TextEdit, button_pressed: bool) -> void:
 	if button_pressed:
-		add_line_numbers(text_edit)
+		#text_edit.set_gutter_draw(SPACER_GUTTER, true)
+		text_edit.set_gutter_draw(LINE_GUTTER, true)
 		update_line_numbers(text_edit)
 	else:
-		text_edit.remove_gutter(1)
-
-
-func add_line_numbers(text_edit: TextEdit):
-	text_edit.add_gutter(1) # line numbers
-	text_edit.set_gutter_type(1, TextEdit.GUTTER_TYPE_STRING)
+		#text_edit.set_gutter_draw(SPACER_GUTTER, false)
+		text_edit.set_gutter_draw(LINE_GUTTER, false)
 
 
 func update_line_numbers(text_edit: TextEdit):
@@ -325,7 +348,7 @@ func update_line_numbers(text_edit: TextEdit):
 	else:
 		char_count = 6
 	
-	text_edit.set_gutter_width(1, char_count * CHAR_WIDTH + LINE_NUMBER_MARGIN)
+	text_edit.set_gutter_width(LINE_GUTTER, char_count * CHAR_WIDTH + LINE_NUMBER_MARGIN)
 	
 	for i in range(line_count):
 		var i_char_count: int
@@ -341,7 +364,7 @@ func update_line_numbers(text_edit: TextEdit):
 			i_char_count = 5
 		else:
 			i_char_count = 6
-		text_edit.set_line_gutter_text(i, 1, get_padding(char_count - i_char_count) + str(i + 1))
+		text_edit.set_line_gutter_text(i, LINE_GUTTER, get_padding(char_count - i_char_count) + str(i + 1))
 
 
 func get_padding(count: int) -> String:
@@ -380,3 +403,26 @@ func _on_target_text_edit_text_changed() -> void:
 	var menu := %TargetOptionMenuButton.get_popup() as PopupMenu
 	if menu.is_item_checked(OptionMenuEntries.LINE_NUMBERS):
 		update_line_numbers(%TargetTextEdit)
+
+
+### Status Bar ###
+
+func show_status_message(message: String, color: Color = Color.WHITE, duration: float = 5.0) -> void:
+	%StatusLabel.text = message
+	%StatusLabel.modulate = color
+	toggle_status_bar(false)
+	if duration > 0.0:
+		%ResetLabelsTimer.start(duration)
+
+
+func toggle_status_bar(show_info: bool) -> void:
+	%StatusLabel.visible = !show_info
+	%TranslationsParsedLabel.visible = show_info
+	%SectionsAddedLabel.visible = show_info
+	%LinesAddedLabel.visible = show_info
+	%SectionsRemovedLabel.visible = show_info
+	%LinesRemovedLabel.visible = show_info
+
+
+func _on_reset_labels_timer_timeout() -> void:
+	toggle_status_bar(true)

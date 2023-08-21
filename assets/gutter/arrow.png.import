@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxy6kk18lboqv"
-path="res://.godot/imported/minus_section.png-19374e4c742875e9b892580bb08a48de.ctex"
+uid="uid://cjhv6jn1uh1g5"
+path="res://.godot/imported/arrow.png-589ead0b563a79f2f7a91e2e9e28b445.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/minus_section.png"
-dest_files=["res://.godot/imported/minus_section.png-19374e4c742875e9b892580bb08a48de.ctex"]
+source_file="res://assets/gutter/arrow.png"
+dest_files=["res://.godot/imported/arrow.png-589ead0b563a79f2f7a91e2e9e28b445.ctex"]
 
 [params]
 

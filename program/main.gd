@@ -88,7 +88,7 @@ func _on_mark_new_check_box_toggled(button_pressed: bool) -> void:
 	%MarkNewTextEdit.selecting_enabled = button_pressed
 
 
-func _on_about_button_pressed() -> void:
+func _on_info_menu_button_pressed() -> void:
 	# open link to github page
 	OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger")
 	# ToDo: Menu: HowTo > Readme, Update > Release, Report Bug > Issues, Licence > Show Licence

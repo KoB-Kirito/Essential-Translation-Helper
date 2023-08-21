@@ -5,6 +5,8 @@ signal status_update(status: StringName)
 signal merged(target_output: String, added_sections: Array[StringName], target_edited_sections: Array[StringName], added_lines: Array[int], real_added_lines:int, translated_lines: Array[int],
 		source_output: String, removed_sections: Array[StringName], source_edited_sections: Array[StringName], removed_lines: Array[int], real_removed_lines: int)
 
+var thread: Thread
+
 # section data
 ## int - index of lines in x_sections
 const INDEX: StringName = "section_index"
@@ -19,11 +21,9 @@ const FOUND_LINES: StringName = "section_removed_lines"
 
 var old_section_data: Dictionary
 var old_sections: Array[PackedStringArray]
-var old_line_count: int
 
 var new_section_data: Dictionary
 var new_sections: Array[PackedStringArray]
-var new_line_count: int
 
 
 func clear():
@@ -32,6 +32,14 @@ func clear():
 
 
 func parse_lines(lines: PackedStringArray, new_intl: bool) -> String:
+	# clear old data
+	if new_intl:
+		new_section_data.clear()
+		new_sections.clear()
+	else:
+		old_section_data.clear()
+		old_sections.clear()
+	
 	var current_section_name: String = "#"
 	var current_section: PackedStringArray = PackedStringArray()
 	var current_data: Dictionary = {}
@@ -43,8 +51,10 @@ func parse_lines(lines: PackedStringArray, new_intl: bool) -> String:
 	current_data[FOUND] = false
 	
 	for raw_line in lines:
-		var line = raw_line.strip_edges(false)
 		current_line += 1
+		
+		# strip line end
+		var line = raw_line.strip_edges(false)
 		
 		if first_line:
 			first_line = false
@@ -79,25 +89,22 @@ func parse_lines(lines: PackedStringArray, new_intl: bool) -> String:
 		new_sections.append(current_section)
 		current_data[INDEX] = new_sections.size() - 1
 		new_section_data[current_section_name] = current_data
-		new_line_count = lines.size()
-		return "lines " + str(new_line_count) + ", sections " + str(new_sections.size()) #+ ", translated " + str(translated_count) + "/" + str(english_count)
+		return "lines " + str(lines.size()) + ", sections " + str(new_sections.size()) #+ ", translated " + str(translated_count) + "/" + str(english_count)
 		
 	else:
 		old_sections.append(current_section)
 		current_data[INDEX] = old_sections.size() - 1
 		old_section_data[current_section_name] = current_data
-		old_line_count = lines.size()
-		return "lines " + str(old_line_count) + ", sections " + str(old_sections.size()) #+ ", translated " + str(translated_count) + "/" + str(english_count)
+		return "lines " + str(lines.size()) + ", sections " + str(old_sections.size()) #+ ", translated " + str(translated_count) + "/" + str(english_count)
 
 
-var thread: Thread
-func merge():
+func merge() -> void:
 	#async_merge()
 	thread = Thread.new()
 	thread.start(async_merge, Thread.PRIORITY_HIGH)
 
 
-func async_merge():
+func async_merge() -> void:
 	# build target output
 	var target_output: String = ""
 	var added_lines: Array[int] = []
@@ -230,12 +237,11 @@ func async_merge():
 			# store to know removed lines in old data
 			old_section_data[section][FOUND_LINES] = found_positions
 	
-	
 	# build source
 	var source_output: String = ""
-	var removed_sections: Array[StringName]
-	var source_edited_sections: Array[StringName]
-	var removed_lines: Array[int]
+	var removed_sections: Array[StringName] = []
+	var source_edited_sections: Array[StringName] = []
+	var removed_lines: Array[int] = []
 	var real_removed_lines_count: int = 0
 	
 	current_line = -1
