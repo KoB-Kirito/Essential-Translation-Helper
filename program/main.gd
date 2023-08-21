@@ -2,12 +2,12 @@ extends MarginContainer
 
 
 func _on_old_open_button_pressed() -> void:
-	%OldFileDialog.title = "Open the old intl file (your current translation)"
+	%OldFileDialog.title = "Open source file.."
 	set_default_directory(%OldFileDialog)
 	%OldFileDialog.popup()
 
 func _on_new_open_button_pressed() -> void:
-	%NewFileDialog.title = "Open the new intl file (untranslated)"
+	%NewFileDialog.title = "Open target file.."
 	set_default_directory(%NewFileDialog)
 	%NewFileDialog.popup()
 
@@ -67,7 +67,9 @@ func handle_changed_path(text_edit: TextEdit, info_label: Label, new_intl: bool 
 		info_label.text = "File does not exist"
 		return
 	
-	info_label.text = Data.parse_lines(FileAccess.get_file_as_string(text_edit.text).replace("\r", "").split("\n"), new_intl)
+	var file_lines: PackedStringArray = FileAccess.get_file_as_string(text_edit.text).replace("\r", "").split("\n")
+	
+	info_label.text = Data.parse_lines(file_lines, new_intl)
 	info_label.modulate = Color.GREEN
 	
 	if %OldInfoLabel.modulate == Color.GREEN and %NewInfoLabel.modulate == Color.GREEN:
@@ -75,8 +77,32 @@ func handle_changed_path(text_edit: TextEdit, info_label: Label, new_intl: bool 
 
 
 func _on_merge_button_pressed() -> void:
+	Globals.mark_new_lines_text = %MarkNewTextEdit.text
+	
 	get_tree().change_scene_to_file("res://program/merge.tscn")
 
 
 func _on_mark_new_check_box_toggled(button_pressed: bool) -> void:
 	Globals.mark_new_lines = button_pressed
+	%MarkNewTextEdit.editable = button_pressed
+	%MarkNewTextEdit.selecting_enabled = button_pressed
+
+
+func _on_about_button_pressed() -> void:
+	# open link to github page
+	OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger")
+	# ToDo: Menu: HowTo > Readme, Update > Release, Report Bug > Issues, Licence > Show Licence
+
+
+func _on_mark_new_text_edit_text_changed() -> void:
+	%MarkInfoLabel.text = ""
+	
+	if %MarkNewTextEdit.text == null:
+		return
+	
+	# remove linebreaks
+	if %MarkNewTextEdit.text.contains("\n"):
+		%MarkNewTextEdit.text = %MarkNewTextEdit.text.replace("\n", "").replace("\r", "")
+	
+	if %MarkNewTextEdit.text.length() > 100:
+		%MarkInfoLabel.text = "Text is too long"

@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://h4v5kl8bi2gh"]
+[gd_scene load_steps=11 format=3 uid="uid://h4v5kl8bi2gh"]
 
 [ext_resource type="Script" path="res://program/main.gd" id="1_23u7w"]
+[ext_resource type="Texture2D" uid="uid://cxdkxuhct7dnf" path="res://assets/icon_31.svg" id="2_1fruq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gn6if"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drne8"]
+bg_color = Color(0.179688, 0.179688, 0.179688, 1)
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rbab4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e4pkn"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvksk"]
+bg_color = Color(0.179688, 0.179688, 0.179688, 1)
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_423sf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sku1e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d6t5n"]
 
 [node name="Main" type="MarginContainer"]
 anchors_preset = 15
@@ -16,30 +45,53 @@ script = ExtResource("1_23u7w")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="AboutButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "For updates check https://github.com/KoB-Kirito/Intl-File-Merger
+(click to open in browser)"
+texture_normal = ExtResource("2_1fruq")
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Will merge all translated lines from the source into the target while keeping the structure of the target intact"
+vertical_alignment = 2
 
 [node name="OldFile" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 columns = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/OldFile"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/OldFile"]
 layout_mode = 2
-text = "Source - Old intl.txt (your current translation) or exported new lines"
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
-[node name="Empty" type="Control" parent="VBoxContainer/OldFile"]
+[node name="Label" type="Label" parent="VBoxContainer/OldFile/HBoxContainer"]
+custom_minimum_size = Vector2(61, 35)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_gn6if")
+text = "Source"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="OldPathTextEdit" type="TextEdit" parent="VBoxContainer/OldFile"]
+[node name="OldPathTextEdit" type="TextEdit" parent="VBoxContainer/OldFile/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(740, 34)
+custom_minimum_size = Vector2(740, 35)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_drne8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rbab4")
 scroll_fit_content_height = true
 
 [node name="OldOpenButton" type="Button" parent="VBoxContainer/OldFile"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 text = "Open"
 
@@ -58,28 +110,37 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
+text = "Old intl.txt (your current translation) or exported new lines"
 
 [node name="NewFile" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 columns = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/NewFile"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NewFile"]
 layout_mode = 2
-text = "Target - New intl.txt (untranslated) or your already merged file if you want to import new lines"
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
-[node name="Empty" type="Control" parent="VBoxContainer/NewFile"]
+[node name="Label" type="Label" parent="VBoxContainer/NewFile/HBoxContainer"]
+custom_minimum_size = Vector2(61, 35)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_e4pkn")
+text = "Target"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="NewPathTextEdit" type="TextEdit" parent="VBoxContainer/NewFile"]
+[node name="NewPathTextEdit" type="TextEdit" parent="VBoxContainer/NewFile/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(740, 34)
+custom_minimum_size = Vector2(740, 35)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_bvksk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_423sf")
 scroll_fit_content_height = true
 
 [node name="NewOpenButton" type="Button" parent="VBoxContainer/NewFile"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 text = "Open"
 
@@ -98,25 +159,61 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
+text = "New intl.txt (untranslated) or your already merged file if you want to import new lines"
 
-[node name="MarkNewCheckBox" type="CheckBox" parent="VBoxContainer"]
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="MarkNewCheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 tooltip_text = "If enabled, new lines will replace the second line with NewLine"
-button_pressed = true
-text = "Replace the second line of new untranslated lines with NewLine"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sku1e")
+text = "Replace the second line of new untranslated lines with:"
 
-[node name="MergeButton" type="Button" parent="VBoxContainer"]
+[node name="MarkNewTextEdit" type="TextEdit" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d6t5n")
+text = "NewLine - Edit this line"
+editable = false
+selecting_enabled = false
+
+[node name="MarkInfoLabel" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="MergeButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 66)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
 disabled = true
 text = "Merge"
 
-[connection signal="text_changed" from="VBoxContainer/OldFile/OldPathTextEdit" to="." method="_on_old_path_text_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/AboutButton" to="." method="_on_about_button_pressed"]
+[connection signal="text_changed" from="VBoxContainer/OldFile/HBoxContainer/OldPathTextEdit" to="." method="_on_old_path_text_edit_text_changed"]
 [connection signal="pressed" from="VBoxContainer/OldFile/OldOpenButton" to="." method="_on_old_open_button_pressed"]
 [connection signal="file_selected" from="VBoxContainer/OldFile/OldOpenButton/OldFileDialog" to="." method="_on_old_file_dialog_file_selected"]
-[connection signal="text_changed" from="VBoxContainer/NewFile/NewPathTextEdit" to="." method="_on_new_path_text_edit_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/NewFile/HBoxContainer/NewPathTextEdit" to="." method="_on_new_path_text_edit_text_changed"]
 [connection signal="pressed" from="VBoxContainer/NewFile/NewOpenButton" to="." method="_on_new_open_button_pressed"]
 [connection signal="file_selected" from="VBoxContainer/NewFile/NewOpenButton/NewFileDialog" to="." method="_on_new_file_dialog_file_selected"]
-[connection signal="toggled" from="VBoxContainer/MarkNewCheckBox" to="." method="_on_mark_new_check_box_toggled"]
-[connection signal="pressed" from="VBoxContainer/MergeButton" to="." method="_on_merge_button_pressed"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer2/VBoxContainer/MarkNewCheckBox" to="." method="_on_mark_new_check_box_toggled"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer2/VBoxContainer/MarkNewTextEdit" to="." method="_on_mark_new_text_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/MergeButton" to="." method="_on_merge_button_pressed"]

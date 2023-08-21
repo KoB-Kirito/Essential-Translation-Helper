@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Essential Intl File Merger"
+config/name="Intl File Merger"
+config/description="Merges rpg maker translation files"
 run/main_scene="res://program/main.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 boot_splash/show_image=false
@@ -24,7 +25,7 @@ Globals="*res://program/globals.gd"
 
 [display]
 
-window/size/viewport_width=800
+window/size/viewport_width=900
 window/size/viewport_height=300
 window/size/initial_position_type=0
 window/size/initial_position=Vector2i(80, 16)
