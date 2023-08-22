@@ -201,7 +201,10 @@ func async_merge() -> void:
 							real_added_lines_count += 1
 							
 							if Globals.mark_new_lines:
-								target_output += Globals.mark_new_lines_text + "\n"
+								# comments must stay comments
+								if line.begins_with("#"):
+									target_output += "#"
+								target_output += Globals.mark_new_lines_text.replace("{line}", str(current_line + 1).replace("{section}", section)) + "\n"
 							else:
 								target_output += line + "\n"
 							

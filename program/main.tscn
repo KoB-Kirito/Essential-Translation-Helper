@@ -182,8 +182,10 @@ text = "Replace the second line of new untranslated lines with:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+tooltip_text = "{line} -> line number
+{section} -> section name"
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d6t5n")
-text = "ToDo: Translate this line"
+text = "ToDo: {line}"
 editable = false
 selecting_enabled = false
 
