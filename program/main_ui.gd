@@ -43,7 +43,7 @@ func set_loading_state() -> void:
 	%TargetMenuContainer.hide()
 	
 	%TabContainer.hide()
-	%SourceTextEdit.hide()
+	SourceEditor.hide()
 	
 	%SettingsButton.disabled = true
 	%StatusLabel.show()
@@ -60,7 +60,7 @@ func set_loading_state() -> void:
 	%ScaleSlider.value = Settings.window_content_scale
 	
 	# ToDo: Enable all corners while loading
-	#%TargetTextEdit.theme_override
+	#TargetEditor.theme_override
 
 
 func set_normal_state() -> void:
@@ -68,7 +68,7 @@ func set_normal_state() -> void:
 	%TargetMenuContainer.show()
 	
 	%TabContainer.show()
-	%SourceTextEdit.show()
+	SourceEditor.show()
 	
 	%SettingsButton.disabled = false
 	%StatusLabel.hide()
@@ -106,12 +106,15 @@ func _on_source_button_pressed() -> void:
 	%TargetButton.disabled = false
 	%SplitButton.disabled = false
 	
-	%SourceTextEdit.show()
+	SourceEditor.show()
 	%SourceMenuContainer.show()
 	%SourceInfoContainer.show()
-	%TargetTextEdit.hide()
+	TargetEditor.hide()
 	%TargetMenuContainer.hide()
 	%TargetInfoContainer.hide()
+	
+	%HTopSeperator.hide()
+	%HBotSeperator.hide()
 	
 	get_window().min_size = WINDOW_MIN_SIZE  * get_window().content_scale_factor
 
@@ -122,12 +125,15 @@ func _on_target_button_pressed() -> void:
 	%SourceButton.disabled = false
 	%SplitButton.disabled = false
 	
-	%TargetTextEdit.show()
+	TargetEditor.show()
 	%TargetMenuContainer.show()
 	%TargetInfoContainer.show()
-	%SourceTextEdit.hide()
+	SourceEditor.hide()
 	%SourceMenuContainer.hide()
 	%SourceInfoContainer.hide()
+	
+	%HTopSeperator.hide()
+	%HBotSeperator.hide()
 	
 	get_window().min_size = WINDOW_MIN_SIZE * get_window().content_scale_factor
 
@@ -138,15 +144,54 @@ func _on_split_button_pressed() -> void:
 	%SourceButton.disabled = false
 	%TargetButton.disabled = false
 	
-	%TargetTextEdit.show()
+	TargetEditor.show()
 	%TargetMenuContainer.show()
 	%TargetInfoContainer.show()
-	%SourceTextEdit.show()
+	SourceEditor.show()
 	%SourceMenuContainer.show()
 	%SourceInfoContainer.show()
 	
-	get_window().min_size = WINDOW_MIN_SIZE_SPLIT  * get_window().content_scale_factor
+	if %HorizontalContainer.visible:
+		%HTopSeperator.show()
+		%HBotSeperator.show()
+	
+	get_window().min_size = WINDOW_MIN_SIZE_SPLIT * get_window().content_scale_factor
 
+
+func _on_split_button_pressed_again(event: InputEvent) -> void:
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event == null:
+		return
+	
+	if not mouse_event.pressed:
+		return
+	
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return
+	
+	if %SplitButton.disabled == false:
+		return
+	
+	print("split button pressed again")
+	
+	# swap orientation
+	if %VerticalContainer.visible:
+		# top - down
+		%HorizontalContainer.show()
+		SourceEditor.reparent(%HorizontalContainer, false)
+		TargetEditor.reparent(%HorizontalContainer, false)
+		%VerticalContainer.hide()
+		%HTopSeperator.show()
+		%HBotSeperator.show()
+		
+	else:
+		# left - right
+		%VerticalContainer.show()
+		SourceEditor.reparent(%VerticalContainer, false)
+		TargetEditor.reparent(%VerticalContainer, false)
+		%HorizontalContainer.hide()
+		%HTopSeperator.hide()
+		%HBotSeperator.hide()
 
 
 ### Status Bar ###
@@ -398,15 +443,15 @@ func _on_scale_slider_drag_ended(_value_changed: bool) -> void:
 func _on_background_color_picker_button_color_changed(color: Color) -> void:
 	%BackgroundColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_background = color
-	%SourceTextEdit.add_theme_color_override("background_color", color)
-	%TargetTextEdit.add_theme_color_override("background_color", color)
+	SourceEditor.add_theme_color_override("background_color", color)
+	TargetEditor.add_theme_color_override("background_color", color)
 
 
 func _on_font_color_picker_button_color_changed(color: Color) -> void:
 	%FontColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_font = color
-	%SourceTextEdit.add_theme_color_override("font_color", color)
-	%TargetTextEdit.add_theme_color_override("font_color", color)
+	SourceEditor.add_theme_color_override("font_color", color)
+	TargetEditor.add_theme_color_override("font_color", color)
 
 
 func _on_removed_color_picker_button_color_changed(color: Color) -> void:
@@ -414,42 +459,42 @@ func _on_removed_color_picker_button_color_changed(color: Color) -> void:
 	Settings.color_removed_line = color
 	var source_editor_options := %SourceOptionMenuButton as EditorOptions
 	if source_editor_options.popup_menu.is_item_checked(EditorOptions.LINE_COLORS):
-		source_editor_options.toggle_line_colors(%SourceTextEdit, true)
+		source_editor_options.toggle_line_colors(SourceEditor, true)
 
 func _on_edited_color_picker_button_color_changed(color: Color) -> void:
 	%EditedColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_edited_line = color
 	var source_editor_options := %SourceOptionMenuButton as EditorOptions
 	if source_editor_options.popup_menu.is_item_checked(EditorOptions.LINE_COLORS):
-		source_editor_options.toggle_line_colors(%SourceTextEdit, true)
+		source_editor_options.toggle_line_colors(SourceEditor, true)
 
 func _on_added_color_picker_button_color_changed(color: Color) -> void:
 	%AddedColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_added_line = color
 	var target_editor_options := %TargetOptionMenuButton as EditorOptions
 	if target_editor_options.popup_menu.is_item_checked(EditorOptions.LINE_COLORS):
-		target_editor_options.toggle_line_colors(%TargetTextEdit, true)
+		target_editor_options.toggle_line_colors(TargetEditor, true)
 
 func _on_parsed_color_picker_button_color_changed(color: Color) -> void:
 	%ParsedColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_translation_parsed = color
 	var target_editor_options := %TargetOptionMenuButton as EditorOptions
 	if target_editor_options.popup_menu.is_item_checked(EditorOptions.LINE_COLORS):
-		target_editor_options.toggle_line_colors(%TargetTextEdit, true)
+		target_editor_options.toggle_line_colors(TargetEditor, true)
 
 func _on_found_color_picker_button_color_changed(color: Color) -> void:
 	%FoundColorPickerButton.get_theme_stylebox("normal").bg_color = color
 	Settings.color_translation_found = color
 	var target_editor_options := %TargetOptionMenuButton as EditorOptions
 	if target_editor_options.popup_menu.is_item_checked(EditorOptions.LINE_COLORS):
-		target_editor_options.toggle_line_colors(%TargetTextEdit, true)
+		target_editor_options.toggle_line_colors(TargetEditor, true)
 
 
 
 ### Utility ###
 
 func editor_to_side(editor: Editor) -> int:
-	if editor == %SourceTextEdit:
+	if editor == SourceEditor:
 		return Side.SOURCE
 	return Side.TARGET
 

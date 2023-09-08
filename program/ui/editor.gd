@@ -65,7 +65,7 @@ func update_last_next() -> void:
 	last_jump_line = -1
 	
 	if caret_current_line > 2:
-		for i in range(caret_current_line - 1, 0, -1):
+		for i in range(caret_current_line - 2, 0, -1):
 			if get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.ORIGINAL:
 				continue
 			
@@ -128,27 +128,28 @@ func jump_next() -> void:
 
 
 func center_on_line(line: int, focus: bool = true) -> void:
-	if line < 0 or line > get_line_count() - 1:
+	if line < 0 or line > get_line_count() - 2:
 		push_warning("Trying to center on line out of bounds: ", line)
 		return
 	
 	if get_caret_count() == 0:
-		add_caret(line, 0)
+		add_caret(line + 1, 0)
 		
 	else:
 		set_caret_column(0)
-		set_caret_line(line, false)
+		set_caret_line(line + 1, false)
 	
 	set_line_as_center_visible(line)
 	
+	# select translation line to mark and paste
+	select(line + 1, 0, line + 1, get_line(line + 1).length())
+	
 	if focus:
-		var copy_line: int = line
-		if SIDE == Side.SOURCE:
-			copy_line += 1
-		var line_content: String = get_line(copy_line)
-		select(copy_line, 0, copy_line, line_content.length())
-		DisplayServer.clipboard_set(line_content)
-		UI.show_status_message(SIDE, "Copied to clipboard", Color.GREEN, 1.0)
+		if SIDE == Side.TARGET:
+			# copy original line, to translate
+			DisplayServer.clipboard_set(get_line(line))
+			#UI.show_status_message(SIDE, "Copied to clipboard", Color.GREEN, 1.0)
+		
 		grab_focus()
 
 
@@ -824,20 +825,24 @@ func update_line_history() -> void:
 		found_difference = true
 	
 	if found_difference:
+		has_unsaved_changes = true
 		save_button.icon = UI.save_blue
 		reset_button.show()
 	else:
+		has_unsaved_changes = false
 		save_button.icon = UI.save_grey
 		reset_button.hide()
 
 
 @export var save_button: MenuButton
+var has_unsaved_changes: bool = false
 
 func save_line_history() -> void:
 	for line in range(get_line_count()):
 		set_line_gutter_metadata(line, Gutter.HISTORY, get_line(line))
 		set_line_gutter_icon(line, Gutter.HISTORY, null)
 	
+	has_unsaved_changes = false
 	save_button.icon = UI.save_grey
 	reset_button.hide()
 	

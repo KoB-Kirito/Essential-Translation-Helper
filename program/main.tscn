@@ -181,8 +181,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 5
 script = ExtResource("1_65a62")
 UI = NodePath("UI")
-SourceEditor = NodePath("UI/EditorContainer/SourceTextEdit")
-TargetEditor = NodePath("UI/EditorContainer/TargetTextEdit")
+SourceEditor = NodePath("UI/EditorContainer/VerticalContainer/SourceTextEdit")
+TargetEditor = NodePath("UI/EditorContainer/VerticalContainer/TargetTextEdit")
 SourceEditorOptions = NodePath("UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton")
 TargetEditorOptions = NodePath("UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton")
 SourceSaveMenu = NodePath("UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
@@ -192,8 +192,8 @@ TargetSaveMenu = NodePath("UI/MenuBarContainer/TargetMenuContainer/TargetSaveMen
 layout_mode = 2
 theme_override_constants/separation = 0
 script = ExtResource("2_mnp7p")
-SourceEditor = NodePath("EditorContainer/SourceTextEdit")
-TargetEditor = NodePath("EditorContainer/TargetTextEdit")
+SourceEditor = NodePath("EditorContainer/VerticalContainer/SourceTextEdit")
+TargetEditor = NodePath("EditorContainer/VerticalContainer/TargetTextEdit")
 save_grey = ExtResource("21_0j8vw")
 save_blue = ExtResource("18_yso0u")
 icon_removed_section = ExtResource("3_ld3w6")
@@ -239,7 +239,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Jump to last removed or changed line"
+tooltip_text = "Jump to last removed or changed line
+(Ctrl + Up)"
 focus_mode = 0
 disabled = true
 icon = ExtResource("14_fbgcw")
@@ -251,7 +252,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Jump to next removed or changed line"
+tooltip_text = "Jump to next removed or changed line
+(Ctrl + Down)"
 focus_mode = 0
 icon = ExtResource("15_r5ejv")
 icon_alignment = 1
@@ -262,7 +264,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Mark the current line as done"
+tooltip_text = "Mark the current entry as checked
+(Ctrl + Left)"
 focus_mode = 0
 disabled = true
 icon = ExtResource("23_ulhb8")
@@ -286,6 +289,8 @@ texture_filter = 1
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Source File Menu
+(Ctrl + S > Save all)"
 icon = ExtResource("21_0j8vw")
 icon_alignment = 2
 expand_icon = true
@@ -322,7 +327,7 @@ popup/item_9/id = 9
 popup/item_9/disabled = true
 script = ExtResource("21_wmlca")
 UI = NodePath("../../..")
-editor = NodePath("../../../EditorContainer/SourceTextEdit")
+editor = NodePath("../../../EditorContainer/VerticalContainer/SourceTextEdit")
 confirmation_dialog = NodePath("SourceSaveConfirmationDialog")
 save_as_file_dialog = NodePath("SourceSaveFileDialog")
 
@@ -335,6 +340,9 @@ access = 2
 filters = PackedStringArray("*.txt")
 
 [node name="SourceSaveConfirmationDialog" type="ConfirmationDialog" parent="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu"]
+initial_position = 2
+size = Vector2i(472, 200)
+ok_button_text = "Overwrite"
 dialog_text = "Are you sure you want to overwrite the original source file?"
 
 [node name="Seperator" type="Control" parent="UI/MenuBarContainer/SourceMenuContainer"]
@@ -342,6 +350,14 @@ visible = false
 modulate = Color(1, 1, 1, 0.501961)
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="HTopSeperator" type="ColorRect" parent="UI/MenuBarContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1, 29)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.109804, 0.121569, 0.129412, 1)
 
 [node name="TargetMenuContainer" type="HBoxContainer" parent="UI/MenuBarContainer"]
 unique_name_in_owner = true
@@ -367,7 +383,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Jump to last new line"
+tooltip_text = "Jump to last new line
+(Ctrl + Up)"
 focus_mode = 0
 disabled = true
 icon = ExtResource("14_fbgcw")
@@ -379,7 +396,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Jump to next new line"
+tooltip_text = "Jump to next new line
+(Ctrl + Down)"
 focus_mode = 0
 icon = ExtResource("15_r5ejv")
 icon_alignment = 1
@@ -390,7 +408,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 29)
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Mark the current line as done"
+tooltip_text = "Mark the current entry as translated
+(Ctrl + Left)"
 focus_mode = 0
 disabled = true
 icon = ExtResource("23_ulhb8")
@@ -435,6 +454,8 @@ texture_filter = 1
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Target File Menu
+(Ctrl + S > Save all)"
 icon = ExtResource("21_0j8vw")
 icon_alignment = 2
 expand_icon = true
@@ -472,7 +493,7 @@ popup/item_9/disabled = true
 script = ExtResource("21_wmlca")
 UI = NodePath("../../..")
 SIDE = 1
-editor = NodePath("../../../EditorContainer/TargetTextEdit")
+editor = NodePath("../../../EditorContainer/VerticalContainer/TargetTextEdit")
 confirmation_dialog = NodePath("TargetSaveConfirmationDialog")
 save_as_file_dialog = NodePath("TargetSaveFileDialog")
 
@@ -487,6 +508,9 @@ filters = PackedStringArray("*.txt")
 
 [node name="TargetSaveConfirmationDialog" type="ConfirmationDialog" parent="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu"]
 unique_name_in_owner = true
+initial_position = 2
+size = Vector2i(467, 200)
+ok_button_text = "Overwrite"
 dialog_text = "Are you sure you want to overwrite the original target file?"
 
 [node name="Seperator" type="Control" parent="UI/MenuBarContainer/TargetMenuContainer"]
@@ -603,11 +627,18 @@ pivot_offset = Vector2(26.5, 13)
 text = "Target"
 horizontal_alignment = 1
 
-[node name="SourceTextEdit" type="TextEdit" parent="UI/EditorContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
+[node name="VerticalContainer" type="HBoxContainer" parent="UI/EditorContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="SourceTextEdit" type="TextEdit" parent="UI/EditorContainer/VerticalContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_colors/background_color = Color(0.11, 0.12, 0.13, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("17_72uij")
@@ -617,25 +648,26 @@ highlight_current_line = true
 minimap_draw = true
 caret_blink = true
 script = ExtResource("25_3ojfb")
-UI = NodePath("../..")
+UI = NodePath("../../..")
 OtherEditor = NodePath("../TargetTextEdit")
-section_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceSectionButton")
-last_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceLastButton")
-next_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceNextButton")
+section_button = NodePath("../../../MenuBarContainer/SourceMenuContainer/SourceSectionButton")
+last_button = NodePath("../../../MenuBarContainer/SourceMenuContainer/SourceLastButton")
+next_button = NodePath("../../../MenuBarContainer/SourceMenuContainer/SourceNextButton")
 update_timer = NodePath("SourceUpdateTimer")
-done_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceDoneButton")
-save_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
-reset_button = NodePath("../../StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton")
+done_button = NodePath("../../../MenuBarContainer/SourceMenuContainer/SourceDoneButton")
+save_button = NodePath("../../../MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
+reset_button = NodePath("../../../StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton")
 
-[node name="SourceUpdateTimer" type="Timer" parent="UI/EditorContainer/SourceTextEdit"]
+[node name="SourceUpdateTimer" type="Timer" parent="UI/EditorContainer/VerticalContainer/SourceTextEdit"]
 unique_name_in_owner = true
 one_shot = true
 
-[node name="TargetTextEdit" type="TextEdit" parent="UI/EditorContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
+[node name="TargetTextEdit" type="TextEdit" parent="UI/EditorContainer/VerticalContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_colors/background_color = Color(0.109804, 0.121569, 0.129412, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("17_72uij")
@@ -650,20 +682,27 @@ selecting_enabled = false
 drag_and_drop_selection_enabled = false
 caret_blink = true
 script = ExtResource("25_3ojfb")
-UI = NodePath("../..")
+UI = NodePath("../../..")
 OtherEditor = NodePath("../SourceTextEdit")
 SIDE = 1
-section_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetSectionButton")
-last_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetLastButton")
-next_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetNextButton")
+section_button = NodePath("../../../MenuBarContainer/TargetMenuContainer/TargetSectionButton")
+last_button = NodePath("../../../MenuBarContainer/TargetMenuContainer/TargetLastButton")
+next_button = NodePath("../../../MenuBarContainer/TargetMenuContainer/TargetNextButton")
 update_timer = NodePath("TargetUpdateTimer")
-done_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetDoneButton")
-save_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetSaveMenu")
-reset_button = NodePath("../../StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton")
+done_button = NodePath("../../../MenuBarContainer/TargetMenuContainer/TargetDoneButton")
+save_button = NodePath("../../../MenuBarContainer/TargetMenuContainer/TargetSaveMenu")
+reset_button = NodePath("../../../StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton")
 
-[node name="TargetUpdateTimer" type="Timer" parent="UI/EditorContainer/TargetTextEdit"]
+[node name="TargetUpdateTimer" type="Timer" parent="UI/EditorContainer/VerticalContainer/TargetTextEdit"]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="HorizontalContainer" type="VBoxContainer" parent="UI/EditorContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="StatusBarContainer" type="HBoxContainer" parent="UI"]
 custom_minimum_size = Vector2(2.08165e-12, 23)
@@ -675,6 +714,7 @@ unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.501961)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Show/Hide Settings"
 focus_mode = 0
 toggle_mode = true
 texture_normal = ExtResource("18_bvxxa")
@@ -840,7 +880,7 @@ theme_override_constants/margin_top = -3
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 0
-tooltip_text = "Reset to last saved"
+tooltip_text = "Reset source to last saved"
 focus_mode = 0
 icon = ExtResource("13_2wlvp")
 flat = true
@@ -850,6 +890,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(26, 20)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Source Editor Settings"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tcvhq")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_i36eh")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_73v6l")
@@ -889,8 +930,16 @@ popup/item_8/checkable = 1
 popup/item_8/checked = true
 popup/item_8/id = 8
 script = ExtResource("31_n8xqr")
-Editor = NodePath("../../../../EditorContainer/SourceTextEdit")
+Editor = NodePath("../../../../EditorContainer/VerticalContainer/SourceTextEdit")
 OtherOptions = NodePath("../../TargetInfoContainer/TargetOptionMenuButton")
+
+[node name="HBotSeperator" type="ColorRect" parent="UI/StatusBarContainer/InfoBarContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1, 19)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.109804, 0.121569, 0.129412, 1)
 
 [node name="TargetInfoContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer"]
 unique_name_in_owner = true
@@ -1089,7 +1138,7 @@ theme_override_constants/margin_top = -3
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 0
-tooltip_text = "Reset to last saved"
+tooltip_text = "Reset target to last saved"
 focus_mode = 0
 icon = ExtResource("13_2wlvp")
 flat = true
@@ -1099,6 +1148,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(26, 20)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Target Editor Settings"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tpcsx")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_b330y")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_3jhmg")
@@ -1140,7 +1190,7 @@ popup/item_8/checked = true
 popup/item_8/id = 8
 script = ExtResource("31_n8xqr")
 SIDE = 1
-Editor = NodePath("../../../../EditorContainer/TargetTextEdit")
+Editor = NodePath("../../../../EditorContainer/VerticalContainer/TargetTextEdit")
 OtherOptions = NodePath("../../SourceInfoContainer/SourceOptionMenuButton")
 
 [node name="SettingsBarContainer" type="HBoxContainer" parent="UI/StatusBarContainer"]
@@ -1152,6 +1202,7 @@ size_flags_horizontal = 3
 [node name="ScaleIcon" type="TextureRect" parent="UI/StatusBarContainer/SettingsBarContainer"]
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Scale"
 texture = ExtResource("24_lu88f")
 stretch_mode = 2
 
@@ -1160,6 +1211,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 2.08165e-12)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Scale"
 focus_mode = 0
 min_value = 1.0
 max_value = 3.0
@@ -1169,6 +1221,8 @@ value = 1.0
 [node name="ScaleLabel" type="Label" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Scale"
+mouse_filter = 0
 text = "1.0"
 
 [node name="EmptyFill" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
@@ -1286,7 +1340,7 @@ custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-tooltip_text = "Removed Lines"
+tooltip_text = "Found Translations"
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_tmmfh")
 icon_alignment = 1
@@ -1306,43 +1360,51 @@ unique_name_in_owner = true
 wait_time = 5.0
 one_shot = true
 
-[connection signal="item_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSectionButton" to="UI/EditorContainer/SourceTextEdit" method="_on_section_button_item_selected"]
-[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceLastButton" to="UI/EditorContainer/SourceTextEdit" method="_on_last_button_pressed"]
-[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceNextButton" to="UI/EditorContainer/SourceTextEdit" method="_on_next_button_pressed"]
-[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceDoneButton" to="UI/EditorContainer/SourceTextEdit" method="_on_done_button_pressed"]
+[node name="ExitConfirmationDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Unsaved Content..."
+initial_position = 2
+ok_button_text = "Exit without saving"
+dialog_text = "There are unsaved changes. Do you want to quit without saving?"
+
+[connection signal="item_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSectionButton" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_section_button_item_selected"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceLastButton" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_last_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceNextButton" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_next_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceDoneButton" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_done_button_pressed"]
 [connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveAsButton" to="." method="_on_source_save_button_pressed"]
 [connection signal="file_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu/SourceSaveFileDialog" to="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu" method="_on_save_as_dialog_file_selected"]
 [connection signal="confirmed" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu/SourceSaveConfirmationDialog" to="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu" method="_on_overwrite_confirmation_dialog_confirmed"]
-[connection signal="item_selected" from="UI/MenuBarContainer/TargetMenuContainer/TargetSectionButton" to="UI/EditorContainer/TargetTextEdit" method="_on_section_button_item_selected"]
-[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetLastButton" to="UI/EditorContainer/TargetTextEdit" method="_on_last_button_pressed"]
-[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetNextButton" to="UI/EditorContainer/TargetTextEdit" method="_on_next_button_pressed"]
-[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetDoneButton" to="UI/EditorContainer/TargetTextEdit" method="_on_done_button_pressed"]
+[connection signal="item_selected" from="UI/MenuBarContainer/TargetMenuContainer/TargetSectionButton" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_section_button_item_selected"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetLastButton" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_last_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetNextButton" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_next_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetDoneButton" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_done_button_pressed"]
 [connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveButton" to="." method="_on_target_save_button_pressed"]
 [connection signal="file_selected" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu/TargetSaveFileDialog" to="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu" method="_on_save_as_dialog_file_selected"]
 [connection signal="confirmed" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu/TargetSaveConfirmationDialog" to="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu" method="_on_overwrite_confirmation_dialog_confirmed"]
 [connection signal="pressed" from="UI/EditorContainer/TabContainer/SourceButton" to="UI" method="_on_source_button_pressed"]
+[connection signal="gui_input" from="UI/EditorContainer/TabContainer/SplitButton" to="UI" method="_on_split_button_pressed_again"]
 [connection signal="pressed" from="UI/EditorContainer/TabContainer/SplitButton" to="UI" method="_on_split_button_pressed"]
 [connection signal="pressed" from="UI/EditorContainer/TabContainer/TargetButton" to="UI" method="_on_target_button_pressed"]
-[connection signal="caret_changed" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_caret_changed"]
-[connection signal="focus_entered" from="UI/EditorContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_entered"]
-[connection signal="focus_exited" from="UI/EditorContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_exited"]
-[connection signal="gutter_clicked" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_gutter_clicked"]
-[connection signal="lines_edited_from" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_lines_edited"]
-[connection signal="text_changed" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_text_changed"]
-[connection signal="text_set" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_text_set"]
-[connection signal="timeout" from="UI/EditorContainer/SourceTextEdit/SourceUpdateTimer" to="UI/EditorContainer/SourceTextEdit" method="_on_update_timer_timeout"]
-[connection signal="caret_changed" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_caret_changed"]
-[connection signal="focus_entered" from="UI/EditorContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_entered"]
-[connection signal="focus_exited" from="UI/EditorContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_exited"]
-[connection signal="gutter_clicked" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_gutter_clicked"]
-[connection signal="lines_edited_from" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_lines_edited"]
-[connection signal="text_changed" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_text_changed"]
-[connection signal="text_set" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_text_set"]
-[connection signal="timeout" from="UI/EditorContainer/TargetTextEdit/TargetUpdateTimer" to="UI/EditorContainer/TargetTextEdit" method="_on_update_timer_timeout"]
+[connection signal="caret_changed" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_caret_changed"]
+[connection signal="focus_entered" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_entered"]
+[connection signal="focus_exited" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_exited"]
+[connection signal="gutter_clicked" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_gutter_clicked"]
+[connection signal="lines_edited_from" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_lines_edited"]
+[connection signal="text_changed" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_text_changed"]
+[connection signal="text_set" from="UI/EditorContainer/VerticalContainer/SourceTextEdit" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_text_set"]
+[connection signal="timeout" from="UI/EditorContainer/VerticalContainer/SourceTextEdit/SourceUpdateTimer" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_update_timer_timeout"]
+[connection signal="caret_changed" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_caret_changed"]
+[connection signal="focus_entered" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_entered"]
+[connection signal="focus_exited" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_exited"]
+[connection signal="gutter_clicked" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_gutter_clicked"]
+[connection signal="lines_edited_from" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_lines_edited"]
+[connection signal="text_changed" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_text_changed"]
+[connection signal="text_set" from="UI/EditorContainer/VerticalContainer/TargetTextEdit" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_text_set"]
+[connection signal="timeout" from="UI/EditorContainer/VerticalContainer/TargetTextEdit/TargetUpdateTimer" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_update_timer_timeout"]
 [connection signal="toggled" from="UI/StatusBarContainer/SettingsButton" to="UI" method="_on_settings_button_toggled"]
-[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton" to="UI/EditorContainer/SourceTextEdit" method="_on_reset_button_pressed"]
+[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton" to="UI/EditorContainer/VerticalContainer/SourceTextEdit" method="_on_reset_button_pressed"]
 [connection signal="gui_input" from="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsFoundContainer" to="UI" method="_on_translations_found_clicked"]
-[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton" to="UI/EditorContainer/TargetTextEdit" method="_on_reset_button_pressed"]
+[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton" to="UI/EditorContainer/VerticalContainer/TargetTextEdit" method="_on_reset_button_pressed"]
 [connection signal="drag_ended" from="UI/StatusBarContainer/SettingsBarContainer/ScaleSlider" to="UI" method="_on_scale_slider_drag_ended"]
 [connection signal="value_changed" from="UI/StatusBarContainer/SettingsBarContainer/ScaleSlider" to="UI" method="_on_scale_slider_value_changed"]
 [connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/BackgroundColorPickerButton" to="UI" method="_on_background_color_picker_button_color_changed"]
@@ -1354,3 +1416,4 @@ one_shot = true
 [connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/FoundColorPickerButton" to="UI" method="_on_found_color_picker_button_color_changed"]
 [connection signal="timeout" from="StillWorkingTimer" to="." method="_on_still_working_timer_timeout"]
 [connection signal="timeout" from="ResetLabelsTimer" to="UI" method="_on_reset_labels_timer_timeout"]
+[connection signal="confirmed" from="ExitConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]

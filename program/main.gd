@@ -16,6 +16,9 @@ extends MarginContainer
 ### Merge ###
 
 func _ready() -> void:
+	# enable unsaved check on quit
+	get_tree().set_auto_accept_quit(false)
+	
 	Data.status_update.connect(on_status_update)
 	Data.merged.connect(on_merged)
 	
@@ -157,6 +160,34 @@ func on_merged(source: SourceData, target: TargetData):
 	TargetEditorOptions.load_editor_options()
 
 
+var unsaved_exit_confirmed: bool = false
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if not unsaved_exit_confirmed:
+			if SourceEditor.has_unsaved_changes or TargetEditor.has_unsaved_changes:
+				if OS.get_name() == "macOS":
+					if DisplayServer.dialog_show("Warning", "There are unsaved changes. Do you want to exit anyways?", ["Exit without saving", "Cancel"], on_exit_dialog_clicked):
+						%ExitConfirmationDialog.popup()
+				else:
+					%ExitConfirmationDialog.popup()
+				return
+		
+		#TODO: Save current settings
+		
+		get_tree().quit()
+
+
+func on_exit_dialog_clicked(button: int) -> void:
+	if button == 0: # OK
+		unsaved_exit_confirmed = true
+		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+
+func _on_exit_confirmation_dialog_confirmed() -> void:
+	unsaved_exit_confirmed = true
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+
+
 ## -> name of map if found in provided map section, or section name if in provided list
 func get_section_name(section: StringName, map_names: Array[String]) -> String:
 	# check array
@@ -217,6 +248,7 @@ func get_section_names() -> Array[String]:
 ### Save File ###
 
 func save_all() -> void:
+	print("saving all")
 	SourceSaveMenu.save_file()
 	TargetSaveMenu.save_file()
 

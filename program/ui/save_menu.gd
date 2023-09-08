@@ -104,7 +104,10 @@ func save_file() -> void:
 	
 	if not asked_for_overwrite and path == original_path:
 		# ask if original file should be overwritten
-		if DisplayServer.dialog_show("Warning", "Do you want to overwrite " + original_path + "?", ["OK", "Cancel"], on_native_confirmation_dialog):
+		if OS.get_name() == "macOS":
+			if DisplayServer.dialog_show("Warning", "Do you want to overwrite " + original_path + "?", ["OK", "Cancel"], on_native_confirmation_dialog):
+				confirmation_dialog.popup()
+		else:
 			confirmation_dialog.popup()
 		return
 	
