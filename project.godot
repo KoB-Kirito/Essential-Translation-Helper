@@ -42,6 +42,14 @@ ui_text_indent={
 "deadzone": 0.5,
 "events": []
 }
+ui_text_caret_word_left={
+"deadzone": 0.5,
+"events": []
+}
+ui_text_caret_word_right={
+"deadzone": 0.5,
+"events": []
+}
 ui_text_caret_line_start.macos={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":65,"physical_keycode":0,"key_label":0,"unicode":65,"echo":false,"script":null)
@@ -70,6 +78,14 @@ ui_text_caret_document_end={
 "events": []
 }
 ui_text_caret_document_end.macos={
+"deadzone": 0.5,
+"events": []
+}
+ui_text_scroll_up={
+"deadzone": 0.5,
+"events": []
+}
+ui_text_scroll_down={
 "deadzone": 0.5,
 "events": []
 }
