@@ -1,5 +1,5 @@
-# Intl File Merger
-Can merge translation files (intl.txt).  
+# Essential Translation Helper
+Can merge and edit translation files (intl.txt).  
 A program specially designed to ease the process of updating the translation after a patch.
 
 Uses the translation format of Pokémon Essentials. One file per language.  
