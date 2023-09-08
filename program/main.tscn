@@ -1,217 +1,1356 @@
-[gd_scene load_steps=11 format=3 uid="uid://h4v5kl8bi2gh"]
+[gd_scene load_steps=60 format=3 uid="uid://h81bd8xrr2u4"]
 
-[ext_resource type="Script" path="res://program/main.gd" id="1_23u7w"]
-[ext_resource type="PackedScene" uid="uid://ckq3qntjrhh3d" path="res://program/info_menu.tscn" id="2_dfi50"]
+[ext_resource type="Script" path="res://program/main.gd" id="1_65a62"]
+[ext_resource type="Script" path="res://program/main_ui.gd" id="2_mnp7p"]
+[ext_resource type="Texture2D" uid="uid://cjhv6jn1uh1g5" path="res://assets/gutter/arrow.png" id="3_kn0wn"]
+[ext_resource type="Texture2D" uid="uid://c7twure74po0m" path="res://assets/gutter/minus_s.png" id="3_ld3w6"]
+[ext_resource type="Texture2D" uid="uid://d33m4000uobw2" path="res://assets/gutter/minus.png" id="5_s41nj"]
+[ext_resource type="Texture2D" uid="uid://d4i2palh7gbvt" path="res://assets/gutter/plus_s.png" id="6_s6a77"]
+[ext_resource type="Texture2D" uid="uid://dsyyfcgjle7to" path="res://assets/gutter/plus.png" id="7_4m2uo"]
+[ext_resource type="Texture2D" uid="uid://xggx3hxwubwk" path="res://assets/jump/minus.png" id="9_0go4o"]
+[ext_resource type="Texture2D" uid="uid://tcdccg0a0gr8" path="res://assets/gutter/edited.png" id="9_l1gjo"]
+[ext_resource type="Texture2D" uid="uid://chqc00babol63" path="res://assets/gutter/arrow_down.png" id="10_0t0iq"]
+[ext_resource type="Texture2D" uid="uid://dcv8ukasri142" path="res://assets/jump/plus.png" id="11_ouva7"]
+[ext_resource type="Texture2D" uid="uid://uuuclcvj0rcx" path="res://assets/gutter/reset.png" id="13_2wlvp"]
+[ext_resource type="PackedScene" uid="uid://ckq3qntjrhh3d" path="res://program/ui/info_menu.tscn" id="13_cdd58"]
+[ext_resource type="Texture2D" uid="uid://j3driu05nw85" path="res://assets/ui/up.svg" id="14_fbgcw"]
+[ext_resource type="Texture2D" uid="uid://bj2o716ndk6r" path="res://assets/ui/down.svg" id="15_r5ejv"]
+[ext_resource type="FontFile" uid="uid://5nbdu04dcxnc" path="res://assets/fira_mono.otf" id="17_72uij"]
+[ext_resource type="Texture2D" uid="uid://hj1w5agenfrk" path="res://assets/ui/settings_open.png" id="18_bvxxa"]
+[ext_resource type="Texture2D" uid="uid://dmbx7vr1dwwr" path="res://assets/jump/edited.png" id="18_gbg5k"]
+[ext_resource type="Texture2D" uid="uid://cmamw7664k7i5" path="res://assets/ui/save_22.png" id="18_yso0u"]
+[ext_resource type="Texture2D" uid="uid://ce6o27bfrthbb" path="res://assets/ui/settings_close.png" id="19_eqrhm"]
+[ext_resource type="Script" path="res://program/ui/settings_button.gd" id="20_5k0lk"]
+[ext_resource type="Texture2D" uid="uid://b48s123qxfaf4" path="res://assets/ui/save_22_grey.png" id="21_0j8vw"]
+[ext_resource type="Texture2D" uid="uid://dws641nl5nedt" path="res://assets/ui/save_16.png" id="21_gfjdw"]
+[ext_resource type="Script" path="res://program/ui/save_menu.gd" id="21_wmlca"]
+[ext_resource type="Texture2D" uid="uid://h36aer5k32iq" path="res://assets/ui/menu.svg" id="22_7xddh"]
+[ext_resource type="Texture2D" uid="uid://cvj6dka6t006o" path="res://assets/ui/check_mark.svg" id="23_ulhb8"]
+[ext_resource type="Texture2D" uid="uid://drm34y3cc65qg" path="res://assets/ui/zoom.png" id="24_lu88f"]
+[ext_resource type="Script" path="res://program/ui/editor.gd" id="25_3ojfb"]
+[ext_resource type="Texture2D" uid="uid://d3i3hikph0613" path="res://assets/gutter/edited_s.png" id="28_8tn8f"]
+[ext_resource type="Script" path="res://program/ui/editor_options.gd" id="31_n8xqr"]
+[ext_resource type="Texture2D" uid="uid://vp5jhxdskdmc" path="res://assets/ui/background_color.png" id="31_vvf8r"]
+[ext_resource type="Texture2D" uid="uid://c7j07ekbf4i78" path="res://assets/ui/font_color.png" id="32_yurvt"]
+[ext_resource type="Texture2D" uid="uid://py83wdyqx6kx" path="res://assets/ui/line_colors.png" id="33_p3t3r"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gn6if"]
-bg_color = Color(0.137255, 0.137255, 0.137255, 1)
-corner_radius_top_left = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_knhq5"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drne8"]
-bg_color = Color(0.179688, 0.179688, 0.179688, 1)
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwmy0"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+anti_aliasing = false
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rbab4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bh2ny"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e4pkn"]
-bg_color = Color(0.137255, 0.137255, 0.137255, 1)
-corner_radius_top_left = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyy40"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvksk"]
-bg_color = Color(0.179688, 0.179688, 0.179688, 1)
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptofw"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+anti_aliasing = false
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_423sf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwkif"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sku1e"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lceco"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d6t5n"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdyyg"]
+bg_color = Color(0.278431, 0.278431, 0.278431, 1)
+border_width_left = 1
+border_width_bottom = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
 
-[node name="Main" type="MarginContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax0vs"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2bxsf"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l6ny"]
+bg_color = Color(0.175781, 0.175781, 0.175781, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sy2pa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tcvhq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i36eh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73v6l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tpcsx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b330y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3jhmg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_etbk6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uweu4"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.109804, 0.121569, 0.129412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tyuw6"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.831373, 0.831373, 0.831373, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cf1xw"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0.47451, 0.458824, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avcsu"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.560784, 1, 0.529412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_86n6t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvgp6"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.42, 0.57, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmmfh"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.42, 0.57, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Main" type="MarginContainer" node_paths=PackedStringArray("UI", "SourceEditor", "TargetEditor", "SourceEditorOptions", "TargetEditorOptions", "SourceSaveMenu", "TargetSaveMenu")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
-script = ExtResource("1_23u7w")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 5
+script = ExtResource("1_65a62")
+UI = NodePath("UI")
+SourceEditor = NodePath("UI/EditorContainer/SourceTextEdit")
+TargetEditor = NodePath("UI/EditorContainer/TargetTextEdit")
+SourceEditorOptions = NodePath("UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton")
+TargetEditorOptions = NodePath("UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton")
+SourceSaveMenu = NodePath("UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
+TargetSaveMenu = NodePath("UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="UI" type="VBoxContainer" parent="." node_paths=PackedStringArray("SourceEditor", "TargetEditor")]
 layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 2
+theme_override_constants/separation = 0
+script = ExtResource("2_mnp7p")
+SourceEditor = NodePath("EditorContainer/SourceTextEdit")
+TargetEditor = NodePath("EditorContainer/TargetTextEdit")
+save_grey = ExtResource("21_0j8vw")
+save_blue = ExtResource("18_yso0u")
+icon_removed_section = ExtResource("3_ld3w6")
+icon_edited_section = ExtResource("28_8tn8f")
+icon_added_section = ExtResource("6_s6a77")
+icon_removed_line = ExtResource("5_s41nj")
+icon_edited_line = ExtResource("9_l1gjo")
+icon_added_line = ExtResource("7_4m2uo")
+icon_translated_line_parsed = ExtResource("3_kn0wn")
+icon_translated_line_found = ExtResource("10_0t0iq")
+icon_reset = ExtResource("13_2wlvp")
+jump_minus = ExtResource("9_0go4o")
+jump_plus = ExtResource("11_ouva7")
+jump_edited = ExtResource("18_gbg5k")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="MenuBarContainer" type="HBoxContainer" parent="UI"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
 
-[node name="InfoMenuButton" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_dfi50")]
+[node name="InfoMenuButton" parent="UI/MenuBarContainer" instance=ExtResource("13_cdd58")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Will merge all translated lines from the source into the target while keeping the structure of the target intact"
-vertical_alignment = 2
-
-[node name="OldFile" type="GridContainer" parent="VBoxContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/OldFile"]
+[node name="SourceMenuContainer" type="HBoxContainer" parent="UI/MenuBarContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="SourceSectionButton" type="OptionButton" parent="UI/MenuBarContainer/SourceMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 29)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Jump to section"
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+fit_to_longest_item = false
+allow_reselect = true
+
+[node name="SourceLastButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Jump to last removed or changed line"
+focus_mode = 0
+disabled = true
+icon = ExtResource("14_fbgcw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SourceNextButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Jump to next removed or changed line"
+focus_mode = 0
+icon = ExtResource("15_r5ejv")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SourceDoneButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Mark the current line as done"
+focus_mode = 0
+disabled = true
+icon = ExtResource("23_ulhb8")
+icon_alignment = 1
+
+[node name="EmptyFill" type="Control" parent="UI/MenuBarContainer/SourceMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SourceSaveAsButton" type="Button" parent="UI/MenuBarContainer/SourceMenuContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Save As"
+
+[node name="SourceSaveMenu" type="MenuButton" parent="UI/MenuBarContainer/SourceMenuContainer" node_paths=PackedStringArray("UI", "editor", "confirmation_dialog", "save_as_file_dialog")]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("21_0j8vw")
+icon_alignment = 2
+expand_icon = true
+item_count = 10
+popup/item_0/text = "Source"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = ""
+popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Save"
+popup/item_2/icon = ExtResource("18_yso0u")
+popup/item_2/id = 2
+popup/item_3/text = "Save As.."
+popup/item_3/icon = ExtResource("18_yso0u")
+popup/item_3/id = 3
+popup/item_4/text = ""
+popup/item_4/id = 4
+popup/item_4/separator = true
+popup/item_5/text = "Compile .dat"
+popup/item_5/id = 5
+popup/item_5/disabled = true
+popup/item_6/text = ""
+popup/item_6/id = 6
+popup/item_6/separator = true
+popup/item_7/text = "Export .csv"
+popup/item_7/id = 7
+popup/item_7/disabled = true
+popup/item_8/text = "Export ToDo"
+popup/item_8/id = 8
+popup/item_8/disabled = true
+popup/item_9/text = "Export Sections"
+popup/item_9/id = 9
+popup/item_9/disabled = true
+script = ExtResource("21_wmlca")
+UI = NodePath("../../..")
+editor = NodePath("../../../EditorContainer/SourceTextEdit")
+confirmation_dialog = NodePath("SourceSaveConfirmationDialog")
+save_as_file_dialog = NodePath("SourceSaveFileDialog")
+
+[node name="SourceSaveFileDialog" type="FileDialog" parent="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu"]
+title = "Save merged intl file"
+initial_position = 2
+size = Vector2i(800, 600)
+popup_window = true
+access = 2
+filters = PackedStringArray("*.txt")
+
+[node name="SourceSaveConfirmationDialog" type="ConfirmationDialog" parent="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu"]
+dialog_text = "Are you sure you want to overwrite the original source file?"
+
+[node name="Seperator" type="Control" parent="UI/MenuBarContainer/SourceMenuContainer"]
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TargetMenuContainer" type="HBoxContainer" parent="UI/MenuBarContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TargetSectionButton" type="OptionButton" parent="UI/MenuBarContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 29)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Jump to section"
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxEmpty_knhq5")
+text_overrun_behavior = 3
+fit_to_longest_item = false
+allow_reselect = true
+
+[node name="TargetLastButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Jump to last new line"
+focus_mode = 0
+disabled = true
+icon = ExtResource("14_fbgcw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="TargetNextButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Jump to next new line"
+focus_mode = 0
+icon = ExtResource("15_r5ejv")
+icon_alignment = 1
+expand_icon = true
+
+[node name="TargetDoneButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 29)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Mark the current line as done"
+focus_mode = 0
+disabled = true
+icon = ExtResource("23_ulhb8")
+icon_alignment = 1
+
+[node name="EmptyFill" type="Control" parent="UI/MenuBarContainer/TargetMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExportMenuButton" type="MenuButton" parent="UI/MenuBarContainer/TargetMenuContainer"]
+visible = false
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+tooltip_text = "(wip)"
+text = "Export.."
+flat = false
+item_count = 4
+popup/item_0/text = "CSV"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = ""
+popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Untranslated only"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+popup/item_3/text = "New lines only"
+popup/item_3/id = 3
+popup/item_3/disabled = true
+
+[node name="TargetSaveButton" type="Button" parent="UI/MenuBarContainer/TargetMenuContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Save as"
+
+[node name="TargetSaveMenu" type="MenuButton" parent="UI/MenuBarContainer/TargetMenuContainer" node_paths=PackedStringArray("UI", "editor", "confirmation_dialog", "save_as_file_dialog")]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("21_0j8vw")
+icon_alignment = 2
+expand_icon = true
+item_count = 10
+popup/item_0/text = "Target"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = ""
+popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Save"
+popup/item_2/icon = ExtResource("21_gfjdw")
+popup/item_2/id = 2
+popup/item_3/text = "Save As.."
+popup/item_3/icon = ExtResource("21_gfjdw")
+popup/item_3/id = 3
+popup/item_4/text = ""
+popup/item_4/id = 4
+popup/item_4/separator = true
+popup/item_5/text = "Compile .dat"
+popup/item_5/id = 5
+popup/item_5/disabled = true
+popup/item_6/text = ""
+popup/item_6/id = 6
+popup/item_6/separator = true
+popup/item_7/text = "Export .csv"
+popup/item_7/id = 7
+popup/item_7/disabled = true
+popup/item_8/text = "Export ToDo"
+popup/item_8/id = 8
+popup/item_8/disabled = true
+popup/item_9/text = "Export Sections"
+popup/item_9/id = 9
+popup/item_9/disabled = true
+script = ExtResource("21_wmlca")
+UI = NodePath("../../..")
+SIDE = 1
+editor = NodePath("../../../EditorContainer/TargetTextEdit")
+confirmation_dialog = NodePath("TargetSaveConfirmationDialog")
+save_as_file_dialog = NodePath("TargetSaveFileDialog")
+
+[node name="TargetSaveFileDialog" type="FileDialog" parent="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu"]
+unique_name_in_owner = true
+title = "Save merged intl file"
+initial_position = 2
+size = Vector2i(800, 600)
+popup_window = true
+access = 2
+filters = PackedStringArray("*.txt")
+
+[node name="TargetSaveConfirmationDialog" type="ConfirmationDialog" parent="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu"]
+unique_name_in_owner = true
+dialog_text = "Are you sure you want to overwrite the original target file?"
+
+[node name="Seperator" type="Control" parent="UI/MenuBarContainer/TargetMenuContainer"]
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="LoadingBar" type="ProgressBar" parent="UI/MenuBarContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 1.0
+value = 50.0
+
+[node name="EmptySpacer" type="Control" parent="UI"]
+custom_minimum_size = Vector2(2.08165e-12, 4)
+layout_mode = 2
+
+[node name="EditorContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBoxContainer/OldFile/HBoxContainer"]
-custom_minimum_size = Vector2(61, 35)
+[node name="TabContainer" type="VBoxContainer" parent="UI/EditorContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_gn6if")
+theme_override_constants/separation = 0
+
+[node name="SourceButton" type="Button" parent="UI/EditorContainer/TabContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 61)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_fwmy0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bh2ny")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_hyy40")
+
+[node name="Label" type="Label" parent="UI/EditorContainer/TabContainer/SourceButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
 text = "Source"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="OldPathTextEdit" type="TextEdit" parent="VBoxContainer/OldFile/HBoxContainer"]
+[node name="SplitButton" type="Button" parent="UI/EditorContainer/TabContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(740, 35)
+custom_minimum_size = Vector2(31, 61)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_drne8")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_rbab4")
-scroll_fit_content_height = true
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ptofw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nwkif")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_lceco")
+disabled = true
 
-[node name="OldOpenButton" type="Button" parent="VBoxContainer/OldFile"]
+[node name="Label" type="Label" parent="UI/EditorContainer/TabContainer/SplitButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
+text = "Split"
+horizontal_alignment = 1
+
+[node name="TargetButton" type="Button" parent="UI/EditorContainer/TabContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 0)
+custom_minimum_size = Vector2(31, 61)
 layout_mode = 2
-text = "Open"
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rdyyg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ax0vs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2bxsf")
 
-[node name="OldFileDialog" type="FileDialog" parent="VBoxContainer/OldFile/OldOpenButton"]
-unique_name_in_owner = true
-title = "Open a File"
-initial_position = 2
-size = Vector2i(800, 600)
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.txt")
-
-[node name="OldInfoLabel" type="Label" parent="VBoxContainer/OldFile"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Old intl.txt (your current translation) or exported new lines"
-
-[node name="NewFile" type="GridContainer" parent="VBoxContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NewFile"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Label" type="Label" parent="VBoxContainer/NewFile/HBoxContainer"]
-custom_minimum_size = Vector2(61, 35)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_e4pkn")
+[node name="Label" type="Label" parent="UI/EditorContainer/TabContainer/TargetButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -13.0
+offset_right = 26.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(26.5, 13)
 text = "Target"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="NewPathTextEdit" type="TextEdit" parent="VBoxContainer/NewFile/HBoxContainer"]
+[node name="SourceTextEdit" type="TextEdit" parent="UI/EditorContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(740, 35)
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_bvksk")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_423sf")
-scroll_fit_content_height = true
+theme_override_colors/background_color = Color(0.11, 0.12, 0.13, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("17_72uij")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sy2pa")
+highlight_current_line = true
+minimap_draw = true
+caret_blink = true
+script = ExtResource("25_3ojfb")
+UI = NodePath("../..")
+OtherEditor = NodePath("../TargetTextEdit")
+section_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceSectionButton")
+last_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceLastButton")
+next_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceNextButton")
+update_timer = NodePath("SourceUpdateTimer")
+done_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceDoneButton")
+save_button = NodePath("../../MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
+reset_button = NodePath("../../StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton")
 
-[node name="NewOpenButton" type="Button" parent="VBoxContainer/NewFile"]
+[node name="SourceUpdateTimer" type="Timer" parent="UI/EditorContainer/SourceTextEdit"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 0)
+one_shot = true
+
+[node name="TargetTextEdit" type="TextEdit" parent="UI/EditorContainer" node_paths=PackedStringArray("UI", "OtherEditor", "section_button", "last_button", "next_button", "update_timer", "done_button", "save_button", "reset_button")]
+unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
-text = "Open"
+size_flags_horizontal = 3
+theme_override_colors/background_color = Color(0.109804, 0.121569, 0.129412, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("17_72uij")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l6ny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sy2pa")
+placeholder_text = "Please wait...
+Merging can take several minutes..."
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+script = ExtResource("25_3ojfb")
+UI = NodePath("../..")
+OtherEditor = NodePath("../SourceTextEdit")
+SIDE = 1
+section_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetSectionButton")
+last_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetLastButton")
+next_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetNextButton")
+update_timer = NodePath("TargetUpdateTimer")
+done_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetDoneButton")
+save_button = NodePath("../../MenuBarContainer/TargetMenuContainer/TargetSaveMenu")
+reset_button = NodePath("../../StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton")
 
-[node name="NewFileDialog" type="FileDialog" parent="VBoxContainer/NewFile/NewOpenButton"]
+[node name="TargetUpdateTimer" type="Timer" parent="UI/EditorContainer/TargetTextEdit"]
 unique_name_in_owner = true
-title = "Open a File"
-initial_position = 2
-size = Vector2i(800, 600)
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.txt")
+one_shot = true
 
-[node name="NewInfoLabel" type="Label" parent="VBoxContainer/NewFile"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 20)
+[node name="StatusBarContainer" type="HBoxContainer" parent="UI"]
+custom_minimum_size = Vector2(2.08165e-12, 23)
 layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SettingsButton" type="TextureButton" parent="UI/StatusBarContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+toggle_mode = true
+texture_normal = ExtResource("18_bvxxa")
+texture_pressed = ExtResource("19_eqrhm")
+script = ExtResource("20_5k0lk")
+normal_color = Color(1, 1, 1, 0.501961)
+pressed_color = Color(1, 1, 1, 0.752941)
+
+[node name="InfoBarContainer" type="HBoxContainer" parent="UI/StatusBarContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 12
-text = "New intl.txt (untranslated) or your already merged file if you want to import new lines"
+text = "Loading data .."
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="SourceInfoContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer"]
+unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="MarkNewCheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-tooltip_text = "If enabled, new lines will replace the second line with NewLine"
-theme_override_styles/focus = SubResource("StyleBoxEmpty_sku1e")
-text = "Replace the second line of new untranslated lines with:"
-
-[node name="MarkNewTextEdit" type="TextEdit" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="SourceStatusLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 35)
+visible = false
 layout_mode = 2
-tooltip_text = "{line} -> line number
-{section} -> section name"
-theme_override_styles/focus = SubResource("StyleBoxEmpty_d6t5n")
-text = "ToDo: {line}"
-editable = false
-selecting_enabled = false
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Source message .."
 
-[node name="MarkInfoLabel" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="SourceInfoLabelContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
-[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(120, 0)
+[node name="SectionsRemovedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Removed Sections
+Whole sections that were still present in the source file but no longer exist at all in the target file"
+theme_override_constants/separation = 2
 
-[node name="MergeButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 66)
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsRemovedContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
-disabled = true
-text = "Merge"
+theme_override_constants/margin_top = -2
 
-[connection signal="text_changed" from="VBoxContainer/OldFile/HBoxContainer/OldPathTextEdit" to="." method="_on_old_path_text_edit_text_changed"]
-[connection signal="pressed" from="VBoxContainer/OldFile/OldOpenButton" to="." method="_on_old_open_button_pressed"]
-[connection signal="file_selected" from="VBoxContainer/OldFile/OldOpenButton/OldFileDialog" to="." method="_on_old_file_dialog_file_selected"]
-[connection signal="text_changed" from="VBoxContainer/NewFile/HBoxContainer/NewPathTextEdit" to="." method="_on_new_path_text_edit_text_changed"]
-[connection signal="pressed" from="VBoxContainer/NewFile/NewOpenButton" to="." method="_on_new_open_button_pressed"]
-[connection signal="file_selected" from="VBoxContainer/NewFile/NewOpenButton/NewFileDialog" to="." method="_on_new_file_dialog_file_selected"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer2/VBoxContainer/MarkNewCheckBox" to="." method="_on_mark_new_check_box_toggled"]
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer2/VBoxContainer/MarkNewTextEdit" to="." method="_on_mark_new_text_edit_text_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/MergeButton" to="." method="_on_merge_button_pressed"]
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsRemovedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_ld3w6")
+
+[node name="SectionsRemovedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsRemovedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0.47451, 0.458824, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="SectionsEditedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Edited Sections
+Sections that contain lines that were removed or changed"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsEditedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsEditedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("28_8tn8f")
+
+[node name="SourceSectionsEditedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/SectionsEditedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0.458824, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="Seperator" type="ColorRect" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer"]
+custom_minimum_size = Vector2(1, 12)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.176471, 0.176471, 0.176471, 0.501961)
+
+[node name="LinesRemovedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Removed Lines
+Lines that were still present in the source file but no longer exist in the target file"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesRemovedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesRemovedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("5_s41nj")
+
+[node name="LinesRemovedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesRemovedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0.47451, 0.458824, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LinesEditedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Edited Lines
+Lines that exist in both files, but got changed (Estimated by similarity)"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesEditedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesEditedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("9_l1gjo")
+
+[node name="SourceLinesEditedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceInfoLabelContainer/LinesEditedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0.458824, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="EmptyFill" type="Control" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -3
+
+[node name="SourceResetButton" type="Button" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "Reset to last saved"
+focus_mode = 0
+icon = ExtResource("13_2wlvp")
+flat = true
+
+[node name="SourceOptionMenuButton" type="MenuButton" parent="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer" node_paths=PackedStringArray("Editor", "OtherOptions")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 20)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tcvhq")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_i36eh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_73v6l")
+icon = ExtResource("22_7xddh")
+icon_alignment = 1
+item_count = 9
+popup/item_0/text = "Map"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_0/id = 0
+popup/item_1/text = "Line Numbers"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Line Colors"
+popup/item_2/checkable = 1
+popup/item_2/id = 2
+popup/item_3/text = "Draw Control Characters"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
+popup/item_4/text = "Highlight Current Line"
+popup/item_4/checkable = 1
+popup/item_4/checked = true
+popup/item_4/id = 4
+popup/item_5/text = "Reset Lines"
+popup/item_5/checkable = 1
+popup/item_5/id = 5
+popup/item_6/text = ""
+popup/item_6/id = 99
+popup/item_6/separator = true
+popup/item_7/text = "Sync Vertical Scroll"
+popup/item_7/checkable = 1
+popup/item_7/checked = true
+popup/item_7/id = 7
+popup/item_8/text = "Sync Editor Settings"
+popup/item_8/checkable = 1
+popup/item_8/checked = true
+popup/item_8/id = 8
+script = ExtResource("31_n8xqr")
+Editor = NodePath("../../../../EditorContainer/SourceTextEdit")
+OtherOptions = NodePath("../../TargetInfoContainer/TargetOptionMenuButton")
+
+[node name="TargetInfoContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="TargetStatusLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Target message .."
+
+[node name="TargetInfoLabelContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SectionsAddedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Added Sections
+Whole new sections that were present in the target file but were missing in the source file"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsAddedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsAddedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("6_s6a77")
+
+[node name="SectionsAddedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsAddedContainer"]
+unique_name_in_owner = true
+modulate = Color(0.560784, 1, 0.529412, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="SectionsEditedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Edited Sections
+Sections that contain lines that were added or changed"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsEditedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsEditedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("28_8tn8f")
+
+[node name="TargetSectionsEditedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/SectionsEditedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0.45, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="Seperator" type="ColorRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+custom_minimum_size = Vector2(1, 12)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.176471, 0.176471, 0.176471, 0.501961)
+
+[node name="LinesAddedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Added Lines
+New lines that were present in the target file but were missing in the source file"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesAddedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesAddedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("7_4m2uo")
+
+[node name="LinesAddedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesAddedContainer"]
+unique_name_in_owner = true
+modulate = Color(0.560784, 1, 0.529412, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LinesEditedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Edited Lines
+Lines that exist in both files, but got changed (Estimated by similarity)"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesEditedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesEditedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("9_l1gjo")
+
+[node name="TargetLinesEditedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/LinesEditedContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0.458824, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TranslationsParsedContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Parsed Translations
+Translated lines that were found in the source file and parsed over"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsParsedContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsParsedContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("3_kn0wn")
+
+[node name="TranslationsParsedLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsParsedContainer"]
+unique_name_in_owner = true
+modulate = Color(0.42, 0.57, 1, 1)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TranslationsFoundContainer" type="HBoxContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Found Translations
+Lines that were already translated in the target file"
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsFoundContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -2
+
+[node name="IconTextureRect" type="TextureRect" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsFoundContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("10_0t0iq")
+
+[node name="TranslationsFoundLabel" type="Label" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsFoundContainer"]
+unique_name_in_owner = true
+modulate = Color(0.42, 0.57, 1, 1)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="EmptyFill2" type="Control" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = -3
+
+[node name="TargetResetButton" type="Button" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "Reset to last saved"
+focus_mode = 0
+icon = ExtResource("13_2wlvp")
+flat = true
+
+[node name="TargetOptionMenuButton" type="MenuButton" parent="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer" node_paths=PackedStringArray("Editor", "OtherOptions")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 20)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tpcsx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_b330y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3jhmg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_etbk6")
+icon = ExtResource("22_7xddh")
+icon_alignment = 1
+item_count = 9
+popup/item_0/text = "Map"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_0/id = 0
+popup/item_1/text = "Line Numbers"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Line Colors"
+popup/item_2/checkable = 1
+popup/item_2/id = 2
+popup/item_3/text = "Draw Control Characters"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
+popup/item_4/text = "Highlight Current Line"
+popup/item_4/checkable = 1
+popup/item_4/checked = true
+popup/item_4/id = 4
+popup/item_5/text = "Reset Lines"
+popup/item_5/checkable = 1
+popup/item_5/id = 5
+popup/item_6/text = ""
+popup/item_6/id = 99
+popup/item_6/separator = true
+popup/item_7/text = "Sync Vertical Scroll"
+popup/item_7/checkable = 1
+popup/item_7/checked = true
+popup/item_7/id = 8
+popup/item_8/text = "Sync Editor Settings"
+popup/item_8/checkable = 1
+popup/item_8/checked = true
+popup/item_8/id = 8
+script = ExtResource("31_n8xqr")
+SIDE = 1
+Editor = NodePath("../../../../EditorContainer/TargetTextEdit")
+OtherOptions = NodePath("../../SourceInfoContainer/SourceOptionMenuButton")
+
+[node name="SettingsBarContainer" type="HBoxContainer" parent="UI/StatusBarContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScaleIcon" type="TextureRect" parent="UI/StatusBarContainer/SettingsBarContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("24_lu88f")
+stretch_mode = 2
+
+[node name="ScaleSlider" type="HSlider" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 2.08165e-12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 1.0
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="ScaleLabel" type="Label" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1.0"
+
+[node name="EmptyFill" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
+custom_minimum_size = Vector2(20, 2.08165e-12)
+layout_mode = 2
+
+[node name="BackgroundColorIcon" type="TextureRect" parent="UI/StatusBarContainer/SettingsBarContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Background Color"
+texture = ExtResource("31_vvf8r")
+stretch_mode = 2
+
+[node name="BackgroundColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Background Color"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_uweu4")
+icon_alignment = 1
+color = Color(0.113725, 0.121569, 0.129412, 1)
+
+[node name="EmptyFill2" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
+custom_minimum_size = Vector2(5, 2.08165e-12)
+layout_mode = 2
+
+[node name="FontColorIcon" type="TextureRect" parent="UI/StatusBarContainer/SettingsBarContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Font Color"
+texture = ExtResource("32_yurvt")
+stretch_mode = 2
+
+[node name="FontColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Font Color"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_tyuw6")
+icon_alignment = 1
+color = Color(0.831373, 0.831373, 0.831373, 1)
+
+[node name="EmptyFill3" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
+custom_minimum_size = Vector2(5, 2.08165e-12)
+layout_mode = 2
+
+[node name="LineColorIcon" type="TextureRect" parent="UI/StatusBarContainer/SettingsBarContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Line Color"
+texture = ExtResource("33_p3t3r")
+stretch_mode = 2
+
+[node name="RemovedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Removed Lines"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cf1xw")
+icon_alignment = 1
+color = Color(1, 0.52, 0.45, 0.6)
+
+[node name="EditedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Edited Lines"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cf1xw")
+icon_alignment = 1
+color = Color(0.92, 0.92, 0, 0.6)
+
+[node name="AddedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Added Lines"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_avcsu")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_86n6t")
+icon_alignment = 1
+color = Color(0.560784, 1, 0.529412, 1)
+
+[node name="ParsedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Parsed Translations"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_mvgp6")
+icon_alignment = 1
+color = Color(0.42, 0.57, 1, 1)
+
+[node name="FoundColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Removed Lines"
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_tmmfh")
+icon_alignment = 1
+color = Color(0.42, 0.57, 1, 1)
+
+[node name="StillWorkingTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[node name="DoubleClickTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.4
+one_shot = true
+
+[node name="ResetLabelsTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
+
+[connection signal="item_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSectionButton" to="UI/EditorContainer/SourceTextEdit" method="_on_section_button_item_selected"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceLastButton" to="UI/EditorContainer/SourceTextEdit" method="_on_last_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceNextButton" to="UI/EditorContainer/SourceTextEdit" method="_on_next_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceDoneButton" to="UI/EditorContainer/SourceTextEdit" method="_on_done_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveAsButton" to="." method="_on_source_save_button_pressed"]
+[connection signal="file_selected" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu/SourceSaveFileDialog" to="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu" method="_on_save_as_dialog_file_selected"]
+[connection signal="confirmed" from="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu/SourceSaveConfirmationDialog" to="UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu" method="_on_overwrite_confirmation_dialog_confirmed"]
+[connection signal="item_selected" from="UI/MenuBarContainer/TargetMenuContainer/TargetSectionButton" to="UI/EditorContainer/TargetTextEdit" method="_on_section_button_item_selected"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetLastButton" to="UI/EditorContainer/TargetTextEdit" method="_on_last_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetNextButton" to="UI/EditorContainer/TargetTextEdit" method="_on_next_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetDoneButton" to="UI/EditorContainer/TargetTextEdit" method="_on_done_button_pressed"]
+[connection signal="pressed" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveButton" to="." method="_on_target_save_button_pressed"]
+[connection signal="file_selected" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu/TargetSaveFileDialog" to="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu" method="_on_save_as_dialog_file_selected"]
+[connection signal="confirmed" from="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu/TargetSaveConfirmationDialog" to="UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu" method="_on_overwrite_confirmation_dialog_confirmed"]
+[connection signal="pressed" from="UI/EditorContainer/TabContainer/SourceButton" to="UI" method="_on_source_button_pressed"]
+[connection signal="pressed" from="UI/EditorContainer/TabContainer/SplitButton" to="UI" method="_on_split_button_pressed"]
+[connection signal="pressed" from="UI/EditorContainer/TabContainer/TargetButton" to="UI" method="_on_target_button_pressed"]
+[connection signal="caret_changed" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_caret_changed"]
+[connection signal="focus_entered" from="UI/EditorContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_entered"]
+[connection signal="focus_exited" from="UI/EditorContainer/SourceTextEdit" to="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton" method="_on_editor_focus_exited"]
+[connection signal="gutter_clicked" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_gutter_clicked"]
+[connection signal="lines_edited_from" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_lines_edited"]
+[connection signal="text_changed" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_text_changed"]
+[connection signal="text_set" from="UI/EditorContainer/SourceTextEdit" to="UI/EditorContainer/SourceTextEdit" method="_on_text_set"]
+[connection signal="timeout" from="UI/EditorContainer/SourceTextEdit/SourceUpdateTimer" to="UI/EditorContainer/SourceTextEdit" method="_on_update_timer_timeout"]
+[connection signal="caret_changed" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_caret_changed"]
+[connection signal="focus_entered" from="UI/EditorContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_entered"]
+[connection signal="focus_exited" from="UI/EditorContainer/TargetTextEdit" to="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton" method="_on_editor_focus_exited"]
+[connection signal="gutter_clicked" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_gutter_clicked"]
+[connection signal="lines_edited_from" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_lines_edited"]
+[connection signal="text_changed" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_text_changed"]
+[connection signal="text_set" from="UI/EditorContainer/TargetTextEdit" to="UI/EditorContainer/TargetTextEdit" method="_on_text_set"]
+[connection signal="timeout" from="UI/EditorContainer/TargetTextEdit/TargetUpdateTimer" to="UI/EditorContainer/TargetTextEdit" method="_on_update_timer_timeout"]
+[connection signal="toggled" from="UI/StatusBarContainer/SettingsButton" to="UI" method="_on_settings_button_toggled"]
+[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/SourceInfoContainer/MarginContainer/SourceResetButton" to="UI/EditorContainer/SourceTextEdit" method="_on_reset_button_pressed"]
+[connection signal="gui_input" from="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetInfoLabelContainer/TranslationsFoundContainer" to="UI" method="_on_translations_found_clicked"]
+[connection signal="pressed" from="UI/StatusBarContainer/InfoBarContainer/TargetInfoContainer/MarginContainer/TargetResetButton" to="UI/EditorContainer/TargetTextEdit" method="_on_reset_button_pressed"]
+[connection signal="drag_ended" from="UI/StatusBarContainer/SettingsBarContainer/ScaleSlider" to="UI" method="_on_scale_slider_drag_ended"]
+[connection signal="value_changed" from="UI/StatusBarContainer/SettingsBarContainer/ScaleSlider" to="UI" method="_on_scale_slider_value_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/BackgroundColorPickerButton" to="UI" method="_on_background_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/FontColorPickerButton" to="UI" method="_on_font_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/RemovedColorPickerButton" to="UI" method="_on_removed_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/EditedColorPickerButton" to="UI" method="_on_edited_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/AddedColorPickerButton" to="UI" method="_on_added_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/ParsedColorPickerButton" to="UI" method="_on_parsed_color_picker_button_color_changed"]
+[connection signal="color_changed" from="UI/StatusBarContainer/SettingsBarContainer/FoundColorPickerButton" to="UI" method="_on_found_color_picker_button_color_changed"]
+[connection signal="timeout" from="StillWorkingTimer" to="." method="_on_still_working_timer_timeout"]
+[connection signal="timeout" from="ResetLabelsTimer" to="UI" method="_on_reset_labels_timer_timeout"]

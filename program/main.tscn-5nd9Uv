@@ -1,0 +1,182 @@
+[gd_scene load_steps=63 format=3 uid="uid://h81bd8xrr2u4"]
+
+[ext_resource type="Script" path="res://program/main.gd" id="1_65a62"]
+[ext_resource type="Script" path="res://program/main_ui.gd" id="2_mnp7p"]
+[ext_resource type="Texture2D" uid="uid://cjhv6jn1uh1g5" path="res://assets/gutter/arrow.png" id="3_kn0wn"]
+[ext_resource type="Texture2D" uid="uid://c7twure74po0m" path="res://assets/gutter/minus_s.png" id="3_ld3w6"]
+[ext_resource type="Texture2D" uid="uid://ib0egvok21jl" path="res://assets/gutter/minus_s_e.png" id="4_yio5l"]
+[ext_resource type="Texture2D" uid="uid://d33m4000uobw2" path="res://assets/gutter/minus.png" id="5_s41nj"]
+[ext_resource type="Texture2D" uid="uid://qekj56s0soty" path="res://assets/gutter/minus_e.png" id="6_nq7c5"]
+[ext_resource type="Texture2D" uid="uid://d4i2palh7gbvt" path="res://assets/gutter/plus_s.png" id="6_s6a77"]
+[ext_resource type="Texture2D" uid="uid://dsyyfcgjle7to" path="res://assets/gutter/plus.png" id="7_4m2uo"]
+[ext_resource type="Texture2D" uid="uid://b37sumlfaj2p1" path="res://assets/gutter/plus_s_e.png" id="7_cv7jl"]
+[ext_resource type="Texture2D" uid="uid://xggx3hxwubwk" path="res://assets/jump/minus.png" id="9_0go4o"]
+[ext_resource type="Texture2D" uid="uid://chqc00babol63" path="res://assets/gutter/arrow_down.png" id="10_0t0iq"]
+[ext_resource type="Texture2D" uid="uid://djw8huagtvnrx" path="res://assets/gutter/plus_e.png" id="10_qwdb0"]
+[ext_resource type="Texture2D" uid="uid://dcv8ukasri142" path="res://assets/jump/plus.png" id="11_ouva7"]
+[ext_resource type="Texture2D" uid="uid://uuuclcvj0rcx" path="res://assets/gutter/reset.png" id="13_2wlvp"]
+[ext_resource type="PackedScene" uid="uid://ckq3qntjrhh3d" path="res://program/ui/info_menu.tscn" id="13_cdd58"]
+[ext_resource type="Texture2D" uid="uid://j3driu05nw85" path="res://assets/ui/up.svg" id="14_fbgcw"]
+[ext_resource type="Texture2D" uid="uid://bj2o716ndk6r" path="res://assets/ui/down.svg" id="15_r5ejv"]
+[ext_resource type="FontFile" uid="uid://5nbdu04dcxnc" path="res://assets/fira_mono.otf" id="17_72uij"]
+[ext_resource type="Texture2D" uid="uid://hj1w5agenfrk" path="res://assets/ui/settings_open.png" id="18_bvxxa"]
+[ext_resource type="Texture2D" uid="uid://dmbx7vr1dwwr" path="res://assets/jump/edited.png" id="18_gbg5k"]
+[ext_resource type="Texture2D" uid="uid://cmamw7664k7i5" path="res://assets/ui/save_22.png" id="18_yso0u"]
+[ext_resource type="Texture2D" uid="uid://ce6o27bfrthbb" path="res://assets/ui/settings_close.png" id="19_eqrhm"]
+[ext_resource type="Script" path="res://program/ui/settings_button.gd" id="20_5k0lk"]
+[ext_resource type="Texture2D" uid="uid://b48s123qxfaf4" path="res://assets/ui/save_22_grey.png" id="21_0j8vw"]
+[ext_resource type="Texture2D" uid="uid://dws641nl5nedt" path="res://assets/ui/save_16.png" id="21_gfjdw"]
+[ext_resource type="Texture2D" uid="uid://h36aer5k32iq" path="res://assets/ui/menu.svg" id="22_7xddh"]
+[ext_resource type="Texture2D" uid="uid://cvj6dka6t006o" path="res://assets/ui/check_mark.svg" id="23_ulhb8"]
+[ext_resource type="Texture2D" uid="uid://drm34y3cc65qg" path="res://assets/ui/zoom.png" id="24_lu88f"]
+[ext_resource type="Script" path="res://program/ui/editor.gd" id="25_3ojfb"]
+[ext_resource type="Texture2D" uid="uid://d3i3hikph0613" path="res://assets/gutter/edited_s.png" id="28_8tn8f"]
+[ext_resource type="Script" path="res://program/ui/editor_options.gd" id="31_n8xqr"]
+[ext_resource type="Texture2D" uid="uid://vp5jhxdskdmc" path="res://assets/ui/background_color.png" id="31_vvf8r"]
+[ext_resource type="Texture2D" uid="uid://c7j07ekbf4i78" path="res://assets/ui/font_color.png" id="32_yurvt"]
+[ext_resource type="Texture2D" uid="uid://py83wdyqx6kx" path="res://assets/ui/line_colors.png" id="33_p3t3r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_knhq5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwmy0"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bh2ny"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyy40"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_top_left = 6
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptofw"]
+bg_color = Color(0.277344, 0.277344, 0.277344, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwkif"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lceco"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdyyg"]
+bg_color = Color(0.278431, 0.278431, 0.278431, 1)
+border_width_left = 1
+border_width_bottom = 1
+border_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax0vs"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2bxsf"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 1)
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l6ny"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrhh7"]
+bg_color = Color(0.0352941, 0.0392157, 0.0431373, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sy2pa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tcvhq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i36eh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73v6l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tpcsx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b330y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3jhmg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_etbk6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uweu4"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.109804, 0.121569, 0.129412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tyuw6"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.831373, 0.831373, 0.831373, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cf1xw"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0.47451, 0.458824, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avcsu"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.560784, 1, 0.529412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_86n6t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvgp6"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.42, 0.57, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmmfh"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.42, 0.57, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Main" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_ho
