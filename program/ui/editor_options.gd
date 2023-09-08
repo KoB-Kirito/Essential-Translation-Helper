@@ -82,6 +82,8 @@ func on_popup_menu_button_pressed(i: int) -> void:
 		SYNC_H_SCROLL:
 			toggle_sync_horizontal_scroll(Editor, popup_menu.is_item_checked(i))
 			toggle_sync_horizontal_scroll(Editor.OtherEditor, popup_menu.is_item_checked(i))
+			# always sync
+			OtherOptions.popup_menu.set_item_checked(i, popup_menu.is_item_checked(i))
 		
 		SYNC:
 			# if sync was disabled already, do nothing
