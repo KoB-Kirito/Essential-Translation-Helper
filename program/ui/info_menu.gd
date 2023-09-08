@@ -12,10 +12,10 @@ func _ready() -> void:
 func _on_info_menu_button_pressed(id: int) -> void:
 	match id:
 		0: # HowTo
-			OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger")
+			OS.shell_open("https://github.com/KoB-Kirito/Essential-Translation-Helper")
 		1: # Update
-			OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger/releases")
+			OS.shell_open("https://github.com/KoB-Kirito/Essential-Translation-Helper/releases")
 		2: # Report a bug
-			OS.shell_open("https://github.com/KoB-Kirito/Intl-File-Merger/issues")
+			OS.shell_open("https://github.com/KoB-Kirito/Essential-Translation-Helper/issues")
 		3: # License
 			license_popup.popup()
