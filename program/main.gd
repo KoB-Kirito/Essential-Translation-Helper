@@ -57,9 +57,6 @@ func on_merged(source: SourceData, target: TargetData):
 	SourceEditor.text = source.output.left(source.output.length() - 1)
 	SourceEditor.clear_undo_history()
 	
-	TargetEditor.save_line_history()
-	SourceEditor.save_line_history()
-	
 	# insert gutter data
 	# source
 	if SourceEditor.get_line_count() > 1:
@@ -91,6 +88,10 @@ func on_merged(source: SourceData, target: TargetData):
 		
 		# history
 		#TargetEditor.set_line_gutter_metadata(line, Gutter.HISTORY, TargetEditor.get_line(line))
+	
+	# save history and current gutter state
+	TargetEditor.save_line_history()
+	SourceEditor.save_line_history()
 	
 	# fill section selector
 	for section in Data.source_section_data:

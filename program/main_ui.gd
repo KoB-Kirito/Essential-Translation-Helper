@@ -380,7 +380,7 @@ func _on_scale_slider_value_changed(value: float) -> void:
 	%ScaleLabel.text = str(value)
 
 
-func _on_scale_slider_drag_ended(value_changed: bool) -> void:
+func _on_scale_slider_drag_ended(_value_changed: bool) -> void:
 	var value = %ScaleSlider.value
 	Settings.window_content_scale = value
 	var window = get_window()

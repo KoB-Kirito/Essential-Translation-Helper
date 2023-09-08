@@ -498,7 +498,7 @@ func _on_gutter_clicked(line:int, gutter: int) -> void:
 					
 				else:
 					# remove line
-					select(line, 0, line - 1, get_line(line - 1).length(), 0)
+					select(line, get_line(line).length(), line - 1, get_line(line - 1).length(), 0)
 					delete_selection()
 
 
@@ -843,12 +843,22 @@ func save_line_history() -> void:
 	
 	saved_line_count = get_line_count()
 	
-	#TODO: save gutter state?
+	# save gutter state
+	saved_gutter_icon.resize(saved_line_count)
+	saved_gutter_line.resize(saved_line_count)
+	saved_gutter_section.resize(saved_line_count)
+	saved_gutter_section_text.resize(saved_line_count)
 	
-	
+	for i in range(saved_line_count):
+		saved_gutter_icon[i] = get_line_gutter_metadata(i, Gutter.ICON)
+		saved_gutter_line[i] = get_line_gutter_metadata(i, Gutter.LINE_NUMBER)
+		saved_gutter_section[i] = get_line_gutter_metadata(i, Gutter.SECTION)
+		saved_gutter_section_text[i] = get_line_gutter_text(i, Gutter.SECTION)
 
 var saved_gutter_icon: Array[int]
-
+var saved_gutter_line: Array[int]
+var saved_gutter_section: Array[int]
+var saved_gutter_section_text: Array[String]
 
 
 @export var reset_button: Button
@@ -859,8 +869,19 @@ func _on_reset_button_pressed() -> void:
 	else:
 		text = FileAccess.get_file_as_string(Settings.target_path)
 	
-	#TODO: Reload last saved state
-	# check gutters etc
+	# reload saved data
+	for i in range(get_line_count()):
+		set_line_icon(i, saved_gutter_icon[i])
+		set_line_gutter_metadata(i, Gutter.LINE_NUMBER, saved_gutter_line[i])
+		set_line_gutter_metadata(i, Gutter.SECTION, saved_gutter_section[i])
+		set_line_gutter_text(i, Gutter.SECTION, saved_gutter_section_text[i])
+	
+	# save state again? (should not be neccesary if state now matches old state
+	save_line_history()
+	if SIDE == Side.SOURCE:
+		UI.update_source_labels()
+	else:
+		UI.update_target_labels()
 
 
 var display_line_color: bool = false:
