@@ -1,7 +1,7 @@
 The MIT License (MIT)
 
 —————————————————————————————-
-Copyright (c) 2023 Kirito - https://github.com/KoB-Kirito/Intl-File-Merger
+Copyright (c) 2023 Kirito - https://github.com/KoB-Kirito/Essential-Translation-Helper
 —————————————————————————————-
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -13,6 +13,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j1xmq"]
 
 [node name="InfoMenuButton" type="MenuButton" node_paths=PackedStringArray("license_popup")]
+tooltip_text = "Main Menu"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tfcqq")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_udcx6")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_6vwyh")
@@ -55,7 +56,7 @@ theme_override_font_sizes/font_size = 11
 text = "The MIT License (MIT)
 
 —————————————————————————————-
-Copyright (c) 2023 Kirito - https://github.com/KoB-Kirito/Intl-File-Merger
+Copyright (c) 2023 Kirito - https://github.com/KoB-Kirito/Essential-Translation-Helper
 —————————————————————————————-
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
