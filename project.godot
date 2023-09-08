@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Intl File Merger"
-config/description="Merges rpg maker translation files"
+config/name="Essential Translation Helper"
+config/description="Merger and editor of intl files"
 run/main_scene="res://program/intro.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/show_image=false
