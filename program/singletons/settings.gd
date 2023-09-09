@@ -2,83 +2,148 @@
 extends Node
 # persistent settings
 
+# window
+var window_position_intro: Vector2i
+var window_position_loading: Vector2i
+var window_position_main: Vector2i
+var window_maximized_main: bool
+var window_size_main: Vector2i
+var window_content_scale: float
 
-var window_position_intro: Vector2i # default centered
-var window_position_main: Vector2i # default centered
-var window_size_main: Vector2i = Vector2i(1280, 720)
-var window_content_scale: float = 1.0
+# file system
+var source_last_working_directory: String
+var target_last_working_directory: String
+var source_path: String
+var target_path: String
 
-var source_last_working_directory: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
-var target_last_working_directory: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
-var source_path: String = ""
-var target_path: String = ""
+# settings
+var mark_new_lines: bool
+var mark_new_lines_text: String
 
-var mark_new_lines: bool = false
-var mark_new_lines_text: String = ""
+var map_name_section: StringName
 
-var map_name_section: StringName = "[20]"
+var split_horizontal: bool
 
-var color_background: Color = Color(0.1, 0.11, 0.12, 1.0)
-var color_font: Color = Color(0.83, 0.83, 0.83)
-var color_removed_line: Color = Color(1.0, 0.52, 0.45, 0.6)
-var color_edited_line: Color = Color(0.92, 0.92, 0, 0.6)
-var color_added_line: Color = Color(0.56, 1.0, 0.52, 0.6)
-var color_translation_parsed: Color = Color(0.37, 0.56, 1.0, 0.6)
-var color_translation_found: Color = Color(0.37, 0.56, 1.0, 0.6)
+# theme
+var color_background: Color
+var color_font: Color
+var color_removed_line: Color
+var color_edited_line: Color
+var color_added_line: Color
+var color_translation_parsed: Color
+var color_translation_found: Color
 
+# editor options
 ## [Side][EditorOptions]
-var editor_options: Dictionary = {
-	Side.SOURCE: {
-		EditorOptions.MAP: true,
-		EditorOptions.LINE_NUMBERS: true,
-		EditorOptions.LINE_COLORS: true,
-		EditorOptions.CONTROL_CHARACTERS: false,
-		EditorOptions.HIGHLIGHT_LINE: true,
-		EditorOptions.HISTORY: false,
-		EditorOptions.SYNC: true,
-	},
-	Side.TARGET: {
-		EditorOptions.MAP: true,
-		EditorOptions.LINE_NUMBERS: true,
-		EditorOptions.LINE_COLORS: true,
-		EditorOptions.CONTROL_CHARACTERS: false,
-		EditorOptions.HIGHLIGHT_LINE: true,
-		EditorOptions.HISTORY: false,
-		EditorOptions.SYNC: true,
-	},
-}
+var editor_options: Dictionary
+
+
+func _init() -> void:
+	set_default_settings()
+
+
+func set_default_settings() -> void:
+	window_position_intro = Vector2i.ZERO
+	window_position_loading = Vector2i.ZERO
+	window_position_main = Vector2i.ZERO
+	window_maximized_main = false
+	window_size_main = Vector2i(1280, 720)
+	window_content_scale = 1.0
+	
+	source_last_working_directory = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	target_last_working_directory = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	source_path = ""
+	target_path = ""
+	
+	mark_new_lines = false
+	mark_new_lines_text = ""
+	
+	map_name_section = "[20]"
+	
+	split_horizontal = false
+	
+	color_background = Color(0.1, 0.11, 0.12, 1.0)
+	color_font = Color(0.83, 0.83, 0.83)
+	color_removed_line = Color(1.0, 0.52, 0.45, 0.6)
+	color_edited_line = Color(0.92, 0.92, 0, 0.6)
+	color_added_line = Color(0.56, 1.0, 0.52, 0.6)
+	color_translation_parsed = Color(0.37, 0.56, 1.0, 0.6)
+	color_translation_found = Color(0.37, 0.56, 1.0, 0.6)
+	
+	editor_options = {
+		Side.SOURCE: {
+			EditorOptions.MAP: true,
+			EditorOptions.LINE_NUMBERS: true,
+			EditorOptions.LINE_COLORS: true,
+			EditorOptions.CONTROL_CHARACTERS: false,
+			EditorOptions.HIGHLIGHT_LINE: true,
+			EditorOptions.HISTORY: false,
+			EditorOptions.SYNC_H_SCROLL: true,
+			EditorOptions.SYNC: true,
+		},
+		Side.TARGET: {
+			EditorOptions.MAP: true,
+			EditorOptions.LINE_NUMBERS: true,
+			EditorOptions.LINE_COLORS: true,
+			EditorOptions.CONTROL_CHARACTERS: false,
+			EditorOptions.HIGHLIGHT_LINE: true,
+			EditorOptions.HISTORY: false,
+			EditorOptions.SYNC_H_SCROLL: true,
+			EditorOptions.SYNC: true,
+		},
+	}
+
+
+
 
 ### Persistent Settings ###
 
-const SETTINGS_DIR: String = "user://"
 const SETTINGS_FILE: String = "settings.ini"
+@onready var settings_path: String = OS.get_user_data_dir() + "/" + SETTINGS_FILE
 
 
 func save_settings() -> void:
 	var config_file = ConfigFile.new()
 	
 	config_file.set_value("Window", "window_position_intro", window_position_intro)
+	config_file.set_value("Window", "window_position_loading", window_position_loading)
 	config_file.set_value("Window", "window_position_main", window_position_main)
+	config_file.set_value("Window", "window_maximized_main", window_maximized_main)
 	config_file.set_value("Window", "window_size_main", window_size_main)
 	config_file.set_value("Window", "window_content_scale", window_content_scale)
 	
 	config_file.set_value("FileSystem", "source_last_working_directory", source_last_working_directory)
 	config_file.set_value("FileSystem", "target_last_working_directory", target_last_working_directory)
+	config_file.set_value("FileSystem", "source_path", source_path)
+	config_file.set_value("FileSystem", "target_path", target_path)
 	
 	config_file.set_value("Settings", "mark_new_lines", mark_new_lines)
 	config_file.set_value("Settings", "mark_new_lines_text", mark_new_lines_text)
-	#config_file.set_value("Settings", "", )
 	
-	config_file.save(SETTINGS_DIR + SETTINGS_FILE)
+	config_file.set_value("Settings", "map_name_section", map_name_section)
+	
+	config_file.set_value("Settings", "split_horizontal", split_horizontal)
+	
+	config_file.set_value("Theme", "color_background", color_background)
+	config_file.set_value("Theme", "color_font", color_font)
+	config_file.set_value("Theme", "color_removed_line", color_removed_line)
+	config_file.set_value("Theme", "color_edited_line", color_edited_line)
+	config_file.set_value("Theme", "color_edited_line", color_edited_line)
+	config_file.set_value("Theme", "color_translation_parsed", color_translation_parsed)
+	config_file.set_value("Theme", "color_translation_found", color_translation_found)
+	
+	config_file.set_value("EditorOptions", "editor_options", editor_options)
+	
+	config_file.save(settings_path)
 
 
 func load_settings() -> void:
-	if not FileAccess.file_exists(SETTINGS_DIR + SETTINGS_FILE):
-		push_warning(OS.get_user_data_dir() + SETTINGS_FILE + " not found")
+	if not FileAccess.file_exists(settings_path):
+		push_warning(settings_path + " not found")
 		return
 	
 	var config = ConfigFile.new()
-	var result = config.load(SETTINGS_DIR + SETTINGS_FILE)
+	var result = config.load(settings_path)
 	
 	if result != OK:
 		push_error(str(result) + ": Could not load " + OS.get_user_data_dir() + SETTINGS_FILE)

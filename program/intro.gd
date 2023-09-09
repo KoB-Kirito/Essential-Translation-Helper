@@ -5,16 +5,28 @@ extends MarginContainer
 
 
 func _ready() -> void:
-	# ToDo: Load settings
-	#TODO: load last used paths
+	Settings.load_settings()
+	%SourcePathTextEdit.text = Settings.source_path
+	handle_changed_path(%SourcePathTextEdit, %SourceInfoLabel, false)
+	%TargetPathTextEdit.text = Settings.target_path
+	handle_changed_path(%TargetPathTextEdit, %TargetInfoLabel, true)
+	
+	var window = get_window()
 	
 	# detect high dpi
 	if Settings.window_content_scale == 1.0 and DisplayServer.screen_get_dpi() > 120:
-		var window = get_window()
 		window.position -= window.size / 2
 		Settings.window_content_scale = 2.0
 		window.content_scale_factor = 2.0
 		window.size *= 2.0
+		
+	else:
+		window.content_scale_factor = Settings.window_content_scale
+		window.size *= Settings.window_content_scale
+	
+	# set position
+	if Settings.window_position_intro > Vector2i.ZERO:
+		window.position = Settings.window_position_intro
 
 
 func _on_source_open_button_pressed() -> void:
@@ -48,7 +60,7 @@ func _on_source_file_dialog_file_selected(path: String) -> void:
 	handle_changed_path(%SourcePathTextEdit, %SourceInfoLabel)
 
 func _on_target_file_dialog_file_selected(path: String) -> void:
-	Settings.source_last_working_directory = path.get_base_dir()
+	Settings.target_last_working_directory = path.get_base_dir()
 	%TargetPathTextEdit.text = path
 	handle_changed_path(%TargetPathTextEdit, %TargetInfoLabel, true)
 
@@ -111,6 +123,24 @@ func handle_changed_path(text_edit: TextEdit, info_label: Label, is_target: bool
 	elif %SourcePathTextEdit.text.is_empty() and %TargetInfoLabel.modulate == Color.GREEN:
 		%MergeButton.text = "Open"
 		%MergeButton.disabled = false
+	
+	# fill map names
+	%MapNameOptionButton.clear()
+	if not Data.target_section_data.is_empty():
+		var last_found: bool = false
+		for section: StringName in Data.target_section_data:
+			# only numbered data sections can contain map names
+			if Data.target_section_data[section].numbered and \
+					section.replace("[", "").replace("]", "").is_valid_int():
+				%MapNameOptionButton.add_item(section)
+				if section == Settings.map_name_section:
+					%MapNameOptionButton.select(%MapNameOptionButton.item_count - 1)
+					last_found = true
+		if %MapNameOptionButton.item_count > 0 and last_found == false:
+			# select last numbered section by default
+			%MapNameOptionButton.select(%MapNameOptionButton.item_count - 1)
+			Settings.map_name_section = %MapNameOptionButton.get_item_text(%MapNameOptionButton.item_count - 1)
+			print("last selected not found. selected last: ", Settings.map_name_section)
 
 
 func _on_merge_button_pressed() -> void:
@@ -118,10 +148,8 @@ func _on_merge_button_pressed() -> void:
 	Settings.target_path = %TargetPathTextEdit.text
 	
 	Settings.mark_new_lines_text = %MarkNewTextEdit.text
-	if %MapNameSectionTextEdit.text.is_valid_int():
-		Settings.map_name_section = "[" + %MapNameSectionTextEdit.text + "]"
-	else:
-		Settings.map_name_section = %MapNameSectionTextEdit.text
+	
+	Settings.window_position_intro = get_window().position
 	
 	get_tree().change_scene_to_packed(editor_scene)
 
@@ -154,3 +182,8 @@ func _on_source_path_text_edit_gui_input(event: InputEvent) -> void:
 func _on_target_path_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.double_click:
 		_on_target_open_button_pressed()
+
+
+func _on_map_name_option_button_item_selected(index: int) -> void:
+	Settings.map_name_section = %MapNameOptionButton.get_item_text(index)
+	print("map_name_section set to ", Settings.map_name_section)

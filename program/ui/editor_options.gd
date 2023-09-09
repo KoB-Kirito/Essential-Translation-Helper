@@ -33,12 +33,20 @@ func load_editor_options() -> void:
 			popup_menu.set_item_checked(option, !Settings.editor_options[SIDE][option])
 			on_popup_menu_button_pressed(option)
 
+func save_editor_options() -> void:
+	for option in range(popup_menu.item_count):
+		# ignore seperators
+		if popup_menu.is_item_separator(option):
+			continue
+		
+		Settings.editor_options[SIDE][option] = popup_menu.is_item_checked(option)
 
-func on_popup_about_to_popup(popup: PopupMenu):
-	# ToDo: Buggy. Find a fix or wait for update
-	if Settings.window_content_scale > 1.0:
-		popup.size *= Settings.window_content_scale
-		popup.content_scale_factor = Settings.window_content_scale
+
+#func on_popup_about_to_popup(popup: PopupMenu):
+#	#TODO: Buggy. Find a fix or wait for update
+#	if Settings.window_content_scale > 1.0:
+#		popup.size *= Settings.window_content_scale
+#		popup.content_scale_factor = Settings.window_content_scale
 
 
 func on_popup_menu_button_pressed(i: int) -> void:
@@ -156,9 +164,8 @@ func toggle_history(editor: TextEdit, state: bool) -> void:
 	editor.set_gutter_draw(Gutter.HISTORY, state)
 
 
+
 ### Focus ###
-
-
 
 func _on_editor_focus_entered() -> void:
 	#print(Editor.name,": Focus entered")

@@ -16,6 +16,8 @@ extends MarginContainer
 ### Merge ###
 
 func _ready() -> void:
+	UI.set_loading_state()
+	
 	# enable unsaved check on quit
 	get_tree().set_auto_accept_quit(false)
 	
@@ -150,14 +152,12 @@ func on_merged(source: SourceData, target: TargetData):
 	TargetEditor.minimap_draw = true
 	TargetEditor.highlight_current_line = true
 	
+	Settings.window_position_loading = get_window().position
 	UI.set_normal_state()
 	
 	# hide source editor if empty
 	if SourceEditor.get_line_count() <= 1:
 		UI._on_target_button_pressed()
-	
-	SourceEditorOptions.load_editor_options()
-	TargetEditorOptions.load_editor_options()
 
 
 var unsaved_exit_confirmed: bool = false
@@ -173,7 +173,16 @@ func _notification(what):
 					%ExitConfirmationDialog.popup()
 				return
 		
-		#TODO: Save current settings
+		SourceEditorOptions.save_editor_options()
+		TargetEditorOptions.save_editor_options()
+		var window = get_window()
+		if window.mode == Window.MODE_MAXIMIZED:
+			Settings.window_maximized_main = true
+		else:
+			Settings.window_maximized_main = false
+			Settings.window_position_main = get_window().position
+			Settings.window_size_main = get_window().size
+		Settings.save_settings()
 		
 		get_tree().quit()
 
@@ -217,7 +226,9 @@ func get_section_name(section: StringName, map_names: Array[String]) -> String:
 
 
 func get_section_names() -> Array[String]:
-	# ToDo: Make user configurable
+	#TODO: Make user configurable
+	
+	# uranium
 	return ["",                     # 0
 			"Pokemon Names",        # 1
 			"Pokedex Titles",       # 2
@@ -242,6 +253,39 @@ func get_section_names() -> Array[String]:
 			"Phone Messages",       # 21
 			"Script Texts",         # 22
 			]
+	
+	# essentials 21
+	# EVENT_TEXTS                  = 0   # Used for text in both common events and map events
+	# SPECIES_NAMES                = 1
+	# SPECIES_CATEGORIES           = 2
+	# POKEDEX_ENTRIES              = 3
+	# SPECIES_FORM_NAMES           = 4
+	# MOVE_NAMES                   = 5
+	# MOVE_DESCRIPTIONS            = 6
+	# ITEM_NAMES                   = 7
+	# ITEM_NAME_PLURALS            = 8
+	# ITEM_DESCRIPTIONS            = 9
+	# ABILITY_NAMES                = 10
+	# ABILITY_DESCRIPTIONS         = 11
+	# TYPE_NAMES                   = 12
+	# TRAINER_TYPE_NAMES           = 13
+	# TRAINER_NAMES                = 14
+	# FRONTIER_INTRO_SPEECHES      = 15
+	# FRONTIER_END_SPEECHES_WIN    = 16
+	# FRONTIER_END_SPEECHES_LOSE   = 17
+	# REGION_NAMES                 = 18
+	# REGION_LOCATION_NAMES        = 19
+	# REGION_LOCATION_DESCRIPTIONS = 20
+	# MAP_NAMES                    = 21
+	# PHONE_MESSAGES               = 22
+	# TRAINER_SPEECHES_LOSE        = 23
+	# SCRIPT_TEXTS                 = 24
+	# RIBBON_NAMES                 = 25
+	# RIBBON_DESCRIPTIONS          = 26
+	# STORAGE_CREATOR_NAME         = 27
+	# ITEM_PORTION_NAMES           = 28
+	# ITEM_PORTION_NAME_PLURALS    = 29
+	# POKEMON_NICKNAMES            = 30
 
 
 

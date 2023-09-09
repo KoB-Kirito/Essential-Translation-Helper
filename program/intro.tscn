@@ -170,6 +170,7 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
 [node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer/BottomContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
@@ -205,20 +206,18 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(2.08165e-12, 31)
 layout_mode = 2
 size_flags_horizontal = 4
-tooltip_text = "The name of the section that holds the map names"
+tooltip_text = "The name of the section that holds the map names
+(Normally [21], [20] in older versions)"
 mouse_filter = 0
 text = "Map Name Section:"
 vertical_alignment = 1
 
-[node name="MapNameSectionTextEdit" type="TextEdit" parent="VBoxContainer/BottomContainer/OptionsContainer2"]
+[node name="MapNameOptionButton" type="OptionButton" parent="VBoxContainer/BottomContainer/OptionsContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
-tooltip_text = "{line} -> line number
-{section} -> section name"
-theme_override_styles/focus = SubResource("StyleBoxEmpty_d6t5n")
-text = "[20]"
-selecting_enabled = false
+tooltip_text = "The name of the section that holds the map names
+(Normally [21], [20] in older versions)"
 
 [node name="MapNameSectionInfoLabel" type="Label" parent="VBoxContainer/BottomContainer/OptionsContainer2"]
 layout_mode = 2
@@ -246,4 +245,5 @@ text = "Merge"
 [connection signal="file_selected" from="VBoxContainer/TargetFileContainer/TargetOpenButton/TargetFileDialog" to="." method="_on_target_file_dialog_file_selected"]
 [connection signal="toggled" from="VBoxContainer/BottomContainer/OptionsContainer/MarkNewCheckBox" to="." method="_on_mark_new_check_box_toggled"]
 [connection signal="text_changed" from="VBoxContainer/BottomContainer/OptionsContainer/MarkNewTextEdit" to="." method="_on_mark_new_text_edit_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/BottomContainer/OptionsContainer2/MapNameOptionButton" to="." method="_on_map_name_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/BottomContainer/MergeButton" to="." method="_on_merge_button_pressed"]

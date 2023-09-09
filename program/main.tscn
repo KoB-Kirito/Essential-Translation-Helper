@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://h81bd8xrr2u4"]
+[gd_scene load_steps=61 format=3 uid="uid://h81bd8xrr2u4"]
 
 [ext_resource type="Script" path="res://program/main.gd" id="1_65a62"]
 [ext_resource type="Script" path="res://program/main_ui.gd" id="2_mnp7p"]
@@ -124,7 +124,18 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cf1xw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_51gth"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0.521569, 0.45098, 0.686275)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m3vxq"]
 content_margin_left = 3.0
 content_margin_top = 3.0
 content_margin_right = 3.0
@@ -188,12 +199,14 @@ TargetEditorOptions = NodePath("UI/StatusBarContainer/InfoBarContainer/TargetInf
 SourceSaveMenu = NodePath("UI/MenuBarContainer/SourceMenuContainer/SourceSaveMenu")
 TargetSaveMenu = NodePath("UI/MenuBarContainer/TargetMenuContainer/TargetSaveMenu")
 
-[node name="UI" type="VBoxContainer" parent="." node_paths=PackedStringArray("SourceEditor", "TargetEditor")]
+[node name="UI" type="VBoxContainer" parent="." node_paths=PackedStringArray("SourceEditor", "TargetEditor", "SourceEditorOptions", "TargetEditorOptions")]
 layout_mode = 2
 theme_override_constants/separation = 0
 script = ExtResource("2_mnp7p")
 SourceEditor = NodePath("EditorContainer/VerticalContainer/SourceTextEdit")
 TargetEditor = NodePath("EditorContainer/VerticalContainer/TargetTextEdit")
+SourceEditorOptions = NodePath("StatusBarContainer/InfoBarContainer/SourceInfoContainer/SourceOptionMenuButton")
+TargetEditorOptions = NodePath("StatusBarContainer/InfoBarContainer/TargetInfoContainer/TargetOptionMenuButton")
 save_grey = ExtResource("21_0j8vw")
 save_blue = ExtResource("18_yso0u")
 icon_removed_section = ExtResource("3_ld3w6")
@@ -1248,6 +1261,7 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_uweu4")
 icon_alignment = 1
 color = Color(0.113725, 0.121569, 0.129412, 1)
+edit_alpha = false
 
 [node name="EmptyFill2" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
 custom_minimum_size = Vector2(5, 2.08165e-12)
@@ -1272,6 +1286,7 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_tyuw6")
 icon_alignment = 1
 color = Color(0.831373, 0.831373, 0.831373, 1)
+edit_alpha = false
 
 [node name="EmptyFill3" type="Control" parent="UI/StatusBarContainer/SettingsBarContainer"]
 custom_minimum_size = Vector2(5, 2.08165e-12)
@@ -1293,9 +1308,9 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "Removed Lines"
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_cf1xw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_51gth")
 icon_alignment = 1
-color = Color(1, 0.52, 0.45, 0.6)
+color = Color(1, 0.521569, 0.45098, 0.54902)
 
 [node name="EditedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
@@ -1305,7 +1320,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "Edited Lines"
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_cf1xw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_m3vxq")
 icon_alignment = 1
 color = Color(0.92, 0.92, 0, 0.6)
 
