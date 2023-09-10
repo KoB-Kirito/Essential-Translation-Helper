@@ -62,13 +62,13 @@ func set_default_settings() -> void:
 	
 	split_horizontal = false
 	
-	color_background = Color(0.1, 0.11, 0.12, 1.0)
+	color_background = Color(0.1, 0.11, 0.12)
 	color_font = Color(0.83, 0.83, 0.83)
-	color_removed_line = Color(1.0, 0.52, 0.45, 0.6)
-	color_edited_line = Color(0.92, 0.92, 0, 0.6)
-	color_added_line = Color(0.56, 1.0, 0.52, 0.6)
-	color_translation_parsed = Color(0.37, 0.56, 1.0, 0.6)
-	color_translation_found = Color(0.37, 0.56, 1.0, 0.6)
+	color_removed_line = Color(0.81, 0.3, 0.22)
+	color_edited_line = Color(0.75, 0.71, 0.1)
+	color_added_line = Color(0.36, 0.74, 0.34)
+	color_translation_parsed = Color(0.26, 0.38, 0.65)
+	color_translation_found = Color(0.26, 0.38, 0.65)
 	
 	editor_options = {
 		Side.SOURCE: {
@@ -128,7 +128,7 @@ func save_settings() -> void:
 	config_file.set_value("Theme", "color_font", color_font)
 	config_file.set_value("Theme", "color_removed_line", color_removed_line)
 	config_file.set_value("Theme", "color_edited_line", color_edited_line)
-	config_file.set_value("Theme", "color_edited_line", color_edited_line)
+	config_file.set_value("Theme", "color_added_line", color_added_line)
 	config_file.set_value("Theme", "color_translation_parsed", color_translation_parsed)
 	config_file.set_value("Theme", "color_translation_found", color_translation_found)
 	

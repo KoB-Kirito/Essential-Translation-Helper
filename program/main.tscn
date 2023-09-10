@@ -129,7 +129,7 @@ content_margin_left = 3.0
 content_margin_top = 3.0
 content_margin_right = 3.0
 content_margin_bottom = 3.0
-bg_color = Color(1, 0.521569, 0.45098, 0.686275)
+bg_color = Color(1, 0.521569, 0.45098, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -140,7 +140,7 @@ content_margin_left = 3.0
 content_margin_top = 3.0
 content_margin_right = 3.0
 content_margin_bottom = 3.0
-bg_color = Color(1, 0.47451, 0.458824, 1)
+bg_color = Color(0.921569, 0.921569, 0, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -1310,7 +1310,8 @@ tooltip_text = "Removed Lines"
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_51gth")
 icon_alignment = 1
-color = Color(1, 0.521569, 0.45098, 0.54902)
+color = Color(1, 0.521569, 0.45098, 1)
+edit_alpha = false
 
 [node name="EditedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
@@ -1322,7 +1323,8 @@ tooltip_text = "Edited Lines"
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_m3vxq")
 icon_alignment = 1
-color = Color(0.92, 0.92, 0, 0.6)
+color = Color(0.921569, 0.921569, 0, 1)
+edit_alpha = false
 
 [node name="AddedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
@@ -1336,6 +1338,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_avcsu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_86n6t")
 icon_alignment = 1
 color = Color(0.560784, 1, 0.529412, 1)
+edit_alpha = false
 
 [node name="ParsedColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
@@ -1348,6 +1351,7 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_mvgp6")
 icon_alignment = 1
 color = Color(0.42, 0.57, 1, 1)
+edit_alpha = false
 
 [node name="FoundColorPickerButton" type="ColorPickerButton" parent="UI/StatusBarContainer/SettingsBarContainer"]
 unique_name_in_owner = true
@@ -1360,6 +1364,7 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_tmmfh")
 icon_alignment = 1
 color = Color(0.42, 0.57, 1, 1)
+edit_alpha = false
 
 [node name="StillWorkingTimer" type="Timer" parent="."]
 unique_name_in_owner = true
