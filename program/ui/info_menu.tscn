@@ -12,14 +12,14 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j1xmq"]
 
-[node name="InfoMenuButton" type="MenuButton" node_paths=PackedStringArray("license_popup")]
+[node name="InfoMenuButton" type="MenuButton" node_paths=PackedStringArray("license_popup", "reset_info")]
 tooltip_text = "Main Menu"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tfcqq")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_udcx6")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_6vwyh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_j1xmq")
 icon = ExtResource("1_8xex1")
-item_count = 4
+item_count = 5
 popup/item_0/text = "HowTo"
 popup/item_0/icon = ExtResource("2_ldpao")
 popup/item_0/id = 0
@@ -29,10 +29,13 @@ popup/item_1/id = 1
 popup/item_2/text = "Report a bug"
 popup/item_2/icon = ExtResource("2_ldpao")
 popup/item_2/id = 2
-popup/item_3/text = "License"
+popup/item_3/text = "Reset Settings"
 popup/item_3/id = 3
+popup/item_4/text = "License"
+popup/item_4/id = 4
 script = ExtResource("3_ajhoc")
 license_popup = NodePath("LicensePopup")
+reset_info = NodePath("AcceptDialog")
 
 [node name="LicensePopup" type="PopupPanel" parent="."]
 title = "License"
@@ -230,3 +233,7 @@ DISCLAIMER
 THE FONT SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 "
 autowrap_mode = 2
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+initial_position = 2
+dialog_text = "Settings set to default. Requires restart to take effect."
