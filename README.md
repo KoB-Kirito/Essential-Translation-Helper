@@ -20,10 +20,9 @@ Translated line 2
 
 ## Update translation after a patch
 
-> [!NOTE]
-> **Prerequisites:**
-> - You need your most current translated intl_<language>.txt file and the new intl.txt file from the patch
-> - [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source)
+| Prerequisites:                   | 
+|:--|
+| - You need your most current translated intl_<language>.txt file and the new intl.txt file from the patch<br> - [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source) |
 
 1. Open Essential Translation Helper.  
    You are greeted with the file selection window:
