@@ -33,7 +33,7 @@ Translated line 2
    > Check the line count. Newer files after a patch have more lines than before in most cases.
    
    > [!NOTE]
-   > The source file will be merged into the target file. The merger expects the target to have the desired layout and will not it's structure. It will compare each section and parse all translations it finds into the new layout.
+   > The source file will be merged into the target file. The merger expects the target to have the desired layout and will not change it's structure. It will compare each section and parse all translations it finds into the new layout.
 3. Select the section that contains the map names. This is 21 in current versions and 20 in older versions, but can also be something else if the game is modded. The selector gets filled after the target file got parsed. If it remains empty, the target file does not contain any suitable sections.
 4. Click `Merge`
    > [!NOTE]
