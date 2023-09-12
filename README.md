@@ -1,5 +1,6 @@
-# Essential Translation Helper
 <img width="100%" src="./media/screenshot.png" alt="Screenshot of main editor" />
+
+# Essential Translation Helper
 Can merge and edit translation files (intl.txt).  
 A program specially designed to ease the process of updating the translation after a patch.
 
@@ -19,13 +20,10 @@ Translated line 2
 
 ## Update translation after a patch
 
-{% note %}
-
-**Prerequisites:**
-- You need your most current translated intl_<language>.txt file and the new intl.txt file from the patch
-- [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source)
-
-{% endnote %}
+> [!NOTE]
+> **Prerequisites:**
+> - You need your most current translated intl_<language>.txt file and the new intl.txt file from the patch
+> - [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source)
 
 1. Open Essential Translation Helper.
    You are greeted with the file selection window.
@@ -33,6 +31,7 @@ Translated line 2
 2. Select your translated intl_<language>.txt file as source and the new intl.txt file as target.
    > [!IMPORTANT]
    > Check the line count. Newer files after a patch have more lines than before in most cases.
+   
    > [!NOTE]
    > The source file will be merged into the target file. The merger expects the target to have the desired layout and will not it's structure. It will compare each section and parse all translations it finds into the new layout.
 3. Select the section that contains the map names. This is 21 in current versions and 20 in older versions, but can also be something else if the game is modded. The selector gets filled after the target file got parsed. If it remains empty, the target file does not contain any suitable sections.
@@ -43,6 +42,7 @@ Translated line 2
    > [!IMPORTANT]
    > You can navigate trough the entries with the last and next button above the editor.
    > The other editor will try to find a matching entry and also center on that.
+   
    > [!NOTE]
    > Those are lines that were not found in the new file. They either got edited, replaced or removed altogether.
    > The merger will try to find similar lines and mark them as edited (`~`) if it's confident. Sometimes only a typo was corrected, then you can usually take over the translation.
