@@ -58,6 +58,7 @@ func set_loading_state() -> void:
 	
 	var window = get_window()
 	window.content_scale_factor = Settings.window_content_scale
+	window.size = WINDOW_MIN_SIZE
 	window.size *= Settings.window_content_scale
 	if Settings.window_position_loading > Vector2i.ZERO:
 		window.position = Settings.window_position_loading
