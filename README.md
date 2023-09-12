@@ -68,7 +68,7 @@ This repository contains the whole project.
 2. Download the project from this repo and open it with Godot
 3. You can now just run it from the editor (F5)
 
-_Optional_: Build your own executable
+### _Optional_: Build your own executable
 This process is well described here:
 https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html
 
