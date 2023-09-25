@@ -382,8 +382,147 @@ func mark_todo() -> void:
 		if get_line_gutter_metadata(line, Gutter.LINE_TYPE) != LineType.TRANSLATION:
 			continue
 		if get_line_gutter_metadata(line, Gutter.ICON) == Icon.ADDED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.EDITED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.REMOVED_LINE:
-			set_line(line, Settings.mark_new_lines_text + " " + Marshalls.variant_to_base64(line))
+			set_line(line, Settings.mark_new_lines_text + " " + hex_to_str(line))
 
+
+static func hex_to_str(n:int) -> String:
+	var new_str := ""
+	while n > 0:
+		new_str = hex_digit_to_str(n&63) + new_str
+		n = n>>6
+	return new_str
+
+static func hex_digit_to_str(n:int) -> String:
+	match n:
+		10:
+			return "a"
+		11:
+			return "b"
+		12:
+			return "c"
+		13:
+			return "d"
+		14:
+			return "e"
+		15:
+			return "f"
+		16:
+			return "g"
+		17:
+			return "h"
+		18:
+			return "i"
+		19:
+			return "j"
+		20:
+			return "k"
+		21:
+			return "l"
+		22:
+			return "m"
+		23:
+			return "n"
+		24:
+			return "o"
+		25:
+			return "p"
+		26:
+			return "q"
+		27:
+			return "r"
+		28:
+			return "s"
+		29:
+			return "t"
+		30:
+			return "u"
+		31:
+			return "v"
+		32:
+			return "w"
+		33:
+			return "x"
+		34:
+			return "y"
+		35:
+			return "z"
+		
+		36:
+			return "A"
+		37:
+			return "B"
+		38:
+			return "C"
+		39:
+			return "D"
+		40:
+			return "E"
+		41:
+			return "F"
+		42:
+			return "G"
+		43:
+			return "H"
+		44:
+			return "I"
+		45:
+			return "J"
+		46:
+			return "K"
+		47:
+			return "L"
+		48:
+			return "M"
+		49:
+			return "N"
+		50:
+			return "O"
+		51:
+			return "P"
+		52:
+			return "Q"
+		53:
+			return "R"
+		54:
+			return "S"
+		55:
+			return "T"
+		56:
+			return "U"
+		57:
+			return "V"
+		58:
+			return "W"
+		59:
+			return "X"
+		61:
+			return "Y"
+		62:
+			return "Z"
+		
+		63:
+			return "+"
+		64:
+			return "-"
+		65:
+			return "!"
+		66:
+			return "."
+		67:
+			return ":"
+		68:
+			return "?"
+		69:
+			return "="
+		70:
+			return "$"
+		71:
+			return "<"
+		72:
+			return ">"
+		
+		_:
+			return str(n)
 
 ### Synchron Scrolling ###
 

@@ -10,6 +10,7 @@ func _ready() -> void:
 	handle_changed_path(%SourcePathTextEdit, %SourceInfoLabel, false)
 	%TargetPathTextEdit.text = Settings.target_path
 	handle_changed_path(%TargetPathTextEdit, %TargetInfoLabel, true)
+	%MarkNewTextEdit.text = Settings.mark_new_lines_text
 	
 	var window = get_window()
 	

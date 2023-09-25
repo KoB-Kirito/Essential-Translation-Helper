@@ -92,7 +92,7 @@ func parse_lines(lines: PackedStringArray, is_target: bool) -> String:
 		if raw_line.begins_with("#Done: "):
 			for done_line in raw_line.substr(7).split(",", false):
 				target_lines_done.append(int(done_line))
-			print(target_lines_done)
+			#print(target_lines_done)
 			continue
 		
 		current_line += 1
