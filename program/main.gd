@@ -293,8 +293,10 @@ func get_section_names() -> Array[String]:
 
 func save_all() -> void:
 	print("saving all")
-	SourceSaveMenu.save_file()
-	TargetSaveMenu.save_file()
+	if SourceEditor.has_unsaved_changes:
+		SourceSaveMenu.save_file()
+	if TargetEditor.has_unsaved_changes:
+		TargetSaveMenu.save_file()
 
 
 ### Hotkeys ###
@@ -360,9 +362,8 @@ func transfer_source_line_to_target() -> void:
 			return
 	
 	TargetEditor.set_line(target_translated_line, SourceEditor.get_line(source_translated_line))
-	UI.show_status_message(Side.SOURCE, "Copied line", Color.GREEN, 1.0)
-	UI.show_status_message(Side.TARGET, "Pasted line", Color.GREEN, 1.0)
+	#UI.show_status_message(Side.SOURCE, "Copied line", Color.GREEN, 1.0)
+	#UI.show_status_message(Side.TARGET, "Pasted line", Color.GREEN, 1.0)
 	
 	SourceEditor.mark_as_done()
 	TargetEditor.mark_as_done()
-	#TODO: Mark both as done, set icon as parsed. save line number

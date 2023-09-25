@@ -256,6 +256,8 @@ func set_status_bar(state: StatusBarState) -> void:
 			%TargetInfoContainer.show()
 
 
+@onready var reset_labels_timer := %ResetLabelsTimer as Timer
+
 func show_status_message(where: int, message: String, color: Color = Color.WHITE, duration: float = 5.0) -> void:
 	var label: Label
 	match where:
@@ -279,7 +281,7 @@ func show_status_message(where: int, message: String, color: Color = Color.WHITE
 	label.modulate = color
 	
 	if duration > 0.0:
-		%ResetLabelsTimer.start(duration)
+		reset_labels_timer.start(duration)
 
 
 func clear_status_message(where: int) -> void:
@@ -549,7 +551,7 @@ func _on_translations_found_clicked(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
 		return
 	
-	if event.button_index == MOUSE_BUTTON_LEFT:
+	if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		TargetEditor.jump_to_next(Icon.TRANSLATED_LINE_FOUND)
 
 #TODO: Add other labels too?

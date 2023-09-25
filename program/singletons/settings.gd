@@ -56,7 +56,7 @@ func set_default_settings() -> void:
 	target_path = ""
 	
 	mark_new_lines = false
-	mark_new_lines_text = ""
+	mark_new_lines_text = "ToDo"
 	
 	map_name_section = "[20]"
 	

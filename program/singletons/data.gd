@@ -45,6 +45,9 @@ var target_section_data: Dictionary #[StringName, SectionData]
 var source_section_lines: Array[PackedStringArray]
 var target_section_lines: Array[PackedStringArray]
 
+# persistent data
+var target_lines_done: Array[int]
+
 
 func clear_arrays():
 	source_section_lines.clear()
@@ -66,6 +69,8 @@ func parse_lines(lines: PackedStringArray, is_target: bool) -> String:
 	if is_target:
 		target_section_data.clear()
 		target_section_lines.clear()
+		target_lines_done.clear()
+		
 	else:
 		source_section_data.clear()
 		source_section_lines.clear()
@@ -81,6 +86,15 @@ func parse_lines(lines: PackedStringArray, is_target: bool) -> String:
 	current_section_data.found = false
 	
 	for raw_line in lines:
+		# filter out stored data
+		if raw_line.begins_with("#[Essential Translation Helper]"):
+			continue
+		if raw_line.begins_with("#Done: "):
+			for done_line in raw_line.substr(7).split(",", false):
+				target_lines_done.append(int(done_line))
+			print(target_lines_done)
+			continue
+		
 		current_line += 1
 		
 		# strip line end
@@ -204,9 +218,9 @@ func async_merge() -> void:
 				target.output += line + "\n"
 				continue
 			
-			if section_is_new:
-				# all lines are new if section is added
-				target.line_icon[current_line] = Icon.ADDED_LINE
+			#if section_is_new:
+			#	# all lines are new if section is added
+			#	target.line_icon[current_line] = Icon.ADDED_LINE
 			
 			match current_line_type:
 				LineType.INDEX:
@@ -233,16 +247,17 @@ func async_merge() -> void:
 					# handle new section > no need to search
 					if section_is_new:
 						# look for already added translation though
-						if original_line != line and original_line != line.strip_edges().replace("  ", " ") and not Settings.mark_new_lines_text in line: #TODO: Replace through save line state system
+						if current_line in Data.target_lines_done or \
+								(original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line):
 							# line doesn't match original line and doesn't contain mark > already translated
 							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
-							#target.translations_found_count += 1
 							
 						else:
 							# otherwise this entry is new
-							# no need to mark icons, as all lines in new sections are marked already
-							#target.original_added_lines_count += 1
-							pass
+							if numbered:
+								target.line_icon[current_line - 2] = Icon.ADDED_LINE
+							target.line_icon[current_line - 1] = Icon.ADDED_LINE
+							target.line_icon[current_line] = Icon.ADDED_LINE
 						
 						# append line
 						target.output += format_new_line(line, current_line, section)
@@ -255,10 +270,10 @@ func async_merge() -> void:
 						# line does not exist in source file
 						
 						# check if already translated
-						if original_line != line and original_line != line.strip_edges().replace("  ", " ") and not Settings.mark_new_lines_text in line:
+						if current_line in Data.target_lines_done or \
+								(original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line):
 							# line doesn't match original line and doesn't contain mark > already translated
 							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
-							#target.translations_found_count += 1
 							
 							target.output += line + "\n"
 							continue
@@ -272,16 +287,16 @@ func async_merge() -> void:
 						target.line_icon[current_line - 1] = Icon.ADDED_LINE
 						target.line_icon[current_line] = Icon.ADDED_LINE
 						
-						#target.original_added_lines_count += 1
-						
 						target.output += format_new_line(line, current_line, section)
 						
 					else:
 						# line found in source file
 						var translated_line := old_lines[pos + 1]
-						if translated_line != line:
+						if translated_line != line and translated_line != remove_compiler_bugs(line):
 							target.line_icon[current_line] = Icon.TRANSLATED_LINE_PARSED
-							#target.translations_parsed_count += 1
+							
+						elif original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line:
+							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
 						
 						# store where the line is in the source file
 						var source_current_line: int = source_section_data[section].line + 1 + pos + 1
@@ -301,6 +316,13 @@ func async_merge() -> void:
 							found_positions.append(pos - 1)
 						found_positions.append(pos)
 						found_positions.append(pos + 1)
+						
+						# check todo mark
+						if Settings.mark_new_lines_text in translated_line:
+							if numbered:
+								target.line_icon[current_line - 2] = Icon.ADDED_LINE
+							target.line_icon[current_line - 1] = Icon.ADDED_LINE
+							target.line_icon[current_line] = Icon.ADDED_LINE
 						
 						# use translated line
 						target.output += translated_line + "\n"
@@ -616,6 +638,22 @@ func async_merge() -> void:
 	call_deferred("emit_signal", "merged", source, target)
 
 
+## Compiler bugs I encountered:
+## - spaces get doubled randomly
+## - spaces get added at beginning or end of line
+## - <<n>> turns into <<r>><<n>>
+## - <<r>><<n>> is added at end of line
+func remove_compiler_bugs(input_string: String) -> String:
+	#TODO: Improve performance
+	input_string = input_string.strip_edges()
+	input_string = input_string.replace("  ", " ")
+	if input_string.ends_with("<<r>><<n>>"):
+		input_string = input_string.left(-10)
+	input_string = input_string.replace("<<r>><<n>>", "<<n>>")
+	return input_string
+
+
+## Returns the line number of the given entry number in an indexed section 
 ## -1 = does not exist
 func get_number_position(number: int, section_lines: PackedStringArray) -> int:
 	var current_line_type: int = LineType.INDEX

@@ -7,6 +7,8 @@ extends TextEdit
 
 @export_enum("Source", "Target") var SIDE: int
 
+@onready var double_click_timer := %DoubleClickTimer as Timer
+
 var SECTION_DATA: Dictionary:
 	get:
 		if SIDE == Side.SOURCE:
@@ -327,13 +329,13 @@ func section_line_to_global(section: StringName, section_line: int) -> int:
 
 
 func _on_done_button_pressed() -> void:
-	done_button.disabled = true
 	mark_as_done()
 
 
 func mark_as_done() -> void:
 	if done_button.disabled:
 		return
+	done_button.disabled = true
 	
 	var is_numbered: bool = SECTION_DATA[get_line_gutter_text(caret_current_line, Gutter.SECTION)].numbered
 	var original_line: int = caret_current_line
@@ -354,6 +356,12 @@ func mark_as_done() -> void:
 		UI.update_source_labels()
 		
 	else: # Target
+		# save persistent
+		#if not original_line in Data.target_lines_done:
+		#	Data.target_lines_done.append(original_line)
+		if not original_line + 1 in Data.target_lines_done:
+			Data.target_lines_done.append(original_line + 1)
+		
 		if is_numbered:
 			set_line_icon(original_line - 1, Icon.NONE)
 		set_line_icon(original_line, Icon.NONE)
@@ -364,6 +372,18 @@ func mark_as_done() -> void:
 		UI.update_target_labels()
 	
 	done_button.disabled = true
+
+
+
+### Mark ToDo ###
+
+func mark_todo() -> void:
+	for line in range(get_line_count()):
+		if get_line_gutter_metadata(line, Gutter.LINE_TYPE) != LineType.TRANSLATION:
+			continue
+		if get_line_gutter_metadata(line, Gutter.ICON) == Icon.ADDED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.EDITED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.REMOVED_LINE:
+			set_line(line, Settings.mark_new_lines_text + " " + Marshalls.variant_to_base64(line))
+
 
 ### Synchron Scrolling ###
 
@@ -467,13 +487,13 @@ func _on_gutter_clicked(line:int, gutter: int) -> void:
 	print_debug(get_line_gutter_metadata(line, gutter))
 	
 	# handle double click
-	if line == last_clicked_line and gutter == last_clicked_gutter and not %DoubleClickTimer.is_stopped():
+	if line == last_clicked_line and gutter == last_clicked_gutter and not double_click_timer.is_stopped():
 		var found_line: int = try_find_same_line_in_other(line)
 		if found_line >= 0:
 			OtherEditor.center_on_line(found_line, false)
 			center_on_line(line)
 		return
-	%DoubleClickTimer.start()
+	double_click_timer.start()
 	
 	last_clicked_line = line
 	last_clicked_gutter = gutter
@@ -941,12 +961,12 @@ func _on_update_timer_timeout() -> void:
 ### Status Bar Jump ###
 
 func jump_to_next(icon: int) -> void:
-	for i in range(caret_current_line, get_line_count()):
+	for i in range(caret_current_line + 1, get_line_count()):
 		if get_line_gutter_metadata(i, Gutter.ICON) == icon:
-			center_on_line(i)
+			center_on_line(i - 1, false)
 			return
 	
 	for i in range(0, caret_current_line):
 		if get_line_gutter_metadata(i, Gutter.ICON) == icon:
-			center_on_line(i)
+			center_on_line(i - 1, false)
 			return

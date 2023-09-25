@@ -8,7 +8,8 @@ enum {
 	COMPILE_DAT = 5,
 	EXPORT_CSV = 7,
 	EXPORT_TODO = 8,
-	EXPORT_SECTIONS = 9
+	EXPORT_SECTIONS = 9,
+	MARK_TODO = 11
 }
 
 
@@ -56,6 +57,9 @@ func on_popup_menu_button_pressed(i: int) -> void:
 		EXPORT_SECTIONS:
 			#TODO
 			pass
+		
+		MARK_TODO:
+			editor.mark_todo()
 
 
 func get_working_directory() -> String:
@@ -105,9 +109,10 @@ func save_file() -> void:
 	if not asked_for_overwrite and path == original_path:
 		# ask if original file should be overwritten
 		if OS.get_name() == "macOS":
-			if DisplayServer.dialog_show("Warning", "Do you want to overwrite " + original_path + "?", ["OK", "Cancel"], on_native_confirmation_dialog):
+			if DisplayServer.dialog_show("Warning", "Do you want to overwrite the original file?\n" + original_path.get_file(), ["OK", "Cancel"], on_native_confirmation_dialog):
 				confirmation_dialog.popup()
 		else:
+			confirmation_dialog.dialog_text = "Do you want to overwrite the original file?\n" + original_path.get_file()
 			confirmation_dialog.popup()
 		return
 	
@@ -115,8 +120,14 @@ func save_file() -> void:
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(path)
 	
+	var stored_text = editor.text.replace("\n", "\r\n")
+	
+	# append persistent data
+	if SIDE == Side.TARGET and not Data.target_lines_done.is_empty():
+		stored_text += "\r\n" + "#[Essential Translation Helper]" + "\r\n" + "#Done: " + ",".join(Data.target_lines_done)
+	
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string(editor.text.replace("\n", "\r\n"))
+	file.store_string(stored_text)
 	file.close()
 	
 	editor.save_line_history()
