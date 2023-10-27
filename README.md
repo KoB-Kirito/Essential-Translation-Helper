@@ -22,7 +22,7 @@ Translated line 2
 
 | Prerequisites:                   | 
 |:--|
-| - Your most current translated intl_<language>.txt file. This is one file that contains all your translations, it is the file you give to the devs in the end. If your team works with excel sheets or google drive there is most likely one member that merges those in the end to the needed intl_language.intl file.<br> - The new intl.txt file from the patch. This file should contain no translations yet.<br> - [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source) |
+| - Your outdated translated intl_<language>.txt file. This is one file that contains all your translations, it is the file you give to the devs in the end. If your team works with excel sheets or google drive there is most likely one member that merges those in the end to the needed intl_language.txt file.<br> - The new intl.txt file from the patch. This file should contain no translations yet.<br> - [Download](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) the newest Essential Translation Helper from [releases](https://github.com/KoB-Kirito/Essential-Translation-Helper/releases) or [build from source](#Build-from-source) |
 
 1. Open Essential Translation Helper.  
    You are greeted with the file selection window:
