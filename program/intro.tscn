@@ -170,7 +170,6 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
 [node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer/BottomContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0

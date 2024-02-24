@@ -149,7 +149,7 @@ func merge() -> void:
 
 
 func async_merge() -> void:
-	### Target ###
+	### Target File ###
 	
 	var target: TargetData = TargetData.new(target_file_line_count)
 	var source: SourceData = SourceData.new(source_file_line_count)
@@ -214,7 +214,7 @@ func async_merge() -> void:
 			if line.is_empty() or line.begins_with("#"):
 				# just ignore comments, they get marked later
 				# also stay at current type
-				# ToDo: allow custom commands?
+				# TODO: allow custom commands?
 				target.output += line + "\n"
 				continue
 			
@@ -248,7 +248,7 @@ func async_merge() -> void:
 					if section_is_new:
 						# look for already added translation though
 						if current_line in Data.target_lines_done or \
-								(original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line):
+								(original_line != line and original_line != remove_compiler_bugs(line) and not contains_todo_mark(line)):
 							# line doesn't match original line and doesn't contain mark > already translated
 							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
 							
@@ -271,7 +271,7 @@ func async_merge() -> void:
 						
 						# check if already translated
 						if current_line in Data.target_lines_done or \
-								(original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line):
+								(original_line != line and original_line != remove_compiler_bugs(line) and not contains_todo_mark(line)):
 							# line doesn't match original line and doesn't contain mark > already translated
 							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
 							
@@ -292,11 +292,6 @@ func async_merge() -> void:
 					else:
 						# line found in source file
 						var translated_line := old_lines[pos + 1]
-						if translated_line != line and translated_line != remove_compiler_bugs(line):
-							target.line_icon[current_line] = Icon.TRANSLATED_LINE_PARSED
-							
-						elif original_line != line and original_line != remove_compiler_bugs(line) and not Settings.mark_new_lines_text in line:
-							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
 						
 						# store where the line is in the source file
 						var source_current_line: int = source_section_data[section].line + 1 + pos + 1
@@ -317,15 +312,52 @@ func async_merge() -> void:
 						found_positions.append(pos)
 						found_positions.append(pos + 1)
 						
-						# check todo mark
-						if Settings.mark_new_lines_text in translated_line:
-							if numbered:
-								target.line_icon[current_line - 2] = Icon.ADDED_LINE
-							target.line_icon[current_line - 1] = Icon.ADDED_LINE
-							target.line_icon[current_line] = Icon.ADDED_LINE
+						# handle ToDo marks in souce
+						if contains_todo_mark(translated_line):
+							# source line is marked as todo
+							
+							# target may be translated already
+							if original_line != line and original_line != remove_compiler_bugs(line) and not contains_todo_mark(line):
+								target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
+								
+							else:
+								# target line is not translated yet
+								# mark as new
+								if numbered:
+									target.line_icon[current_line - 2] = Icon.ADDED_LINE
+								target.line_icon[current_line - 1] = Icon.ADDED_LINE
+								target.line_icon[current_line] = Icon.ADDED_LINE
+							
+							# keep original line in both cases, filters out ToDo marks
+							target.output += line + "\n"
+							continue
 						
-						# use translated line
-						target.output += translated_line + "\n"
+						# check if translated
+						if translated_line != line and translated_line != remove_compiler_bugs(line):
+							target.line_icon[current_line] = Icon.TRANSLATED_LINE_PARSED
+							
+							# use translated line from source
+							target.output += translated_line + "\n"
+							
+						elif original_line != line and original_line != remove_compiler_bugs(line):
+							target.line_icon[current_line] = Icon.TRANSLATED_LINE_FOUND
+							
+							# keep translated line from target
+							target.output += line + "\n"
+							
+						else:
+							# line is not translated in both files
+							#
+							# either doesn't need translation > intentional
+							# or was not marked as todo yet in the source file
+							#
+							# TODO: Mark those in another way in the future:
+							#       Orange? Question mark? Check = mark as Translated
+							#       (How to save translated for future diffs?=
+							#
+							# For now rely on always marking untranslated lines as todo
+							# and treating untranslated lines in both files as translated
+							target.output += line + "\n"
 		
 		# after going through all lines in section
 		
@@ -433,10 +465,8 @@ func async_merge() -> void:
 		var current_section_line: int = -1
 		
 		# setup type of section
-		var current_line_type: int = 0
+		var current_line_type: int = 1
 		var numbered: bool = source_section_data[section].numbered
-		if numbered:
-			current_line_type = 2
 		
 		for line in source_section_lines[source_section_data[section].index]:
 				# for each line in section
@@ -453,40 +483,57 @@ func async_merge() -> void:
 					# ToDo: allow custom commands?
 					continue
 				
-				if section_was_removed:
-					if not line.is_empty():
-						source.line_icon[current_line] = Icon.REMOVED_LINE
-					
-				elif not current_section_line in source_section_data[section].found_lines:
-					if not line.is_empty() and source.line_icon[current_line] != Icon.EDITED_LINE:
-						source.line_icon[current_line] = Icon.REMOVED_LINE
+				# track current line type, last type > current type
+				match current_line_type:
+					0: # original line
+						current_line_type = 1
 						
-						if not section in source.removed_sections and not section in source.edited_sections:
-							source.edited_sections.append(section)
+					1: # translated line
+						if numbered:
+							current_line_type = 2
+						else:
+							current_line_type = 0
+						
+					2: # current_number
+						current_line_type = 0
+				
+				if section_was_removed:
+					if current_line_type != 1: # translated
+						continue
 					
-					# check if edited
-					if numbered:
-						match current_line_type:
-							0: # original line
-								current_line_type = 1
+					if not contains_todo_mark(line):
+						if numbered:
+							source.line_icon[current_line - 2] = Icon.REMOVED_LINE
+						source.line_icon[current_line - 1] = Icon.REMOVED_LINE
+						source.line_icon[current_line] = Icon.REMOVED_LINE
+					
+					continue
+				
+				# line was not found in target file
+				if not current_section_line in source_section_data[section].found_lines:
+					if current_line_type == 1: # translated
+						
+						if source.line_icon[current_line] != Icon.EDITED_LINE and not contains_todo_mark(line):
+							if numbered:
+								# compare for edit
+								var t_line_number: int = get_number_position(int(line), target_section_lines[target_section_data[section].index])
+								if t_line_number >= 0:
+									source.line_icon[current_line - 2] = Icon.EDITED_LINE
+									source.line_icon[current_line - 1] = Icon.EDITED_LINE
+									source.line_icon[current_line] = Icon.EDITED_LINE
+									
+									var g_t_line_number: int = target_section_data[section].line + 1 + t_line_number
+									target.line_icon[g_t_line_number - 2] = Icon.EDITED_LINE
+									target.line_icon[g_t_line_number - 1] = Icon.EDITED_LINE
+									target.line_icon[g_t_line_number] = Icon.EDITED_LINE
+									continue
 								
-							1: # translated line
-								current_line_type = 2
-								
-							2: # current_number
-								current_line_type = 0
-								
-								if source.line_icon[current_line] == Icon.REMOVED_LINE:
-									var t_line_number: int = get_number_position(int(line), target_section_lines[target_section_data[section].index])
-									if t_line_number >= 0:
-										source.line_icon[current_line] = Icon.EDITED_LINE
-										source.line_icon[current_line + 1] = Icon.EDITED_LINE
-										source.line_icon[current_line + 2] = Icon.EDITED_LINE
-										
-										var g_t_line_number: int = target_section_data[section].line + 1 + t_line_number
-										target.line_icon[g_t_line_number] = Icon.EDITED_LINE
-										target.line_icon[g_t_line_number + 1] = Icon.EDITED_LINE
-										target.line_icon[g_t_line_number + 2] = Icon.EDITED_LINE
+								source.line_icon[current_line - 2] = Icon.REMOVED_LINE
+							source.line_icon[current_line - 1] = Icon.REMOVED_LINE
+							source.line_icon[current_line] = Icon.REMOVED_LINE
+							
+							if not section in source.removed_sections and not section in source.edited_sections:
+								source.edited_sections.append(section)
 		
 		# after going through all lines
 		
@@ -761,6 +808,7 @@ func get_string_distance(str_1: String, str_2: String, max_length_diff: int = 0)
 	return matrix[str_1.length()][str_2.length()]
 
 
+## Formats new line with the todo mark if set
 func format_new_line(line: String, current_line: int, current_section: StringName) -> String:
 	if Settings.mark_new_lines:
 		return Settings.mark_new_lines_text.replace("{line}", str(current_line)).replace("{section}", current_section) + "\n"
@@ -842,3 +890,8 @@ func get_map_names(map_names_section: PackedStringArray, translated: bool) -> Ar
 				current_line_type = LineType.INDEX
 	
 	return output
+
+
+#TODO: Ensure todo mark is found if configurable
+func contains_todo_mark(txt: String) -> bool:
+	return txt.begins_with("ToDo")

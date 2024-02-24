@@ -61,7 +61,7 @@ var next_jump_line: int = -1
 
 
 func update_last_next() -> void:
-	print(name, ": Updating last/next")
+	#print_debug(name, ": Updating last/next")
 	
 	# check if there are new lines before
 	last_jump_line = -1
@@ -73,6 +73,7 @@ func update_last_next() -> void:
 			
 			if get_line_gutter_metadata(i, Gutter.ICON) == Icon.ADDED_LINE or \
 					get_line_gutter_metadata(i, Gutter.ICON) == Icon.EDITED_LINE or \
+					get_line_gutter_metadata(i, Gutter.ICON) == Icon.REMOVED_SECTION or \
 					get_line_gutter_metadata(i, Gutter.ICON) == Icon.REMOVED_LINE:
 				last_jump_line = i
 				break
@@ -87,6 +88,7 @@ func update_last_next() -> void:
 			
 			if get_line_gutter_metadata(i, Gutter.ICON) == Icon.ADDED_LINE or \
 					get_line_gutter_metadata(i, Gutter.ICON) == Icon.EDITED_LINE or \
+					get_line_gutter_metadata(i, Gutter.ICON) == Icon.REMOVED_SECTION or \
 					get_line_gutter_metadata(i, Gutter.ICON) == Icon.REMOVED_LINE:
 				next_jump_line = i
 				break
@@ -337,6 +339,10 @@ func mark_as_done() -> void:
 		return
 	done_button.disabled = true
 	
+	if SIDE == Side.SOURCE and get_line_gutter_metadata(caret_current_line, Gutter.LINE_TYPE) == LineType.SECTION:
+		mark_whole_section_as_done()
+		return
+	
 	var is_numbered: bool = SECTION_DATA[get_line_gutter_text(caret_current_line, Gutter.SECTION)].numbered
 	var original_line: int = caret_current_line
 	match get_line_gutter_metadata(caret_current_line, Gutter.LINE_TYPE):
@@ -374,15 +380,52 @@ func mark_as_done() -> void:
 	done_button.disabled = true
 
 
+func mark_whole_section_as_done() -> void:
+	var curr_line: int = caret_current_line
+	while true:
+		set_line_icon(curr_line, Icon.NONE)
+		set_line(curr_line, "# " + get_line(curr_line))
+		
+		curr_line += 1
+		
+		if curr_line > get_line_count():
+			break
+		if get_line_gutter_metadata(curr_line, Gutter.LINE_TYPE) == LineType.SECTION:
+			break
+	UI.update_source_labels()
+	update_last_next()
+
+
 
 ### Mark ToDo ###
 
 func mark_todo() -> void:
 	for line in range(get_line_count()):
+		# only translation lines
 		if get_line_gutter_metadata(line, Gutter.LINE_TYPE) != LineType.TRANSLATION:
 			continue
-		if get_line_gutter_metadata(line, Gutter.ICON) == Icon.ADDED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.EDITED_LINE or get_line_gutter_metadata(line, Gutter.ICON) == Icon.REMOVED_LINE:
-			set_line(line, Settings.mark_new_lines_text + " " + hex_to_str(line))
+		
+		# only new lines
+		if get_line_gutter_metadata(line, Gutter.ICON) != Icon.ADDED_LINE and \
+				get_line_gutter_metadata(line, Gutter.ICON) != Icon.EDITED_LINE and \
+				get_line_gutter_metadata(line, Gutter.ICON) != Icon.REMOVED_LINE:
+			continue
+		
+		var new_line: String = Settings.mark_new_lines_text + " " + Editor.hex_to_str(line)
+		
+		# keep var count same
+		var original_line: String = get_line(line - 1)
+		var open_pos: int = original_line.find("{")
+		while open_pos >= 0:
+			var close_pos: int = original_line.find("}", open_pos)
+			if close_pos < 0:
+				break
+			new_line += " " + original_line.substr(open_pos, close_pos - open_pos + 1)
+			open_pos = original_line.find("{", close_pos)
+		
+		#TODO: Keep file paths
+		
+		set_line(line, new_line)
 
 
 static func hex_to_str(n:int) -> String:
@@ -816,6 +859,7 @@ func _on_caret_changed() -> void:
 	# update done button
 	if get_line_gutter_metadata(caret_current_line, Gutter.ICON) == Icon.ADDED_LINE or \
 			get_line_gutter_metadata(caret_current_line, Gutter.ICON) == Icon.EDITED_LINE or \
+			get_line_gutter_metadata(caret_current_line, Gutter.ICON) == Icon.REMOVED_SECTION or \
 			get_line_gutter_metadata(caret_current_line, Gutter.ICON) == Icon.REMOVED_LINE:
 		done_button.disabled = false
 		

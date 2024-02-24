@@ -5,11 +5,14 @@ extends MarginContainer
 
 
 func _ready() -> void:
+	# reset settings to saved settings
 	Settings.load_settings()
 	%SourcePathTextEdit.text = Settings.source_path
 	handle_changed_path(%SourcePathTextEdit, %SourceInfoLabel, false)
 	%TargetPathTextEdit.text = Settings.target_path
 	handle_changed_path(%TargetPathTextEdit, %TargetInfoLabel, true)
+	
+	#TODO: currently unused, make todo configurable
 	%MarkNewTextEdit.text = Settings.mark_new_lines_text
 	
 	var window = get_window()
@@ -45,11 +48,11 @@ func _on_target_open_button_pressed() -> void:
 		%TargetFileDialog.popup()
 
 
-func _on_source_native_file_dialog_file_selected(status: bool, selected_paths: PackedStringArray):
+func _on_source_native_file_dialog_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	if status:
 		_on_source_file_dialog_file_selected(selected_paths[0])
 
-func _on_target_native_file_dialog_file_selected(status: bool, selected_paths: PackedStringArray):
+func _on_target_native_file_dialog_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	if status:
 		DisplayServer.window_move_to_foreground(get_window().get_window_id())
 		_on_target_file_dialog_file_selected(selected_paths[0])
