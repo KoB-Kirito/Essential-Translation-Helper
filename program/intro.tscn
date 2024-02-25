@@ -54,8 +54,10 @@ alignment = 2
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="InfoMenuButton" parent="VBoxContainer/MenuContainer" instance=ExtResource("2_dfi50")]
+[node name="InfoMenuButton" parent="VBoxContainer/MenuContainer" node_paths=PackedStringArray("license_popup", "reset_info") instance=ExtResource("2_dfi50")]
 layout_mode = 2
+license_popup = NodePath("LicensePopup")
+reset_info = NodePath("AcceptDialog")
 
 [node name="Label" type="Label" parent="VBoxContainer/MenuContainer"]
 layout_mode = 2
@@ -170,6 +172,7 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
 [node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer/BottomContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0

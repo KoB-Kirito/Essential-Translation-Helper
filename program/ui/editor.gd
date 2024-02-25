@@ -68,7 +68,8 @@ func update_last_next() -> void:
 	
 	if caret_current_line > 2:
 		for i in range(caret_current_line - 2, 0, -1):
-			if get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.ORIGINAL:
+			if get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.ORIGINAL and \
+					get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.SECTION:
 				continue
 			
 			if get_line_gutter_metadata(i, Gutter.ICON) == Icon.ADDED_LINE or \
@@ -83,7 +84,8 @@ func update_last_next() -> void:
 		
 	if caret_current_line < get_line_count() - 2:
 		for i in range(caret_current_line + 1, get_line_count()):
-			if get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.ORIGINAL:
+			if get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.ORIGINAL and \
+					get_line_gutter_metadata(i, Gutter.LINE_TYPE) != LineType.SECTION:
 				continue
 			
 			if get_line_gutter_metadata(i, Gutter.ICON) == Icon.ADDED_LINE or \
@@ -145,8 +147,15 @@ func center_on_line(line: int, focus: bool = true) -> void:
 	
 	set_line_as_center_visible(line)
 	
-	# select translation line to mark and paste
-	select(line + 1, 0, line + 1, get_line(line + 1).length())
+	if get_line_gutter_metadata(line, Gutter.LINE_TYPE) == LineType.SECTION:
+		# select whole section
+		set_caret_line(line, false)
+		var section_length: int = get_line_count_until_next_section(line)
+		select(line, 0, line + section_length, get_line(line + section_length).length())
+		
+	else:
+		# select translation line to mark and paste
+		select(line + 1, 0, line + 1, get_line(line + 1).length())
 	
 	if focus:
 		if SIDE == Side.TARGET:
@@ -157,12 +166,23 @@ func center_on_line(line: int, focus: bool = true) -> void:
 		grab_focus()
 
 
+func get_line_count_until_next_section(from: int) -> int:
+	var output: int = 0
+	var curr_line: int = from + 1
+	while get_line_gutter_metadata(curr_line, Gutter.LINE_TYPE) != LineType.SECTION:
+		curr_line += 1
+		if curr_line > get_line_count():
+			break
+		output += 1
+	return output
+
+
 ## -> line number in other editor if found, -1 if not
 func try_find_same_line_in_other(line_number: int) -> int:
 	# use saved reference data if present
 	var ref_line: int = get_line_gutter_metadata(line_number, Gutter.LINE_NUMBER)
 	if ref_line > 0:
-		print("search used direct ref data")
+		#print_debug("search used direct ref data")
 		return ref_line
 	
 	var section = get_line_gutter_text(line_number, Gutter.SECTION)
@@ -170,7 +190,7 @@ func try_find_same_line_in_other(line_number: int) -> int:
 	
 	# if line is section itself, just match it with other section
 	if current_line_type == LineType.SECTION and section in OTHER_SECTION_DATA:
-		print("search used section line")
+		#print_debug("search used section line")
 		return OTHER_SECTION_DATA[section].line
 	
 	# check if block borders other section, then use that section
@@ -190,7 +210,7 @@ func try_find_same_line_in_other(line_number: int) -> int:
 		if get_line_gutter_metadata(i, Gutter.LINE_TYPE) == LineType.SECTION:
 			section = get_line(i)
 			if section in OTHER_SECTION_DATA:
-				print("search used border")
+				#print_debug("search used border")
 				var offset: int = i - line_number
 				var t_icon: int = OtherEditor.get_line_gutter_metadata(clampi(OTHER_SECTION_DATA[section].line - offset, 0, OtherEditor.get_line_count() - 1), Gutter.ICON)
 				if t_icon != Icon.ADDED_LINE and t_icon != Icon.EDITED_LINE and t_icon != Icon.REMOVED_LINE:
@@ -218,17 +238,17 @@ func try_find_same_line_in_other(line_number: int) -> int:
 		# get first section after
 		for j in range(section_index, SECTION_DATA.size()):
 			if SECTION_DATA.keys()[j] in OTHER_SECTION_DATA:
-				print("search used near other section after")
+				#print_debug("search used near other section after")
 				return OTHER_SECTION_DATA[SECTION_DATA.keys()[j]].line
 		
 		# get first before
 		for j in range(section_index, 0, -1):
 			if SECTION_DATA.keys()[j] in OTHER_SECTION_DATA:
-				print("search used near other section before")
+				#print_debug("search used near other section before")
 				return OTHER_SECTION_DATA[SECTION_DATA.keys()[j]].line
 		
 		# don't center if nothing is found
-		print("search did not found section nor near section")
+		#print_debug("search did not found section nor near section")
 		return -1
 	
 	# section is also in other section data
@@ -265,7 +285,7 @@ func try_find_same_line_in_other(line_number: int) -> int:
 				push_error("Could not find index in numbered section")
 				return -1
 			
-			print("search used number")
+			#print_debug("search used number")
 			match OtherEditor.get_line_gutter_metadata(line, Gutter.LINE_TYPE):
 				LineType.INDEX:
 					var number: int = int(OtherEditor.get_line(line))
@@ -300,7 +320,7 @@ func try_find_same_line_in_other(line_number: int) -> int:
 		# use reference if found
 		ref_line = get_line_gutter_metadata(i, Gutter.LINE_NUMBER)
 		if ref_line > 0:
-			print("search used first found ref data")
+			#print_debug("search used first found ref data")
 			return clampi(ref_line - (i - line_number), 0, OtherEditor.get_line_count() - 1)
 		
 		# save line as the search
@@ -311,12 +331,12 @@ func try_find_same_line_in_other(line_number: int) -> int:
 	if not original_line.is_empty():
 		found_line = OtherEditor.search(original_line, TextEdit.SEARCH_MATCH_CASE + TextEdit.SEARCH_WHOLE_WORDS, other_section_data.line, 0).y
 	if found_line > 0:
-		print("search used near original line: ", i)
+		#print_debug("search used near original line: ", i)
 		var offset: int = i - line_number
 		return clampi(found_line - offset, 0, OtherEditor.get_line_count() - 1)
 	
 	# return same line number
-	print("search used section line number")
+	#print_debug("search used section line number")
 	return OtherEditor.section_line_to_global(section, get_line_gutter_metadata(line_number, Gutter.SECTION))
 
 ## -> actual line number in editor of section line

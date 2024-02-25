@@ -150,7 +150,7 @@ func save_file_as() -> void:
 		save_as_file_dialog.popup()
 
 
-func on_native_save_as_dialog_file_selected(status: bool, selected_paths: PackedStringArray) -> void:
+func on_native_save_as_dialog_file_selected(status: bool, selected_paths: PackedStringArray, selected_filter_index: int) -> void:
 	if status:
 		_on_save_as_dialog_file_selected(selected_paths[0])
 
